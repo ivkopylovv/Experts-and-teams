@@ -2,12 +2,13 @@ package ru.rsreu.expertsandteams.helper;
 
 import ru.rsreu.expertsandteams.data.User;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
 public class UserHelper {
-    public static final String USER = "user";
-
-    private UserHelper() {}
+    private static final String USER = "user";
+    private static final String USER_ID = "user_id";
+    private static final int COOKIE_MAX_AGE = 60 * 60;
 
     public static User getUserFromSession(HttpSession session) {
         if (session == null) {
@@ -19,5 +20,23 @@ public class UserHelper {
 
     public static void setUserToSession(HttpSession session, User user) {
         session.setAttribute(USER, user);
+    }
+
+    public static Cookie getUserCookie(User user) {
+        Cookie cookie = new Cookie(USER_ID, user.getId().toString());
+
+        cookie.setMaxAge(COOKIE_MAX_AGE);
+
+        return cookie;
+    }
+
+    public static String getUserIdFromCookies(Cookie[] cookies) {
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(USER_ID)) {
+                return cookie.getValue();
+            }
+        }
+
+        return null;
     }
 }

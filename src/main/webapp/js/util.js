@@ -1,13 +1,24 @@
+whenDomReady(() => {
+    const links = document.querySelectorAll('.router_link');
+
+    ([...links]).forEach(link => {
+        if (window.location.pathname === link.pathname) {
+            link.classList.add('underline');
+        }
+    });
+});
+
+
 /**
  * Return formData as urlencoded string
  *
  * @param formData {FormData}
  * @returns {string}
  */
-function getUrlencodedFormData(formData){
+function getUrlencodedFormData(formData) {
     const params = new URLSearchParams();
 
-    for(const pair of formData.entries()){
+    for (const pair of formData.entries()) {
         if (typeof pair[1] === 'string') {
             params.append(pair[0], pair[1]);
         }
@@ -29,6 +40,7 @@ function ajax(formData, url, callback) {
     fetch(url, {
         method: 'post',
         body: getUrlencodedFormData(formData),
+        credentials: "same-origin",
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
@@ -43,10 +55,10 @@ function ajax(formData, url, callback) {
         page.innerHTML = html;
 
         Array.from(page.querySelectorAll("script"))
-            .forEach( oldScriptEl => {
+            .forEach(oldScriptEl => {
                 const newScriptEl = document.createElement("script");
 
-                Array.from(oldScriptEl.attributes).forEach( attr => {
+                Array.from(oldScriptEl.attributes).forEach(attr => {
                     newScriptEl.setAttribute(attr.name, attr.value)
                 });
 
@@ -72,5 +84,47 @@ function whenDomReady(callback) {
         document.addEventListener('DOMContentLoaded', callback);
     } else {
         callback();
+    }
+}
+
+class Control {
+    /**
+     * @param node {HTMLInputElement}
+     * @param validateFn {Function}
+     */
+    constructor(node, validateFn) {
+        this.node = node;
+        this.errorNode = null;
+        this.validateFn = validateFn;
+    }
+
+    validate() {
+        return this.validateFn(this.node);
+    }
+
+    showError() {
+        if (!this.errorNode) {
+            this.errorNode = this.findErrorControl();
+        }
+
+        this.node.classList.add('border-red-500');
+        if (this.errorNode) {
+            this.errorNode.style.display = 'block';
+        }
+    }
+
+    findErrorControl() {
+        return this.node.parentNode.querySelector(`.error_${this.node.name}`);
+    }
+
+    offError() {
+        if (!this.errorNode) {
+            this.errorNode = this.findErrorControl();
+        }
+
+        this.node.classList.remove('border-red-500');
+        if (this.errorNode) {
+            this.errorNode.style.display = 'none';
+        }
     }
 }

@@ -1,7 +1,7 @@
 package ru.rsreu.expertsandteams.database.dao;
 
 import com.prutzjow.resourcer.ProjectResourcer;
-import ru.rsreu.expertsandteams.data.role.Role;
+import ru.rsreu.expertsandteams.data.Role;
 import ru.rsreu.expertsandteams.database.ConnectionPool;
 import ru.rsreu.expertsandteams.exception.RoleNotFoundException;
 

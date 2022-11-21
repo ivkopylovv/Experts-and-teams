@@ -24,4 +24,8 @@ public class DAOFactory {
     public UserDAO getUserDAO() {
         return new UserDAO();
     }
+
+    public SessionDAO getSessionDAO() {
+        return new SessionDAO();
+    }
 }

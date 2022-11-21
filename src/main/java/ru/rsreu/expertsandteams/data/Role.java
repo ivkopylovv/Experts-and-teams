@@ -1,4 +1,4 @@
-package ru.rsreu.expertsandteams.data.role;
+package ru.rsreu.expertsandteams.data;
 
 import java.io.Serializable;
 

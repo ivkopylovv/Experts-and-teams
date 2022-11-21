@@ -1,16 +1,14 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: qusavin
-  Date: 20.11.2022
-  Time: 01:51
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Profile</title>
+    <%@include file="../templates/meta.jsp" %>
 </head>
 <body>
-
+<%@include file="../templates/header.jsp" %>
+<div class="body flex flex-col items-center justify-center">
+    <h1 class="mx-auto text-lg">${user.getName()}</h1>
+</div>
 </body>
 </html>

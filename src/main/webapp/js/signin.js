@@ -2,35 +2,38 @@ whenDomReady(() => {
     const signinForm = document.querySelector('#signin');
     const signinLoader = signinForm.querySelector('.loader');
 
-    const usernameInput = document.querySelector('#username');
-    const passwordInput = document.querySelector('#password');
+    const usernameControl = new Control(
+        document.querySelector('#username'), (control) => control.value.trim() !== ''
+    );
+    const passwordControl = new Control(
+        document.querySelector('#password'), (control) => control.value.trim() !== ''
+    );
 
-    const errors = document.querySelectorAll('.error');
-
-    let errorsOff = false;
-
-    const removeErrors = () => {
-        if (errorsOff) {
-            return;
-        }
-
-        for (let error of errors) {
-            error.style.display = 'none';
-        }
-
-        usernameInput.classList.remove('border-red-500');
-        passwordInput.classList.remove('border-red-500');
-
-        errorsOff = true;
-    };
-
-    usernameInput.oninput = removeErrors;
-    passwordInput.oninput = removeErrors;
+    usernameControl.node.oninput = usernameControl.offError.bind(usernameControl);
+    passwordControl.node.oninput = passwordControl.offError.bind(passwordControl);
 
     signinForm.onsubmit = (event) => {
         event.preventDefault();
-
         signinLoader.style.display = 'inline';
+
+        const usernameControlValid = usernameControl.validate();
+        const passwordControlValid = passwordControl.validate();
+
+        const formValid = usernameControlValid && passwordControlValid;
+
+        if (!usernameControlValid) {
+            usernameControl.showError();
+        }
+
+        if (!passwordControlValid) {
+            passwordControl.showError();
+        }
+
+        if (!formValid) {
+            signinLoader.style.display = 'none';
+            return;
+        }
+
         ajax(new FormData(signinForm), signinForm.action);
     };
 });
