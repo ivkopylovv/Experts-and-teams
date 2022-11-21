@@ -1,5 +1,7 @@
 package ru.rsreu.expertsandteams.command;
 
+import netscape.javascript.JSObject;
+import oracle.jdbc.driver.json.tree.JsonpArrayImpl;
 import ru.rsreu.expertsandteams.data.User;
 import ru.rsreu.expertsandteams.database.dao.DAOFactory;
 import ru.rsreu.expertsandteams.database.dao.UserDAO;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class SigninCommand extends FrontCommand {
 

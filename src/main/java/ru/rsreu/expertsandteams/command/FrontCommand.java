@@ -12,6 +12,8 @@ public abstract class FrontCommand {
     protected HttpServletRequest request;
     protected HttpServletResponse response;
 
+    private static final String prefix = "boba";
+
     public void init(
             ServletContext servletContext,
             HttpServletRequest servletRequest,
@@ -29,12 +31,18 @@ public abstract class FrontCommand {
     }
 
     protected void forward(String target) throws ServletException, IOException {
-        target = String.format("/pages/%s.jsp", target);
-        RequestDispatcher dispatcher = context.getRequestDispatcher(target);
+        String pagePath = String.format("/pages/%s.jsp", target);
+        RequestDispatcher dispatcher = context.getRequestDispatcher(pagePath);
+
+        response.addHeader("X-Target", getUrl(target));
         dispatcher.forward(request, response);
     }
 
     protected void redirect(String url) throws IOException {
         response.sendRedirect(url);
+    }
+
+    private static String getUrl(String target) {
+        return String.format("/%s/%s", prefix, target);
     }
 }

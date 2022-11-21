@@ -2,14 +2,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Login</title>
-    <link rel="stylesheet" href="../css/style.css"/>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Sign In</title>
+    <%@include file="../templates/meta.jsp" %>
+    <script type="text/javascript" src="../js/signin.js"></script>
 </head>
 <body>
 <%@include file="../templates/header.jsp" %>
 <div class="flex flex-col items-center justify-center mt-8">
-    <form class="w-full max-w-sm" action="signin" method="post">
+    <form id="signin" class="w-full max-w-sm" action="signin" method="post">
         <h1 class="text-xl mb-5 bg-gradient-to-br from-green-400 to-blue-600 rounded-t-lg p-2 text-white">Sign In</h1>
 
         <div class="mb-4">
