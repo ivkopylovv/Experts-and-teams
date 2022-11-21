@@ -26,6 +26,14 @@ public class SignupCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        User user = UserHelper.getUserFromSession(session);
+
+        if (user == null) {
+            forward("signup");
+        } else {
+            redirect("profile");
+        }
     }
 
     @Override

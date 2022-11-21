@@ -3,8 +3,8 @@
     <div class="container mx-auto flex items-center justify-between">
         <div class="text-lg font-medium">Experts and Teams</div>
         <nav class="flex items-center space-x-2 text-sm">
-            <a class="hover:underline" href="/boba/profile">Profile</a>
-            <a class="hover:underline" href="/boba/signout">Logout</a>
+            <a class="hover:underline" href="/boba/signup">Sign Up</a>
+            <a class="hover:underline" href="/boba/signin">Sign In</a>
         </nav>
     </div>
 </header>

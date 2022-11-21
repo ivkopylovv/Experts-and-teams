@@ -21,8 +21,9 @@ function getUrlencodedFormData(formData){
  *
  * @param formData {FormData}
  * @param url {String}
+ * @param callback {Function}
  */
-function ajax(formData, url) {
+function ajax(formData, url, callback) {
     let redirectUrl = null;
 
     fetch(url, {
@@ -54,6 +55,10 @@ function ajax(formData, url) {
 
                 oldScriptEl.parentNode.replaceChild(newScriptEl, oldScriptEl);
             });
+
+        if (callback) {
+            callback();
+        }
     })
 }
 

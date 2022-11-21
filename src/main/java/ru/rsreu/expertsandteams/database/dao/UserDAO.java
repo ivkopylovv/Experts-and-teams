@@ -38,7 +38,7 @@ public class UserDAO {
             e.printStackTrace();
         }
 
-        throw new UserNotFoundException();
+        return null;
     }
 
     public ArrayList<User> findAll() {

@@ -46,6 +46,13 @@ public class SigninCommand extends FrontCommand {
         String password = request.getParameter("password");
 
         User user = this.userDAO.findByUsername(username);
-        System.out.println();
+
+        if (user == null || user.getBlocked() || !user.getPassword().equals(password)) {
+            request.setAttribute("controlsInvalid", true);
+
+            forward("signin");
+        } else {
+
+        }
     }
 }
