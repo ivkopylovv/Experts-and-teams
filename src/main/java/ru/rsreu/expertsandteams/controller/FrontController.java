@@ -1,6 +1,5 @@
 package ru.rsreu.expertsandteams.controller;
 
-import ru.rsreu.expertsandteams.command.ExceptionHandlerCommand;
 import ru.rsreu.expertsandteams.command.FrontCommand;
 import ru.rsreu.expertsandteams.helper.CommandHelper;
 
@@ -15,7 +14,6 @@ public class FrontController extends HttpServlet {
     /**
      * @param req provide request information for HTTP servlets
      * @param res provide response information for HTTP servlets
-     *
      * @throws ServletException
      * @throws IOException
      */
@@ -30,21 +28,14 @@ public class FrontController extends HttpServlet {
     /**
      * @param req provide request information for HTTP servlets
      * @param res provide response information for HTTP servlets
-     *
      * @throws ServletException
      * @throws IOException
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        try {
-            FrontCommand command = CommandHelper.getCommand(req);
+        FrontCommand command = CommandHelper.getCommand(req);
 
-            command.init(getServletContext(), req, res);
-            command.send();
-        } catch (RuntimeException exception) {
-            ExceptionHandlerCommand handlerCommand = new ExceptionHandlerCommand();
-            handlerCommand.init(getServletContext(), req, res);
-            handlerCommand.handleException(exception);
-        }
+        command.init(getServletContext(), req, res);
+        command.send();
     }
 }

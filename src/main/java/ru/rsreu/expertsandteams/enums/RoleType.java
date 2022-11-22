@@ -1,6 +1,6 @@
 package ru.rsreu.expertsandteams.enums;
 
-public enum Role {
+public enum RoleType {
     ADMIN("Admin"),
     MODERATOR("Moderator"),
     EXPERT("Expert"),
@@ -8,7 +8,7 @@ public enum Role {
 
     private final String role;
 
-    Role(String role) {
+    RoleType(String role) {
         this.role = role;
     }
 

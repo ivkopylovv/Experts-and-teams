@@ -1,24 +1,28 @@
 package ru.rsreu.expertsandteams.database.dao;
 
 import com.prutzjow.resourcer.ProjectResourcer;
+import com.prutzjow.resourcer.Resourcer;
 import ru.rsreu.expertsandteams.data.Role;
 import ru.rsreu.expertsandteams.database.ConnectionPool;
-import ru.rsreu.expertsandteams.exception.RoleNotFoundException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class RoleDAO {
+    private Resourcer resourcer;
 
-    private static final String FIND_ALL = ProjectResourcer.getInstance().getString("role.query.find.all");
-    private static final String GET_BY_ID = ProjectResourcer.getInstance().getString("role.query.find.by.id");
+    public RoleDAO() {
+        resourcer = ProjectResourcer.getInstance();
+    }
 
-    public ArrayList<Role> findAll() {
+    public List<Role> findAll() {
         ArrayList<Role> roles = new ArrayList<>();
+        String query = resourcer.getString("role.query.find.all");
 
-        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(FIND_ALL)) {
+        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -36,8 +40,10 @@ public class RoleDAO {
         return roles;
     }
 
-    public Role getById(long id) {
-        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(GET_BY_ID)) {
+    public Role findById(long id) {
+        String query = resourcer.getString("role.query.find.by.id");
+
+        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
             statement.setLong(1, id);
 
             ResultSet resultSet = statement.executeQuery();
@@ -49,6 +55,30 @@ public class RoleDAO {
             e.printStackTrace();
         }
 
-        throw new RoleNotFoundException();
+        return null;
+    }
+
+    public List<Role> findByUserId(Long userId) {
+        ArrayList<Role> roles = new ArrayList<>();
+        String query = resourcer.getString("role.query.find.by.user.id");
+
+        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
+            statement.setLong(1, userId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Role role = new Role(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name")
+                );
+
+                roles.add(role);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return roles;
     }
 }

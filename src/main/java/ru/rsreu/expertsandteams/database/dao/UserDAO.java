@@ -14,7 +14,7 @@ public class UserDAO {
     private Resourcer resourcer;
 
     public UserDAO() {
-        this.resourcer = ProjectResourcer.getInstance();
+        resourcer = ProjectResourcer.getInstance();
     }
 
     public User findById(Long id) {

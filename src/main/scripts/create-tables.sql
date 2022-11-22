@@ -20,14 +20,14 @@ CREATE SEQUENCE users_seq START WITH 1;
 -----------------------------------------------
 
 -- Создание таблицы Роли
-CREATE TABLE roles
+CREATE TABLE roleTypes
 (
     id NUMBER,
     name VARCHAR2(30 CHAR) NOT NULL
 );
 
 -- Первичный ключ таблицы Роли
-ALTER TABLE roles
+ALTER TABLE roleTypes
     ADD (
     CONSTRAINT roles_pk PRIMARY KEY (id)
   );
@@ -54,7 +54,7 @@ ALTER TABLE users_roles
 ALTER TABLE users_roles
     ADD CONSTRAINT roles_fk
         FOREIGN KEY (role_id)
-            REFERENCES roles (id);
+            REFERENCES roleTypes (id);
 
 -- Создание внешнего ключа на таблицу Пользователи
 ALTER TABLE users_roles

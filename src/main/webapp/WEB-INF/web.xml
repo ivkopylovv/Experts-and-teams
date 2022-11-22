@@ -23,6 +23,16 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>ru.rsreu.expertsandteams.filter.AuthFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <servlet>
         <servlet-name>FrontController</servlet-name>
         <servlet-class>ru.rsreu.expertsandteams.controller.FrontController</servlet-class>

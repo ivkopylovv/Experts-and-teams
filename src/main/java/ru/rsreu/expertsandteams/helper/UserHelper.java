@@ -3,6 +3,8 @@ package ru.rsreu.expertsandteams.helper;
 import ru.rsreu.expertsandteams.data.User;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class UserHelper {

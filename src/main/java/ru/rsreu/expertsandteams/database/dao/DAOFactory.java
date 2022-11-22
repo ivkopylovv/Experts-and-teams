@@ -8,8 +8,8 @@ public class DAOFactory {
     }
 
     public static DAOFactory getInstance() {
-        if (instance == null) {
-            synchronized (DAOFactory.class) {
+        synchronized (DAOFactory.class) {
+            if (instance == null) {
                 instance = new DAOFactory();
             }
         }

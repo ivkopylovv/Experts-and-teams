@@ -14,7 +14,7 @@ public class SessionDAO {
     private final Resourcer resourcer;
 
     public SessionDAO() {
-        this.resourcer = ProjectResourcer.getInstance();
+        resourcer = ProjectResourcer.getInstance();
     }
 
     public Session findByUserId(Long userId) {

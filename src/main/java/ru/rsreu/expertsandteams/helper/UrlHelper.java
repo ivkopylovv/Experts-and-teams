@@ -18,7 +18,7 @@ public class UrlHelper {
         response.addHeader(URL_HEADER, getUrlWithPrefix(page));
     }
 
-    private static String getUrlWithPrefix(String target) {
+    public static String getUrlWithPrefix(String target) {
         return String.format(URL_WITH_PREFIX_FORMAT, URL_PREFIX, target);
     }
 }

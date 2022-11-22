@@ -16,19 +16,19 @@ import static ru.rsreu.expertsandteams.constant.Routes.PROFILE;
 import static ru.rsreu.expertsandteams.constant.Routes.SIGNUP;
 
 public class SignupCommand extends FrontCommand {
-    private static final DAOFactory daoFactory = DAOFactory.getInstance();
-
     private UserDAO userDAO;
 
     @Override
     public void init(ServletContext servletContext, HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         super.init(servletContext, servletRequest, servletResponse);
 
+        DAOFactory daoFactory = DAOFactory.getInstance();
         userDAO = daoFactory.getUserDAO();
     }
 
     @Override
     public void process() throws ServletException, IOException {
+        // TODO
         HttpSession session = request.getSession(false);
         User user = UserHelper.getUserFromSession(session);
 

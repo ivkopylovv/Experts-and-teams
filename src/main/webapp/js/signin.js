@@ -19,7 +19,6 @@ whenDomReady(() => {
         const usernameControlValid = usernameControl.validate();
         const passwordControlValid = passwordControl.validate();
 
-        const formValid = usernameControlValid && passwordControlValid;
 
         if (!usernameControlValid) {
             usernameControl.showError();
@@ -28,6 +27,8 @@ whenDomReady(() => {
         if (!passwordControlValid) {
             passwordControl.showError();
         }
+
+        const formValid = usernameControlValid && passwordControlValid;
 
         if (!formValid) {
             signinLoader.style.display = 'none';

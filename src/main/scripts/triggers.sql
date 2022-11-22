@@ -11,7 +11,7 @@ END;
 
 -- Создание триггера для генерации Id при INSERT INTO для таблицы Роли
 CREATE OR REPLACE TRIGGER roles_on_insert
-  BEFORE INSERT ON roles
+  BEFORE INSERT ON roleTypes
   FOR EACH ROW
 BEGIN
 SELECT roles_seq.nextval

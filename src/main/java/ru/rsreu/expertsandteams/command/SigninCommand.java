@@ -22,9 +22,6 @@ import static ru.rsreu.expertsandteams.constant.Routes.SIGNIN;
 import static ru.rsreu.expertsandteams.constant.SessionOptions.SESSION_TIME_LIVE;
 
 public class SigninCommand extends FrontCommand {
-
-    private static final DAOFactory daoFactory = DAOFactory.getInstance();
-
     private UserDAO userDAO;
     private SessionDAO sessionDAO;
 
@@ -32,71 +29,14 @@ public class SigninCommand extends FrontCommand {
     public void init(ServletContext servletContext, HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         super.init(servletContext, servletRequest, servletResponse);
 
+        DAOFactory daoFactory = DAOFactory.getInstance();
         userDAO = daoFactory.getUserDAO();
         sessionDAO = daoFactory.getSessionDAO();
     }
 
-    // TODO: refactor
     @Override
     public void process() throws ServletException, IOException {
-        HttpSession httpSession = request.getSession(false);
-        User user = UserHelper.getUserFromSession(httpSession);
-
-        Long userId = -1L;
-
-        if (user == null) {
-            Cookie[] cookies = request.getCookies();
-            String userIdAsString = UserHelper.getUserIdFromCookies(cookies);
-
-            if (userIdAsString == null) {
-                forward(SIGNIN);
-                return;
-            }
-
-            Session session = sessionDAO.findByUserId(Long.parseLong(userIdAsString));
-
-            if (session != null) {
-                Date currentDate = new Date();
-
-                if (currentDate.after(session.getExpiredAt())) {
-                    forward(SIGNIN);
-                    return;
-                }
-
-                userId = session.getUserId();
-            } else {
-                forward(SIGNIN);
-                return;
-            }
-        } else {
-            Session session = sessionDAO.findByUserId(user.getId());
-
-            if (session != null) {
-                Date currentDate = new Date();
-
-                if (currentDate.after(session.getExpiredAt())) {
-                    forward(SIGNIN);
-                    return;
-                }
-
-                userId = session.getUserId();
-            } else {
-                forward(SIGNIN);
-                return;
-            }
-        }
-
-        user = userDAO.findById(userId);
-
-        if (user == null) {
-            forward(SIGNIN);
-            return;
-        }
-
-        httpSession = request.getSession(true);
-        UserHelper.setUserToSession(httpSession, user);
-
-        redirect(PROFILE);
+        forward(SIGNIN);
     }
 
     @Override
@@ -113,9 +53,6 @@ public class SigninCommand extends FrontCommand {
         } else {
             Cookie userCookie = UserHelper.getUserCookie(user);
             response.addCookie(userCookie);
-
-            HttpSession httpSession = request.getSession();
-            UserHelper.setUserToSession(httpSession, user);
 
             Session session = new Session(user.getId(), new Date(System.currentTimeMillis() + SESSION_TIME_LIVE));
             sessionDAO.save(session);
