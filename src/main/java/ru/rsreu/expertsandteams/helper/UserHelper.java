@@ -31,6 +31,10 @@ public class UserHelper {
     }
 
     public static String getUserIdFromCookies(Cookie[] cookies) {
+        if (cookies == null) {
+            return null;
+        }
+
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(USER_ID)) {
                 return cookie.getValue();

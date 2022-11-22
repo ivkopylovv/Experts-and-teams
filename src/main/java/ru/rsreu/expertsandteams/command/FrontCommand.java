@@ -12,7 +12,7 @@ public abstract class FrontCommand {
     protected HttpServletRequest request;
     protected HttpServletResponse response;
 
-    private static final String prefix = "boba";
+    private static final String prefix = "experts-and-teams";
 
     public void init(
             ServletContext servletContext,
