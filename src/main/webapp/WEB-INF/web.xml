@@ -30,6 +30,6 @@
 
     <servlet-mapping>
         <servlet-name>FrontController</servlet-name>
-        <url-pattern>/boba/*</url-pattern>
+        <url-pattern>/experts-and-teams/*</url-pattern>
     </servlet-mapping>
 </web-app>

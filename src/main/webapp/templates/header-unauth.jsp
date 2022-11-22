@@ -3,8 +3,8 @@
     <div class="container mx-auto xl:max-w-7xl flex items-center justify-between">
         <div class="text-lg font-medium">Experts and Teams</div>
         <nav class="flex items-center space-x-2 text-sm">
-            <a class="router_link hover:underline" href="/boba/signup">Sign Up</a>
-            <a class="router_link hover:underline" href="/boba/signin">Sign In</a>
+            <a class="router_link hover:underline" href="/experts-and-teams/signup">Sign Up</a>
+            <a class="router_link hover:underline" href="/experts-and-teams/signin">Sign In</a>
         </nav>
     </div>
 </header>
