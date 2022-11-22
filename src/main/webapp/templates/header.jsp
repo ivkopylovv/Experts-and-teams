@@ -4,7 +4,7 @@
         <div class="text-lg font-medium">Experts and Teams</div>
         <nav class="flex items-center space-x-2 text-sm">
             <a class="router_link hover:underline" href="/experts-and-teams/profile">Profile</a>
-            <a class="router_link hover:underline" href="/experts-and-teams/signout">Logout</a>
+            <a class="router_link hover:underline" href="/experts-and-teams/logout">Logout</a>
         </nav>
     </div>
 </header>

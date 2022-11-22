@@ -1,5 +1,6 @@
 package ru.rsreu.expertsandteams.command;
 
+import ru.rsreu.expertsandteams.constant.Routes;
 import ru.rsreu.expertsandteams.data.Session;
 import ru.rsreu.expertsandteams.data.User;
 import ru.rsreu.expertsandteams.database.dao.DAOFactory;
@@ -14,9 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.net.HttpCookie;
 import java.util.Date;
 
+import static ru.rsreu.expertsandteams.constant.Routes.PROFILE;
+import static ru.rsreu.expertsandteams.constant.Routes.SIGNIN;
 import static ru.rsreu.expertsandteams.constant.SessionOptions.SESSION_TIME_LIVE;
 
 public class SigninCommand extends FrontCommand {
@@ -34,6 +36,7 @@ public class SigninCommand extends FrontCommand {
         sessionDAO = daoFactory.getSessionDAO();
     }
 
+    // TODO: refactor
     @Override
     public void process() throws ServletException, IOException {
         HttpSession httpSession = request.getSession(false);
@@ -46,7 +49,7 @@ public class SigninCommand extends FrontCommand {
             String userIdAsString = UserHelper.getUserIdFromCookies(cookies);
 
             if (userIdAsString == null) {
-                forward("signin");
+                forward(SIGNIN);
                 return;
             }
 
@@ -56,13 +59,13 @@ public class SigninCommand extends FrontCommand {
                 Date currentDate = new Date();
 
                 if (currentDate.after(session.getExpiredAt())) {
-                    forward("signin");
+                    forward(SIGNIN);
                     return;
                 }
 
                 userId = session.getUserId();
             } else {
-                forward("signin");
+                forward(SIGNIN);
                 return;
             }
         } else {
@@ -72,13 +75,13 @@ public class SigninCommand extends FrontCommand {
                 Date currentDate = new Date();
 
                 if (currentDate.after(session.getExpiredAt())) {
-                    forward("signin");
+                    forward(SIGNIN);
                     return;
                 }
 
                 userId = session.getUserId();
             } else {
-                forward("signin");
+                forward(SIGNIN);
                 return;
             }
         }
@@ -86,14 +89,14 @@ public class SigninCommand extends FrontCommand {
         user = userDAO.findById(userId);
 
         if (user == null) {
-            forward("signin");
+            forward(SIGNIN);
             return;
         }
 
         httpSession = request.getSession(true);
         UserHelper.setUserToSession(httpSession, user);
 
-        redirect("profile");
+        redirect(PROFILE);
     }
 
     @Override
@@ -106,7 +109,7 @@ public class SigninCommand extends FrontCommand {
         if (user == null || user.getBlocked() || !user.getPassword().equals(password)) {
             request.setAttribute("controlsInvalid", true);
 
-            forward("signin");
+            forward(SIGNIN);
         } else {
             Cookie userCookie = UserHelper.getUserCookie(user);
             response.addCookie(userCookie);
@@ -117,7 +120,7 @@ public class SigninCommand extends FrontCommand {
             Session session = new Session(user.getId(), new Date(System.currentTimeMillis() + SESSION_TIME_LIVE));
             sessionDAO.save(session);
 
-            forward("profile");
+            forward(PROFILE);
         }
     }
 }

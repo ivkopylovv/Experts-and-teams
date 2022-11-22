@@ -51,9 +51,4 @@ public class RoleDAO {
 
         throw new RoleNotFoundException();
     }
-
-    // TODO: think about it
-    public Role getById(String id) {
-        return getById(Integer.parseInt(id));
-    }
 }

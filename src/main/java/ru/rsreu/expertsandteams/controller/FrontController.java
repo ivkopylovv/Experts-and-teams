@@ -2,8 +2,7 @@ package ru.rsreu.expertsandteams.controller;
 
 import ru.rsreu.expertsandteams.command.ExceptionHandlerCommand;
 import ru.rsreu.expertsandteams.command.FrontCommand;
-import ru.rsreu.expertsandteams.command.UnknownCommand;
-import ru.rsreu.expertsandteams.helper.StringHelper;
+import ru.rsreu.expertsandteams.helper.CommandHelper;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,28 +13,32 @@ import java.io.IOException;
 public class FrontController extends HttpServlet {
 
     /**
-     * @param req
-     * @param resp
+     * @param req provide request information for HTTP servlets
+     * @param res provide response information for HTTP servlets
+     *
      * @throws ServletException
      * @throws IOException
      */
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        FrontCommand command = getCommand(req);
-        command.init(getServletContext(), req, resp);
+    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        FrontCommand command = CommandHelper.getCommand(req);
+
+        command.init(getServletContext(), req, res);
         command.process();
     }
 
     /**
-     * @param req
-     * @param res
+     * @param req provide request information for HTTP servlets
+     * @param res provide response information for HTTP servlets
+     *
      * @throws ServletException
      * @throws IOException
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         try {
-            FrontCommand command = getCommand(req);
+            FrontCommand command = CommandHelper.getCommand(req);
+
             command.init(getServletContext(), req, res);
             command.send();
         } catch (RuntimeException exception) {
@@ -44,25 +47,4 @@ public class FrontController extends HttpServlet {
             handlerCommand.handleException(exception);
         }
     }
-
-    /**
-     * @param request
-     * @return
-     */
-    private FrontCommand getCommand(HttpServletRequest request) {
-        try {
-            String path = request.getPathInfo();
-            String str = String.format(
-                    "ru.rsreu.expertsandteams.command.%sCommand",
-                    StringHelper.capitalize(path.substring(1))
-            );
-            Class<?> type = Class.forName(str);
-            return type
-                    .asSubclass(FrontCommand.class)
-                    .newInstance();
-        } catch (Exception e) {
-            return new UnknownCommand();
-        }
-    }
-
 }

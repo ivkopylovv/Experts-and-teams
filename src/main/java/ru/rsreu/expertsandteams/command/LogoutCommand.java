@@ -2,45 +2,51 @@ package ru.rsreu.expertsandteams.command;
 
 import ru.rsreu.expertsandteams.data.User;
 import ru.rsreu.expertsandteams.database.dao.DAOFactory;
-import ru.rsreu.expertsandteams.database.dao.UserDAO;
+import ru.rsreu.expertsandteams.database.dao.SessionDAO;
 import ru.rsreu.expertsandteams.helper.UserHelper;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static ru.rsreu.expertsandteams.constant.Routes.PROFILE;
-import static ru.rsreu.expertsandteams.constant.Routes.SIGNUP;
+import static ru.rsreu.expertsandteams.constant.Routes.SIGNIN;
 
-public class SignupCommand extends FrontCommand {
+public class LogoutCommand extends FrontCommand {
     private static final DAOFactory daoFactory = DAOFactory.getInstance();
 
-    private UserDAO userDAO;
+    private SessionDAO sessionDAO;
 
     @Override
     public void init(ServletContext servletContext, HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         super.init(servletContext, servletRequest, servletResponse);
 
-        userDAO = daoFactory.getUserDAO();
+        sessionDAO = daoFactory.getSessionDAO();
     }
 
     @Override
-    public void process() throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        User user = UserHelper.getUserFromSession(session);
+    public void process() throws IOException {
+        logout();
+    }
+
+    @Override
+    public void send() throws IOException {
+        logout();
+    }
+
+    private void logout() throws IOException {
+        HttpSession httpSession = request.getSession();
+        User user = UserHelper.getUserFromSession(httpSession);
 
         if (user == null) {
-            forward(SIGNUP);
-        } else {
-            redirect(PROFILE);
+            redirect(SIGNIN);
+            return;
         }
-    }
 
-    @Override
-    public void send() throws ServletException, IOException {
-        // TODO
+        httpSession.invalidate();
+        sessionDAO.deleteByUserId(user.getId());
+
+        redirect(SIGNIN);
     }
 }

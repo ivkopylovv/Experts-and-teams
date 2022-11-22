@@ -50,4 +50,16 @@ public class SessionDAO {
             e.printStackTrace();
         }
     }
+
+    public void deleteByUserId(Long userId) {
+        String query = resourcer.getString("session.query.delete");
+
+        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
+            statement.setLong(1, userId);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package ru.rsreu.expertsandteams.command;
 
+import ru.rsreu.expertsandteams.helper.UrlHelper;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -11,8 +13,6 @@ public abstract class FrontCommand {
     protected ServletContext context;
     protected HttpServletRequest request;
     protected HttpServletResponse response;
-
-    private static final String prefix = "experts-and-teams";
 
     public void init(
             ServletContext servletContext,
@@ -30,19 +30,15 @@ public abstract class FrontCommand {
     public void send() throws ServletException, IOException {
     }
 
-    protected void forward(String target) throws ServletException, IOException {
-        String pagePath = String.format("/pages/%s.jsp", target);
-        RequestDispatcher dispatcher = context.getRequestDispatcher(pagePath);
+    protected void forward(String page) throws ServletException, IOException {
+        String pageUrl = UrlHelper.getPageUrl(page);
+        RequestDispatcher dispatcher = context.getRequestDispatcher(pageUrl);
 
-        response.addHeader("X-Target", getUrl(target));
+        UrlHelper.setUrlHeader(response, page);
         dispatcher.forward(request, response);
     }
 
     protected void redirect(String url) throws IOException {
         response.sendRedirect(url);
-    }
-
-    private static String getUrl(String target) {
-        return String.format("/%s/%s", prefix, target);
     }
 }
