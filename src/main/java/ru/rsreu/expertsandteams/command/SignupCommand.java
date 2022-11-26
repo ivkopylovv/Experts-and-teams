@@ -6,7 +6,7 @@ import ru.rsreu.expertsandteams.database.dao.DAOFactory;
 import ru.rsreu.expertsandteams.database.dao.ExpertSkillDAO;
 import ru.rsreu.expertsandteams.database.dao.RoleDAO;
 import ru.rsreu.expertsandteams.database.dao.UserDAO;
-import ru.rsreu.expertsandteams.enums.RoleType;
+import ru.rsreu.expertsandteams.exception.RoleNotFoundException;
 import ru.rsreu.expertsandteams.mapper.SkillMapper;
 
 import javax.servlet.ServletContext;
@@ -65,13 +65,15 @@ public class SignupCommand extends FrontCommand {
 
         if (userIsExpert) {
             roleName = EXPERT.getRole();
+
             user.setSkills(SkillMapper.mapSkills(user.getId(), skills));
             expertSkillDAO.saveAll(user);
         } else {
             roleName = USER.getRole();
         }
 
-        Role role = roleDAO.findByName(roleName).orElseThrow(() -> new RuntimeException());
+        Role role = roleDAO.findByName(roleName).orElseThrow(RoleNotFoundException::new);
+
         userDAO.addRoleToUser(user, role);
 
         redirect(SIGNIN);

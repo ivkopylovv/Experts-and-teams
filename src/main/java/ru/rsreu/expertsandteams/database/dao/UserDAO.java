@@ -8,6 +8,7 @@ import ru.rsreu.expertsandteams.database.ConnectionPool;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class UserDAO {
     private static volatile UserDAO instance;
@@ -17,7 +18,7 @@ public class UserDAO {
         resourcer = ProjectResourcer.getInstance();
     }
 
-    public User findById(Long id) {
+    public Optional<User> findById(Long id) {
         String query = this.resourcer.getString("user.query.find.by.id");
 
         try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
@@ -26,22 +27,24 @@ public class UserDAO {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                return new User(
+                User user = new User(
                         resultSet.getLong("id"),
                         resultSet.getString("name"),
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getBoolean("is_blocked")
                 );
+
+                return Optional.of(user);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return null;
+        return Optional.empty();
     }
 
-    public User findByUsername(String username) {
+    public Optional<User> findByUsername(String username) {
         String query = this.resourcer.getString("user.query.find.by.username");
 
         try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
@@ -50,19 +53,21 @@ public class UserDAO {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                return new User(
+                User user = new User(
                         resultSet.getLong(1),
                         resultSet.getString(2),
                         resultSet.getString(3),
                         resultSet.getString(4),
                         resultSet.getBoolean(5)
                 );
+
+                return Optional.of(user);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return null;
+        return Optional.empty();
     }
 
     public ArrayList<User> findAll() {

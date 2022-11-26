@@ -17,6 +17,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static ru.rsreu.expertsandteams.constant.ErrorMessages.LOGOUT_ERROR;
 import static ru.rsreu.expertsandteams.constant.ErrorMessages.PERMISSION_ERROR;
@@ -43,10 +44,10 @@ public class RedirectHandler {
         }
 
         Long userId = Long.parseLong(userIdAsString);
-        Session session = sessionDAO.findByUserId(userId);
+        Optional<Session> session = sessionDAO.findByUserId(userId);
 
-        if (session != null) {
-            boolean isSessionValid = SessionHelper.validate(session);
+        if (session.isPresent()) {
+            boolean isSessionValid = SessionHelper.validate(session.get());
 
             if (!isSessionValid) {
                 sessionDAO.deleteByUserId(userId);
@@ -57,15 +58,15 @@ public class RedirectHandler {
             }
 
             String page = request.getPathInfo().substring(1);
-            User user = userDAO.findById(userId);
+            Optional<User> user = userDAO.findById(userId);
             List<RoleType> userRoles = RoleMapper.rolesToRoleTypes(roleDAO.findByUserId(userId));
 
-            user.setRoles(userRoles);
+            user.ifPresent(value -> value.setRoles(userRoles));
 
             if (page.equals(SIGNIN) || page.equals(SIGNUP)) {
                 return new RedirectContainer(
                         PROFILE,
-                        user,
+                        user.get(),
                         LOGOUT_ERROR
                 );
             }
@@ -76,7 +77,7 @@ public class RedirectHandler {
                 if (!hasPermission) {
                     return new RedirectContainer(
                             PROFILE,
-                            user,
+                            user.get(),
                             PERMISSION_ERROR
                     );
                 }
@@ -84,7 +85,7 @@ public class RedirectHandler {
 
             return new RedirectContainer(
                     page,
-                    user
+                    user.get()
             );
         }
 

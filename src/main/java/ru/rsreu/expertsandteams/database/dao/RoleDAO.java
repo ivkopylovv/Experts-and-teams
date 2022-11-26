@@ -5,7 +5,6 @@ import com.prutzjow.resourcer.Resourcer;
 import ru.rsreu.expertsandteams.data.Role;
 import ru.rsreu.expertsandteams.database.ConnectionPool;
 
-import javax.swing.text.html.Option;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

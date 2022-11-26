@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class SessionDAO {
     private static volatile SessionDAO instance;
@@ -18,7 +19,7 @@ public class SessionDAO {
         resourcer = ProjectResourcer.getInstance();
     }
 
-    public Session findByUserId(Long userId) {
+    public Optional<Session> findByUserId(Long userId) {
         String query = resourcer.getString("session.query.find.by.user.id");
 
         try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
@@ -27,16 +28,18 @@ public class SessionDAO {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                return new Session(
+                Session session = new Session(
                         resultSet.getLong("user_id"),
                         resultSet.getTimestamp("expired_at")
                 );
+
+                return Optional.of(session);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return null;
+        return Optional.empty();
     }
 
     public void save(Session session) {
