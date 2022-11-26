@@ -36,15 +36,8 @@ public class LogoutCommand extends FrontCommand {
     }
 
     private void logout() throws IOException, ServletException {
-        HttpSession httpSession = request.getSession();
-        User user = UserHelper.getUserFromSession(httpSession);
+        User user = (User)request.getUserPrincipal();
 
-        if (user == null) {
-            forward(SIGNIN);
-            return;
-        }
-
-        httpSession.invalidate();
         sessionDAO.deleteByUserId(user.getId());
 
         forward(SIGNIN);

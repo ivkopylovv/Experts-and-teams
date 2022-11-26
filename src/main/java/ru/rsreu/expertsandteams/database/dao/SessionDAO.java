@@ -11,9 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SessionDAO {
+    private static volatile SessionDAO instance;
     private final Resourcer resourcer;
 
-    public SessionDAO() {
+    private SessionDAO() {
         resourcer = ProjectResourcer.getInstance();
     }
 
@@ -61,5 +62,15 @@ public class SessionDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static SessionDAO getInstance() {
+        synchronized (UserDAO.class) {
+            if (instance == null) {
+                instance = new SessionDAO();
+            }
+        }
+
+        return instance;
     }
 }

@@ -6,19 +6,16 @@ import ru.rsreu.expertsandteams.enums.RoleType;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.security.Principal;
-import java.util.List;
 
 public class UserRoleRequestWrapper extends HttpServletRequestWrapper {
     private final User user;
-    private final List<RoleType> roleTypes;
     private final HttpServletRequest request;
 
-    public UserRoleRequestWrapper(HttpServletRequest request, User user, List<RoleType> roleTypes) {
+    public UserRoleRequestWrapper(HttpServletRequest request, User user) {
         super(request);
 
-        this.user = user;
-        this.roleTypes = roleTypes;
         this.request = request;
+        this.user = user;
     }
 
     @Override
@@ -27,7 +24,7 @@ public class UserRoleRequestWrapper extends HttpServletRequestWrapper {
             return this.request.isUserInRole(null);
         }
 
-        for (RoleType roleType : roleTypes) {
+        for (RoleType roleType : user.getRoles()) {
             if (roleType.getRole().equalsIgnoreCase(roleAsString)) {
                 return true;
             }
@@ -42,6 +39,6 @@ public class UserRoleRequestWrapper extends HttpServletRequestWrapper {
             return this.request.getUserPrincipal();
         }
 
-        return user::getUsername;
+        return user;
     }
 }

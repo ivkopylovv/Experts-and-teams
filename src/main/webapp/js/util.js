@@ -29,16 +29,20 @@ function getUrlencodedFormData(formData) {
 /**
  * Submit form asynchronously and render the resulting html
  *
- * @param formData {FormData}
+ * @param reqBody {FormData | String}
  * @param url {String}
  * @param callback {Function}
  */
-function ajax(formData, url, callback) {
+function ajax(reqBody, url, callback) {
     let redirectUrl = null;
+
+    const body = reqBody instanceof FormData
+        ? getUrlencodedFormData(reqBody)
+        : reqBody;
 
     fetch(url, {
         method: 'post',
-        body: getUrlencodedFormData(formData),
+        body,
         credentials: "same-origin",
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',

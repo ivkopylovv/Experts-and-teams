@@ -9,7 +9,15 @@ class Control {
         this.validateFn = validateFn;
     }
 
+    getValue() {
+        return this.node.value?.trim() ?? '';
+    }
+
     validate() {
+        if (!this.validateFn) {
+            return true;
+        }
+
         return this.validateFn(this.node);
     }
 

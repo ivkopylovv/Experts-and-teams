@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import java.util.List;
 
+import static ru.rsreu.expertsandteams.constant.ErrorMessages.LOGOUT_ERROR;
+import static ru.rsreu.expertsandteams.constant.ErrorMessages.PERMISSION_ERROR;
 import static ru.rsreu.expertsandteams.constant.Routes.*;
 
 public class RedirectHandler {
@@ -54,15 +56,17 @@ public class RedirectHandler {
                 );
             }
 
-            String pathInfo = request.getPathInfo();
+            String page = request.getPathInfo().substring(1);
             User user = userDAO.findById(userId);
             List<RoleType> userRoles = RoleMapper.rolesToRoleTypes(roleDAO.findByUserId(userId));
 
-            if (pathInfo.equals(SIGNIN) || pathInfo.equals(SIGNUP)) {
+            user.setRoles(userRoles);
+
+            if (page.equals(SIGNIN) || page.equals(SIGNUP)) {
                 return new RedirectContainer(
                         PROFILE,
                         user,
-                        "boba logout plz"
+                        LOGOUT_ERROR
                 );
             }
 
@@ -73,13 +77,13 @@ public class RedirectHandler {
                     return new RedirectContainer(
                             PROFILE,
                             user,
-                            "boba, you havent prava"
+                            PERMISSION_ERROR
                     );
                 }
             }
 
             return new RedirectContainer(
-                    pathInfo,
+                    page,
                     user
             );
         }

@@ -2,18 +2,18 @@ package ru.rsreu.expertsandteams.database.dao;
 
 import com.prutzjow.resourcer.ProjectResourcer;
 import com.prutzjow.resourcer.Resourcer;
+import ru.rsreu.expertsandteams.data.Role;
 import ru.rsreu.expertsandteams.data.User;
 import ru.rsreu.expertsandteams.database.ConnectionPool;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class UserDAO {
-    private Resourcer resourcer;
+    private static volatile UserDAO instance;
+    private final Resourcer resourcer;
 
-    public UserDAO() {
+    private UserDAO() {
         resourcer = ProjectResourcer.getInstance();
     }
 
@@ -80,6 +80,19 @@ public class UserDAO {
         return users;
     }
 
+    public void addRoleToUser(User user, Role role) {
+        String query = this.resourcer.getString("user.query.add.role");
+
+        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
+            statement.setLong(1, user.getId());
+            statement.setLong(2, role.getId());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public ArrayList<User> findAllByBlockStatus(boolean isBlocked) {
         ArrayList<User> users = new ArrayList<>();
         String query = this.resourcer.getString("user.query.find.all.by.block.status");
@@ -129,17 +142,59 @@ public class UserDAO {
         return users;
     }
 
+    public User save(User user) {
+        String query = resourcer.getString("user.query.save.user");
+        String[] returnId = { "id" };
+
+        try (PreparedStatement statement = ConnectionPool
+                .getConnection()
+                .prepareStatement(query, returnId)
+        ) {
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getUsername());
+            statement.setString(3, user.getPassword());
+
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Creating user failed");
+            }
+
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    long id = generatedKeys.getLong(1);
+
+                    user.setId(id);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return user;
+    }
+
     private void getUsersFromResultSet(ArrayList<User> users, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             User user = new User(
-                    resultSet.getLong("id"),
-                    resultSet.getString("name"),
-                    resultSet.getString("username"),
-                    resultSet.getString("password"),
-                    resultSet.getBoolean("is_blocked")
+                resultSet.getLong("id"),
+                resultSet.getString("name"),
+                resultSet.getString("username"),
+                resultSet.getString("password"),
+                resultSet.getBoolean("is_blocked")
             );
 
             users.add(user);
         }
+    }
+
+    public static UserDAO getInstance() {
+        synchronized (UserDAO.class) {
+            if (instance == null) {
+                instance = new UserDAO();
+            }
+        }
+
+        return instance;
     }
 }

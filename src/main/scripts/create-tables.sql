@@ -20,14 +20,14 @@ CREATE SEQUENCE users_seq START WITH 1;
 -----------------------------------------------
 
 -- Создание таблицы Роли
-CREATE TABLE roleTypes
+CREATE TABLE roles
 (
     id NUMBER,
     name VARCHAR2(30 CHAR) NOT NULL
 );
 
 -- Первичный ключ таблицы Роли
-ALTER TABLE roleTypes
+ALTER TABLE roles
     ADD (
     CONSTRAINT roles_pk PRIMARY KEY (id)
   );

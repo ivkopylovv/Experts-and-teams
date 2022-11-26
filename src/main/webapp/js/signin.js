@@ -19,7 +19,6 @@ whenDomReady(() => {
         const usernameControlValid = usernameControl.validate();
         const passwordControlValid = passwordControl.validate();
 
-
         if (!usernameControlValid) {
             usernameControl.showError();
         }

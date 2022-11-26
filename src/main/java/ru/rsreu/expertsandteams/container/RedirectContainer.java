@@ -4,7 +4,6 @@ import ru.rsreu.expertsandteams.data.User;
 
 public class RedirectContainer {
     private String url;
-
     private User user;
     private String error;
 

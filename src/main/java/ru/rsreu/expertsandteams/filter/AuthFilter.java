@@ -1,13 +1,8 @@
 package ru.rsreu.expertsandteams.filter;
 
 import ru.rsreu.expertsandteams.container.RedirectContainer;
-import ru.rsreu.expertsandteams.data.Role;
 import ru.rsreu.expertsandteams.data.User;
-import ru.rsreu.expertsandteams.database.dao.DAOFactory;
-import ru.rsreu.expertsandteams.database.dao.RoleDAO;
-import ru.rsreu.expertsandteams.enums.RoleType;
 import ru.rsreu.expertsandteams.handler.RedirectHandler;
-import ru.rsreu.expertsandteams.mapper.RoleMapper;
 import ru.rsreu.expertsandteams.wrapper.UserRoleRequestWrapper;
 
 import javax.servlet.*;
@@ -15,18 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
+import static ru.rsreu.expertsandteams.constant.PageOptions.PUSH_ERROR;
+import static ru.rsreu.expertsandteams.constant.Routes.*;
 
 public class AuthFilter implements Filter {
-    private static final DAOFactory daoFactory = DAOFactory.getInstance();
-
-    private RoleDAO roleDAO;
-
     @Override
-    public void init(FilterConfig filterConfig) {
-        roleDAO = daoFactory.getRoleDAO();
-    }
+    public void init(FilterConfig filterConfig) {}
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain next)
             throws IOException, ServletException {
@@ -37,30 +27,41 @@ public class AuthFilter implements Filter {
         RedirectContainer redirectContainer = redirectHandler.handleRedirection(request);
 
         User user = redirectContainer.getUser();
-        // TODO: think
-        List<RoleType> roles = user != null
-            ? RoleMapper.rolesToRoleTypes(roleDAO.findByUserId(user.getId()))
-            : new ArrayList<>();
         HttpServletRequest wrappedRequest = user != null
-            ? new UserRoleRequestWrapper(request, user, roles)
+            ? new UserRoleRequestWrapper(request, user)
             : request;
+        String page = request.getPathInfo().substring(1);
 
+        /**
+         * If we try to route to auth pages, or we have no permissions
+         */
         if (redirectContainer.getError() != null) {
             HttpSession session = request.getSession(true);
 
-            // TODO: move to constants
-            session.setAttribute("PUSH_ERROR", redirectContainer.getError());
-            next.doFilter(wrappedRequest, response);
+            session.setAttribute(PUSH_ERROR, redirectContainer.getError());
+            response.sendRedirect(redirectContainer.getUrl());
 
             return;
         }
 
-        if (redirectContainer.getUser() != null) {
-            next.doFilter(wrappedRequest, response);
+        /**
+         * If we try to route to secure page, but we have no session or
+         * try to route to auth pages without session
+         */
+        if (redirectContainer.getUser() == null && redirectContainer.getError() == null) {
+            if (page.equals(SIGNIN) || page.equals(SIGNUP)) {
+                next.doFilter(wrappedRequest, response);
 
+                return;
+            }
+
+            response.sendRedirect(redirectContainer.getUrl());
             return;
         }
 
+        /**
+         * If we have permissions to route to the page
+         */
         next.doFilter(wrappedRequest, response);
     }
 }

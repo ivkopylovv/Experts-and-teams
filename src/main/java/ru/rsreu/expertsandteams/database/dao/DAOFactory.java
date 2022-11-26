@@ -18,14 +18,19 @@ public class DAOFactory {
     }
 
     public RoleDAO getRoleDAO() {
-        return new RoleDAO();
+        return RoleDAO.getInstance();
     }
 
     public UserDAO getUserDAO() {
-        return new UserDAO();
+        return UserDAO.getInstance();
     }
 
     public SessionDAO getSessionDAO() {
-        return new SessionDAO();
+        return SessionDAO.getInstance();
+    }
+
+    public ExpertSkillDAO getExpertSkillDAO() {
+        return ExpertSkillDAO.getInstance();
     }
 }
+

@@ -5,57 +5,20 @@ import com.prutzjow.resourcer.Resourcer;
 import ru.rsreu.expertsandteams.data.Role;
 import ru.rsreu.expertsandteams.database.ConnectionPool;
 
+import javax.swing.text.html.Option;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class RoleDAO {
-    private Resourcer resourcer;
+    private static volatile RoleDAO instance;
+    private final Resourcer resourcer;
 
-    public RoleDAO() {
+    private RoleDAO() {
         resourcer = ProjectResourcer.getInstance();
-    }
-
-    public List<Role> findAll() {
-        ArrayList<Role> roles = new ArrayList<>();
-        String query = resourcer.getString("role.query.find.all");
-
-        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Role role = new Role(
-                        resultSet.getLong(1),
-                        resultSet.getString(2)
-                );
-
-                roles.add(role);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return roles;
-    }
-
-    public Role findById(long id) {
-        String query = resourcer.getString("role.query.find.by.id");
-
-        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
-            statement.setLong(1, id);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                return new Role(id, resultSet.getString(2));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 
     public List<Role> findByUserId(Long userId) {
@@ -80,5 +43,37 @@ public class RoleDAO {
         }
 
         return roles;
+    }
+
+    public Optional<Role> findByName(String roleName) {
+        String query = resourcer.getString("role.query.find.by.name");
+
+        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
+            statement.setString(1, roleName);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Role role = new Role(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name")
+                );
+                return Optional.of(role);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return Optional.empty();
+    }
+
+        public static RoleDAO getInstance() {
+        synchronized (UserDAO.class) {
+            if (instance == null) {
+                instance = new RoleDAO();
+            }
+        }
+
+        return instance;
     }
 }
