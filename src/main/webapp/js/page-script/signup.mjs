@@ -63,7 +63,7 @@ whenDomReady(() => {
 
         const formData = new FormData(signupForm);
 
-        ajax(signupMapper(formData), signupForm.action);
+        submitForm(signupMapper(formData), signupForm.action);
     };
 
     handleExpertSkills();

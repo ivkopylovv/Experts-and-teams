@@ -1,4 +1,4 @@
-class Control {
+export class Control {
     /**
      * @param node {HTMLInputElement}
      * @param validateFn {Function}

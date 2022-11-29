@@ -1,13 +1,3 @@
-whenDomReady(() => {
-    const links = document.querySelectorAll('.router_link');
-
-    ([...links]).forEach(link => {
-        if (window.location.pathname === link.pathname) {
-            link.classList.add('underline');
-        }
-    });
-});
-
 /**
  * Return formData as urlencoded string
  *
@@ -33,7 +23,7 @@ export function getUrlencodedFormData(formData) {
  * @param url {String}
  * @param callback {Function}
  */
-export function ajax(reqBody, url, callback) {
+export function submitForm(reqBody, url, callback) {
     let redirectUrl = null;
 
     const body = reqBody instanceof FormData
@@ -43,38 +33,48 @@ export function ajax(reqBody, url, callback) {
     fetch(url, {
         method: 'post',
         body,
-        credentials: "same-origin",
+        credentials: 'same-origin',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     }).then(res => {
-        redirectUrl = res.headers.get("X-Target");
+        redirectUrl = res.headers.get('X-Target');
 
         return res.text();
     }).then(html => {
-        window.history.pushState(null, "", redirectUrl ?? "unknown");
+        window.history.pushState(null, '', redirectUrl ?? 'unknown');
         const page = document.querySelector('html');
+
+        const scriptSources = Array.from(document.querySelectorAll('script')).map(script => script.src);
 
         page.innerHTML = html;
 
-        Array.from(page.querySelectorAll("script"))
-            .forEach(oldScriptEl => {
-                const newScriptEl = document.createElement("script");
+        const newScriptSources = Array.from(document.querySelectorAll('script'))
+            .map(script => script.src)
+            .filter(source => !scriptSources.includes(source));
 
-                Array.from(oldScriptEl.attributes).forEach(attr => {
-                    newScriptEl.setAttribute(attr.name, attr.value)
-                });
-
-                const scriptText = document.createTextNode(oldScriptEl.innerHTML);
-                newScriptEl.appendChild(scriptText);
-
-                oldScriptEl.parentNode.replaceChild(newScriptEl, oldScriptEl);
-            });
+        parseScriptTags(page);
 
         if (callback) {
             callback();
         }
     })
+}
+
+function parseScriptTags(page) {
+    Array.from(page.querySelectorAll("script"))
+        .forEach(oldScriptEl => {
+            const newScriptEl = document.createElement("script");
+
+            Array.from(oldScriptEl.attributes).forEach(attr => {
+                newScriptEl.setAttribute(attr.name, attr.value)
+            });
+
+            const scriptText = document.createTextNode(oldScriptEl.innerHTML);
+            newScriptEl.appendChild(scriptText);
+
+            oldScriptEl.parentNode.replaceChild(newScriptEl, oldScriptEl);
+        });
 }
 
 /**

@@ -4,7 +4,7 @@
 <head>
     <title>Sign In</title>
     <%@include file="../templates/meta.jsp" %>
-    <script type="module" src="../js/admindashboard.mjs"></script>
+    <script type="module" src="../js/pages-scripts/admindashboard.mjs"></script>
 </head>
 <body>
     <%@include file="../templates/header.jsp" %>

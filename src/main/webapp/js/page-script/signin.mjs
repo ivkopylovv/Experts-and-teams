@@ -1,3 +1,6 @@
+import {whenDomReady, submitForm} from '../util.mjs';
+import {Control} from '../entity/control.mjs';
+
 whenDomReady(() => {
     const signinForm = document.querySelector('#signin');
     const signinLoader = signinForm.querySelector('.loader');
@@ -34,6 +37,6 @@ whenDomReady(() => {
             return;
         }
 
-        ajax(new FormData(signinForm), signinForm.action);
+        submitForm(new FormData(signinForm), signinForm.action);
     };
 });
