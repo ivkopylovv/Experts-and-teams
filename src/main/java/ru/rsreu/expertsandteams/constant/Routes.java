@@ -6,4 +6,6 @@ public class Routes {
 
     public static final String LOGOUT = "logout";
     public static final String PROFILE = "profile";
+
+    public static final String ADMIN_DASHBOARD = "admindashboard";
 }

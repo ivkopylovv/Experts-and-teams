@@ -14,7 +14,7 @@ whenDomReady(() => {
  * @param formData {FormData}
  * @returns {string}
  */
-function getUrlencodedFormData(formData) {
+export function getUrlencodedFormData(formData) {
     const params = new URLSearchParams();
 
     for (const pair of formData.entries()) {
@@ -33,7 +33,7 @@ function getUrlencodedFormData(formData) {
  * @param url {String}
  * @param callback {Function}
  */
-function ajax(reqBody, url, callback) {
+export function ajax(reqBody, url, callback) {
     let redirectUrl = null;
 
     const body = reqBody instanceof FormData
@@ -82,7 +82,7 @@ function ajax(reqBody, url, callback) {
  *
  * @param callback {Function}
  */
-function whenDomReady(callback) {
+export function whenDomReady(callback) {
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', callback);
     } else {

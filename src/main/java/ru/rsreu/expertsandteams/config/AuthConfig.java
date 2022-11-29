@@ -32,7 +32,7 @@ public class AuthConfig {
 
         ArrayList<String> expertUrlPatters = new ArrayList<>();
 
-        adminUrlPatterns.add(PROFILE);
+        expertUrlPatters.add(PROFILE);
 
         mapConfig.put(RoleType.USER, userUrlPatterns);
         mapConfig.put(RoleType.ADMIN, adminUrlPatterns);
