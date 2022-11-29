@@ -4,7 +4,7 @@
 <head>
     <title>Sign In</title>
     <%@include file="../templates/meta.jsp" %>
-    <script type="module" src="../js/pages-scripts/signin.mjs"></script>
+    <script type="module" src="../js/page-script/signin.mjs"></script>
 </head>
 <body>
 <%@include file="../templates/header-unauth.jsp" %>

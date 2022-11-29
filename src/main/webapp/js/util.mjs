@@ -49,11 +49,10 @@ export function submitForm(reqBody, url, callback) {
 
         page.innerHTML = html;
 
-        const newScriptSources = Array.from(document.querySelectorAll('script'))
-            .map(script => script.src)
-            .filter(source => !scriptSources.includes(source));
+        const newScripts = Array.from(document.querySelectorAll('script'))
+            .filter(script => !scriptSources.includes(script.src));
 
-        parseScriptTags(page);
+        parseScriptTags(newScripts);
 
         if (callback) {
             callback();
@@ -61,20 +60,19 @@ export function submitForm(reqBody, url, callback) {
     })
 }
 
-function parseScriptTags(page) {
-    Array.from(page.querySelectorAll("script"))
-        .forEach(oldScriptEl => {
-            const newScriptEl = document.createElement("script");
+function parseScriptTags(newScripts) {
+    newScripts.forEach(oldScriptEl => {
+        const newScriptEl = document.createElement("script");
 
-            Array.from(oldScriptEl.attributes).forEach(attr => {
-                newScriptEl.setAttribute(attr.name, attr.value)
-            });
-
-            const scriptText = document.createTextNode(oldScriptEl.innerHTML);
-            newScriptEl.appendChild(scriptText);
-
-            oldScriptEl.parentNode.replaceChild(newScriptEl, oldScriptEl);
+        Array.from(oldScriptEl.attributes).forEach(attr => {
+            newScriptEl.setAttribute(attr.name, attr.value)
         });
+
+        const scriptText = document.createTextNode(oldScriptEl.innerHTML);
+        newScriptEl.appendChild(scriptText);
+
+        oldScriptEl.parentNode.replaceChild(newScriptEl, oldScriptEl);
+    });
 }
 
 /**

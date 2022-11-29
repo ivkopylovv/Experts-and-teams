@@ -4,6 +4,7 @@
 <head>
     <title>Profile</title>
     <%@include file="../templates/meta.jsp" %>
+    <script type="module" src="../js/page-script/profile.mjs"></script>
 </head>
 <body>
 <%@include file="../templates/header.jsp" %>
