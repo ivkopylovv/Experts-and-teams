@@ -16,10 +16,14 @@ import static ru.rsreu.expertsandteams.constant.Routes.*;
 
 public class AuthFilter implements Filter {
     @Override
-    public void init(FilterConfig filterConfig) {}
+    public void init(FilterConfig filterConfig) {
+    }
 
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain next)
-            throws IOException, ServletException {
+    public void doFilter(
+            ServletRequest servletRequest,
+            ServletResponse servletResponse,
+            FilterChain next
+    ) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
@@ -28,8 +32,8 @@ public class AuthFilter implements Filter {
 
         User user = redirectContainer.getUser();
         HttpServletRequest wrappedRequest = user != null
-            ? new UserRoleRequestWrapper(request, user)
-            : request;
+                ? new UserRoleRequestWrapper(request, user)
+                : request;
         String page = request.getPathInfo().substring(1);
 
         /**

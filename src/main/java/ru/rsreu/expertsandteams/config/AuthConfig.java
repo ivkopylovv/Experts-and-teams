@@ -7,8 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static ru.rsreu.expertsandteams.constant.Routes.ADMIN_DASHBOARD;
-import static ru.rsreu.expertsandteams.constant.Routes.PROFILE;
+import static ru.rsreu.expertsandteams.constant.Routes.*;
 
 public class AuthConfig {
 
@@ -22,19 +21,23 @@ public class AuthConfig {
         ArrayList<String> userUrlPatterns = new ArrayList<>();
 
         userUrlPatterns.add(PROFILE);
+        userUrlPatterns.add(LOGOUT);
 
         ArrayList<String> adminUrlPatterns = new ArrayList<>();
 
         adminUrlPatterns.add(PROFILE);
         adminUrlPatterns.add(ADMIN_DASHBOARD);
+        adminUrlPatterns.add(LOGOUT);
 
         ArrayList<String> moderatorUrlPatterns = new ArrayList<>();
 
         moderatorUrlPatterns.add(PROFILE);
+        moderatorUrlPatterns.add(LOGOUT);
 
         ArrayList<String> expertUrlPatters = new ArrayList<>();
 
         expertUrlPatters.add(PROFILE);
+        expertUrlPatters.add(LOGOUT);
 
         mapConfig.put(RoleType.USER, userUrlPatterns);
         mapConfig.put(RoleType.ADMIN, adminUrlPatterns);

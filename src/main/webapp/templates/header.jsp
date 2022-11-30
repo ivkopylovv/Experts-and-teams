@@ -3,8 +3,9 @@
     <div class="container mx-auto xl:max-w-7xl flex items-center justify-between">
         <div class="text-lg font-medium">Experts and Teams</div>
         <nav class="flex items-center space-x-2 text-sm">
-            <a class="router_link hover:underline" href="/experts-and-teams/profile">Profile</a>
-            <a class="router_link hover:underline" href="/experts-and-teams/logout">Logout</a>
+            <c:forEach items="${links}" var="link">
+                <a class="router_link hover:underline" href="${link.getHref()}">${link.getName()}</a>
+            </c:forEach>
         </nav>
     </div>
 </header>

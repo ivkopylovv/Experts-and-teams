@@ -7,6 +7,7 @@ import ru.rsreu.expertsandteams.database.dao.ExpertSkillDAO;
 import ru.rsreu.expertsandteams.database.dao.RoleDAO;
 import ru.rsreu.expertsandteams.database.dao.UserDAO;
 import ru.rsreu.expertsandteams.exception.RoleNotFoundException;
+import ru.rsreu.expertsandteams.exception.UserAlreadyExistsException;
 import ru.rsreu.expertsandteams.mapper.SkillMapper;
 
 import javax.servlet.ServletContext;
@@ -59,7 +60,7 @@ public class SignupCommand extends FrontCommand {
             password
         );
 
-        userDAO.save(user);
+        userDAO.save(user).orElseThrow(UserAlreadyExistsException::new);
         String roleName;
 
         if (userIsExpert) {

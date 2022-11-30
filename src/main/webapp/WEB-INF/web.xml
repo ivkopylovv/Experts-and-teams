@@ -33,6 +33,26 @@
         <url-pattern>/experts-and-teams/*</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>AlertFilter</filter-name>
+        <filter-class>ru.rsreu.expertsandteams.filter.AlertFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AlertFilter</filter-name>
+        <url-pattern>/experts-and-teams/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>HeaderLinksFilter</filter-name>
+        <filter-class>ru.rsreu.expertsandteams.filter.HeaderLinksFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>HeaderLinksFilter</filter-name>
+        <url-pattern>/experts-and-teams/*</url-pattern>
+    </filter-mapping>
+
     <servlet>
         <servlet-name>FrontController</servlet-name>
         <servlet-class>ru.rsreu.expertsandteams.controller.FrontController</servlet-class>

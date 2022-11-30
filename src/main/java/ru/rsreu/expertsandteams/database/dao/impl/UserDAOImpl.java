@@ -148,7 +148,7 @@ public class UserDAOImpl implements UserDAO {
         return users;
     }
 
-    public User save(User user) {
+    public Optional<User> save(User user) {
         String query = resourcer.getString("user.query.save.user");
         String[] returnId = { "id" };
 
@@ -171,13 +171,15 @@ public class UserDAOImpl implements UserDAO {
                     long id = generatedKeys.getLong(1);
 
                     user.setId(id);
+
+                    return Optional.of(user);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return user;
+        return Optional.empty();
     }
 
     private void getUsersFromResultSet(ArrayList<User> users, ResultSet resultSet) throws SQLException {

@@ -21,5 +21,5 @@ public interface UserDAO {
 
     ArrayList<User> findAllByTeamId(long teamId);
 
-    User save(User user);
+    Optional<User> save(User user);
 }

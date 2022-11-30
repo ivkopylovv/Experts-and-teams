@@ -2,6 +2,7 @@ package ru.rsreu.expertsandteams.handler;
 
 import ru.rsreu.expertsandteams.exception.CredentialsException;
 import ru.rsreu.expertsandteams.exception.RoleNotFoundException;
+import ru.rsreu.expertsandteams.exception.UserAlreadyExistsException;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
@@ -24,6 +25,13 @@ public class ExceptionHandler extends Router {
         if (exception instanceof CredentialsException) {
             request.setAttribute(CONTROLS_INVALID_ATTR, true);
             forward(SIGNIN);
+
+            return;
+        }
+
+        if (exception instanceof UserAlreadyExistsException) {
+            request.setAttribute(CONTROLS_INVALID_ATTR, true);
+            forward(SIGNUP);
 
             return;
         }
