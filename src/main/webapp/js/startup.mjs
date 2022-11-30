@@ -1,6 +1,11 @@
-import {whenDomReady} from '../util.mjs';
+import {whenDomReady} from './util.mjs';
 
 whenDomReady(() => {
+    selectActiveLink();
+    window.addEventListener('popstate', selectActiveLink);
+});
+
+function selectActiveLink() {
     const links = document.querySelectorAll('.router_link');
 
     ([...links]).forEach(link => {
@@ -8,4 +13,4 @@ whenDomReady(() => {
             link.classList.add('underline');
         }
     });
-});
+}

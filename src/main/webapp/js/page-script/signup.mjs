@@ -1,3 +1,6 @@
+import {whenDomReady, submitForm} from '../util.mjs';
+import {Control} from '../entity/control.mjs';
+
 whenDomReady(() => {
     const signupForm = document.querySelector('#signup');
     const signupLoader = signupForm.querySelector('.loader');

@@ -98,11 +98,10 @@ public class RedirectHandler {
         synchronized (RedirectHandler.class) {
             if (instance == null) {
                 instance = new RedirectHandler();
-                DAOFactory daoFactory = DAOFactory.getInstance();
 
-                instance.userDAO = daoFactory.getUserDAO();
-                instance.sessionDAO = daoFactory.getSessionDAO();
-                instance.roleDAO = daoFactory.getRoleDAO();
+                instance.userDAO = DAOFactory.getUserDAO();
+                instance.sessionDAO = DAOFactory.getSessionDAO();
+                instance.roleDAO = DAOFactory.getRoleDAO();
             }
         }
 

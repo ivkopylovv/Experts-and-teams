@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static ru.rsreu.expertsandteams.constant.Routes.ADMIN_DASHBOARD;
 import static ru.rsreu.expertsandteams.constant.Routes.PROFILE;
 
 public class AuthConfig {
@@ -25,6 +26,7 @@ public class AuthConfig {
         ArrayList<String> adminUrlPatterns = new ArrayList<>();
 
         adminUrlPatterns.add(PROFILE);
+        adminUrlPatterns.add(ADMIN_DASHBOARD);
 
         ArrayList<String> moderatorUrlPatterns = new ArrayList<>();
 

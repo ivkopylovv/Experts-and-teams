@@ -19,8 +19,7 @@ public class LogoutCommand extends FrontCommand {
     public void init(ServletContext servletContext, HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         super.init(servletContext, servletRequest, servletResponse);
 
-        DAOFactory daoFactory = DAOFactory.getInstance();
-        sessionDAO = daoFactory.getSessionDAO();
+        sessionDAO = DAOFactory.getSessionDAO();
     }
 
     @Override
@@ -29,6 +28,6 @@ public class LogoutCommand extends FrontCommand {
 
         sessionDAO.deleteByUserId(user.getId());
 
-        forward(SIGNIN);
+        redirect(SIGNIN);
     }
 }

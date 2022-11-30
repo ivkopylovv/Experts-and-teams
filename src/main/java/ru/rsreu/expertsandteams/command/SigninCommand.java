@@ -33,9 +33,8 @@ public class SigninCommand extends FrontCommand {
     public void init(ServletContext servletContext, HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         super.init(servletContext, servletRequest, servletResponse);
 
-        DAOFactory daoFactory = DAOFactory.getInstance();
-        userDAO = daoFactory.getUserDAO();
-        sessionDAO = daoFactory.getSessionDAO();
+        userDAO = DAOFactory.getUserDAO();
+        sessionDAO = DAOFactory.getSessionDAO();
     }
 
     @Override

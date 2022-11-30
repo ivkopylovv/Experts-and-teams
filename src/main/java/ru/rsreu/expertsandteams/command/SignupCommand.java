@@ -34,10 +34,9 @@ public class SignupCommand extends FrontCommand {
     public void init(ServletContext servletContext, HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         super.init(servletContext, servletRequest, servletResponse);
 
-        DAOFactory daoFactory = DAOFactory.getInstance();
-        userDAO = daoFactory.getUserDAO();
-        roleDAO = daoFactory.getRoleDAO();
-        expertSkillDAO = daoFactory.getExpertSkillDAO();
+        userDAO = DAOFactory.getUserDAO();
+        roleDAO = DAOFactory.getRoleDAO();
+        expertSkillDAO = DAOFactory.getExpertSkillDAO();
     }
 
     @Override

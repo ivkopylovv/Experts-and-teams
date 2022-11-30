@@ -4,4 +4,5 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script type="module" src="../js/entity/control.mjs"></script>
 <script type="module" src="../js/util.mjs"></script>
+<script type="module" src="../js/startup.mjs"></script>
 <script src="https://unpkg.com/flowbite@1.5.4/dist/flowbite.js"></script>

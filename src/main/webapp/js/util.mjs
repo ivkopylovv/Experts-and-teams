@@ -42,7 +42,6 @@ export function submitForm(reqBody, url, callback) {
 
         return res.text();
     }).then(html => {
-        window.history.pushState(null, '', redirectUrl ?? 'unknown');
         const page = document.querySelector('html');
 
         const scriptSources = Array.from(document.querySelectorAll('script')).map(script => script.src);
@@ -53,6 +52,9 @@ export function submitForm(reqBody, url, callback) {
             .filter(script => !scriptSources.includes(script.src));
 
         parseScriptTags(newScripts);
+
+        window.history.pushState(null, '', redirectUrl ?? 'unknown');
+        window.dispatchEvent(new Event('popstate'));
 
         if (callback) {
             callback();

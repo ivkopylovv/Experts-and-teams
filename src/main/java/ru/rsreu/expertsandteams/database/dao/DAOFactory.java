@@ -1,36 +1,28 @@
 package ru.rsreu.expertsandteams.database.dao;
 
+import ru.rsreu.expertsandteams.database.dao.impl.ExpertSkillDAOImpl;
+import ru.rsreu.expertsandteams.database.dao.impl.RoleDAOImpl;
+import ru.rsreu.expertsandteams.database.dao.impl.SessionDAOImpl;
+import ru.rsreu.expertsandteams.database.dao.impl.UserDAOImpl;
+
 public class DAOFactory {
-    private static volatile DAOFactory instance;
-
     private DAOFactory() {
-
     }
 
-    public static DAOFactory getInstance() {
-        synchronized (DAOFactory.class) {
-            if (instance == null) {
-                instance = new DAOFactory();
-            }
-        }
-
-        return instance;
+    public static RoleDAO getRoleDAO() {
+        return RoleDAOImpl.getInstance();
     }
 
-    public RoleDAO getRoleDAO() {
-        return RoleDAO.getInstance();
+    public static UserDAO getUserDAO() {
+        return UserDAOImpl.getInstance();
     }
 
-    public UserDAO getUserDAO() {
-        return UserDAO.getInstance();
+    public static SessionDAO getSessionDAO() {
+        return SessionDAOImpl.getInstance();
     }
 
-    public SessionDAO getSessionDAO() {
-        return SessionDAO.getInstance();
-    }
-
-    public ExpertSkillDAO getExpertSkillDAO() {
-        return ExpertSkillDAO.getInstance();
+    public static ExpertSkillDAO getExpertSkillDAO() {
+        return ExpertSkillDAOImpl.getInstance();
     }
 }
 
