@@ -6,6 +6,7 @@ import ru.rsreu.expertsandteams.constant.RouteNames;
 import ru.rsreu.expertsandteams.data.Link;
 import ru.rsreu.expertsandteams.data.User;
 import ru.rsreu.expertsandteams.helper.UrlHelper;
+import ru.rsreu.expertsandteams.helper.UserLinkHelper;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -39,13 +40,8 @@ public class HeaderLinksFilter implements Filter {
             return;
         }
 
-        Set<String> pages = user.getRoles().stream()
-                .map(role -> AuthConfig.getRoleUrlPatterns(role))
-                .flatMap(targets -> targets.stream())
-                .collect(Collectors.toSet());
-        List<Link> links = pages.stream()
-                .map(target -> new Link(RouteNames.getRouteName(target), UrlHelper.getUrlWithPrefix(target)))
-                .collect(Collectors.toList());
+        List<String> pages = UserLinkHelper.getUserPages(user);
+        List<Link> links = UserLinkHelper.getUserLinks(pages);
 
         request.setAttribute(LINKS, links);
 
