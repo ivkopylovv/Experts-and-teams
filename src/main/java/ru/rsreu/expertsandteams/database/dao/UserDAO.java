@@ -3,7 +3,7 @@ package ru.rsreu.expertsandteams.database.dao;
 import ru.rsreu.expertsandteams.data.Role;
 import ru.rsreu.expertsandteams.data.User;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public interface UserDAO {
@@ -11,15 +11,19 @@ public interface UserDAO {
 
     Optional<User> findByUsername(String username);
 
-    ArrayList<User> findAll();
+    List<User> findAll();
+
+    List<User> findAllWithSession();
 
     void addRoleToUser(User user, Role role);
 
-    ArrayList<User> findAllByBlockStatus(boolean isBlocked);
+    List<User> findAllByBlockStatus(boolean isBlocked);
 
-    ArrayList<User> findAllAuthorized();
+    List<User> findAllAuthorized();
 
-    ArrayList<User> findAllByTeamId(long teamId);
+    List<User> findAllByTeamId(long teamId);
 
     Optional<User> save(User user);
+
+    Optional<User> update(User user);
 }

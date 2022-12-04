@@ -2,13 +2,13 @@
 <Context>
     <WatchedResource>WEB-INF/web.xml</WatchedResource>
 
-    <Resource name="jdbc/experts-and-teams"
+    <Resource name="jdbc/qusavin"
               auth="Container"
-              username="ivan_user"
-              password="12345"
+              username="qusavin"
+              password="1234"
               type="javax.sql.DataSource"
               driverClassName="oracle.jdbc.driver.OracleDriver"
-              url="jdbc:oracle:thin:@localhost:1521/XE"
+              url="jdbc:oracle:thin:@localhost:1521:xe"
               maxActive="10"
               maxIdle="4"/>
 </Context>

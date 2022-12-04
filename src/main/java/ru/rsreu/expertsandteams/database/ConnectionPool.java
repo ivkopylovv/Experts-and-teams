@@ -6,8 +6,8 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 
 public class ConnectionPool {
-    private static final String DATASOURCE_NAME = "java:/comp/env/jdbc/experts-and-teams";
-    private static Connection connection;
+    private static final String DATASOURCE_NAME = "java:/comp/env/jdbc/qusavin";
+    private static volatile Connection connection;
 
     private ConnectionPool() {
     }

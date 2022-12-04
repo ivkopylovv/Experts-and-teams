@@ -9,7 +9,6 @@ import ru.rsreu.expertsandteams.database.dao.SessionDAO;
 import ru.rsreu.expertsandteams.database.dao.UserDAO;
 import ru.rsreu.expertsandteams.enums.RoleType;
 import ru.rsreu.expertsandteams.helper.PermissionHelper;
-import ru.rsreu.expertsandteams.helper.SessionHelper;
 import ru.rsreu.expertsandteams.helper.UserHelper;
 import ru.rsreu.expertsandteams.mapper.RoleMapper;
 
@@ -47,9 +46,7 @@ public class RedirectHandler {
         Optional<Session> session = sessionDAO.findByUserId(userId);
 
         if (session.isPresent()) {
-            boolean isSessionValid = SessionHelper.validate(session.get());
-
-            if (!isSessionValid) {
+            if (session.get().isExpired()) {
                 sessionDAO.deleteByUserId(userId);
 
                 return new RedirectContainer(

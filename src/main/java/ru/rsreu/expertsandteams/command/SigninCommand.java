@@ -16,16 +16,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 
+import static ru.rsreu.expertsandteams.constant.FormParams.PASSWORD_PARAM;
+import static ru.rsreu.expertsandteams.constant.FormParams.USERNAME_PARAM;
 import static ru.rsreu.expertsandteams.constant.Routes.PROFILE;
 import static ru.rsreu.expertsandteams.constant.Routes.SIGNIN;
 import static ru.rsreu.expertsandteams.constant.SessionOptions.SESSION_TIME_LIVE;
 
 public class SigninCommand extends FrontCommand {
-    private static final String USERNAME_PARAM = "username";
-    private static final String PASSWORD_PARAM = "password";
-
-    public static String CONTROLS_INVALID_ATTR = "controlsInvalid";
-
     private UserDAO userDAO;
     private SessionDAO sessionDAO;
 

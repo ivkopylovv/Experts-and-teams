@@ -1,42 +1,28 @@
 import {whenDomReady, submitForm} from '../util.mjs';
-import {Control} from '../entity/control.mjs';
+import {Control, Validators} from '../entity/control.mjs';
+import {FormGroup} from '../entity/formGroup.mjs';
+
+const SigninControl = {
+    Username: 'username',
+    Password: 'password'
+};
+
+function handleSigninSubmit() {
+    const formData = new FormData(this.getFormElement());
+
+    submitForm(formData, this.getAction());
+}
 
 whenDomReady(() => {
-    const signinForm = document.querySelector('#signin');
-    const signinLoader = signinForm.querySelector('.loader');
-
-    const usernameControl = new Control(
-        document.querySelector('#username'), (control) => control.value.trim() !== ''
-    );
-    const passwordControl = new Control(
-        document.querySelector('#password'), (control) => control.value.trim() !== ''
-    );
-
-    usernameControl.node.oninput = usernameControl.offError.bind(usernameControl);
-    passwordControl.node.oninput = passwordControl.offError.bind(passwordControl);
-
-    signinForm.onsubmit = (event) => {
-        event.preventDefault();
-        signinLoader.style.display = 'inline';
-
-        const usernameControlValid = usernameControl.validate();
-        const passwordControlValid = passwordControl.validate();
-
-        if (!usernameControlValid) {
-            usernameControl.showError();
-        }
-
-        if (!passwordControlValid) {
-            passwordControl.showError();
-        }
-
-        const formValid = usernameControlValid && passwordControlValid;
-
-        if (!formValid) {
-            signinLoader.style.display = 'none';
-            return;
-        }
-
-        submitForm(new FormData(signinForm), signinForm.action);
+    const controls = {
+        [SigninControl.Username]: new Control('#username', [Validators.required]),
+        [SigninControl.Password]: new Control('#password', [Validators.required]),
     };
+
+    const formGroup = new FormGroup(
+        '#signin',
+        '.loader',
+        controls,
+        handleSigninSubmit
+    );
 });

@@ -26,4 +26,11 @@ public class Session {
     public void setExpiredAt(Date expiredAt) {
         this.expiredAt = expiredAt;
     }
+
+    public boolean isExpired() {
+        Date currentDate = new Date();
+        Date sessionExpiredDate = getExpiredAt();
+
+        return sessionExpiredDate.before(currentDate);
+    }
 }

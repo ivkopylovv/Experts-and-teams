@@ -4,6 +4,7 @@ import ru.rsreu.expertsandteams.enums.RoleType;
 
 import java.io.Serializable;
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 public class User implements Serializable, Principal {
@@ -12,6 +13,7 @@ public class User implements Serializable, Principal {
     private String username;
     private String password;
     private Boolean isBlocked;
+    private Date sessionExpiredAt;
 
     private List<RoleType> roles;
     private List<Skill> skills;
@@ -23,6 +25,15 @@ public class User implements Serializable, Principal {
         this.password = password;
         this.isBlocked = isBlocked;
         this.roles = roles;
+    }
+
+    public User(Long id, String name, String username, String password, Boolean isBlocked, Date sessionExpiredAt) {
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.isBlocked = isBlocked;
+        this.sessionExpiredAt = sessionExpiredAt;
     }
 
     public User(String name, String username, String password) {
@@ -102,5 +113,20 @@ public class User implements Serializable, Principal {
 
     public void setSkills(List<Skill> skills) {
         this.skills = skills;
+    }
+
+    public boolean isOnline() {
+        Date currentDate = new Date();
+        Date sessionExpiredDate = getSessionExpiredAt();
+
+        return sessionExpiredDate != null && sessionExpiredDate.after(currentDate);
+    }
+
+    public Date getSessionExpiredAt() {
+        return sessionExpiredAt;
+    }
+
+    public void setSessionExpiredAt(Date sessionExpiredAt) {
+        this.sessionExpiredAt = sessionExpiredAt;
     }
 }

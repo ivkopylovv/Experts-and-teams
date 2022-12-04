@@ -4,6 +4,7 @@
 <head>
     <title>Sign Up</title>
     <%@include file="../templates/meta.jsp" %>
+    <script type="module" src="../js/shared/skills.mjs"></script>
     <script type="module" src="../js/page-script/signup.mjs"></script>
 </head>
 <body>
@@ -45,21 +46,12 @@
             </div>
 
             <div class="flex items-center mb-5">
-                <input id="is-expert" type="checkbox" value=""
+                <input id="isExpert" type="checkbox" value=""
                        class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500">
-                <label for="is-expert" class="ml-2 text-sm font-medium text-gray-900">I'm expert</label>
+                <label for="isExpert" class="ml-2 text-sm font-medium text-gray-900">I'm expert</label>
             </div>
 
-            <div id="skills" class="hidden mb-5">
-                <div class="mb-2 text-sm font-medium text-gray-900">Expert skills</div>
-
-                <div id="skills-container" class="mb-4 space-y-3"></div>
-
-                <button id="add-skill" type="button"
-                        class="ml-auto flex items-center rounded-lg text-gray-900 bg-white focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium text-sm px-1.5 py-1">
-                    <span class="material-symbols-outlined text-base">add</span>&nbsp;Add skill
-                </button>
-            </div>
+            <%@include file="../templates/skills-container.jsp" %>
 
             <button type="submit"
                     class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
@@ -69,5 +61,6 @@
         </form>
     </div>
 </body>
+
 <%@include file="../templates/skll-input.jsp" %>
 </html>

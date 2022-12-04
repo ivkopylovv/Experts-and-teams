@@ -8,8 +8,10 @@ export function getUrlencodedFormData(formData) {
     const params = new URLSearchParams();
 
     for (const pair of formData.entries()) {
-        if (typeof pair[1] === 'string') {
-            params.append(pair[0], pair[1]);
+        const value = pair[1];
+
+        if (typeof value === 'string' && value !== '') {
+            params.append(pair[0], value);
         }
     }
 
@@ -21,9 +23,9 @@ export function getUrlencodedFormData(formData) {
  *
  * @param reqBody {FormData | String}
  * @param url {String}
- * @param callback {Function}
+ * @param callback {Function | null}
  */
-export function submitForm(reqBody, url, callback) {
+export function submitForm(reqBody, url, callback = null) {
     let redirectUrl = null;
 
     const body = reqBody instanceof FormData

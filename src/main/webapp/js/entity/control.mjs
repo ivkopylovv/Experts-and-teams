@@ -1,49 +1,68 @@
+import {SelectorEngine} from '../dom/selector-engine.mjs';
+
+const ERROR_CONTROL_BORDER = 'border-red-500';
+
+export const Validators = {
+    required: function () {
+        return this.getValue() !== '';
+    }
+};
+
 export class Control {
     /**
-     * @param node {HTMLInputElement}
-     * @param validateFn {Function}
+     * @param {String} selector
+     * @param {Function[]} validators
      */
-    constructor(node, validateFn) {
-        this.node = node;
-        this.errorNode = null;
-        this.validateFn = validateFn;
+    constructor(selector, validators = []) {
+        this._element = SelectorEngine.findOne(selector);
+        this._errorElement = SelectorEngine.findOne(this._getErrorNodeSelector());
+        this._validators = validators;
+        this._offErrorFn = this.offError.bind(this);
+
+        this._handleOffError();
+    }
+
+    getElement() {
+        return this._element;
     }
 
     getValue() {
-        return this.node.value?.trim() ?? '';
+        return this._element.value?.trim() ?? '';
+    }
+
+    setValue(value) {
+        this._element.value = value;
     }
 
     validate() {
-        if (!this.validateFn) {
-            return true;
-        }
-
-        return this.validateFn(this.node);
+        return this._validators.every(validator => validator.call(this));
     }
 
     showError() {
-        if (!this.errorNode) {
-            this.errorNode = this.findErrorControl();
-        }
+        this._element.classList.add(ERROR_CONTROL_BORDER);
 
-        this.node.classList.add('border-red-500');
-        if (this.errorNode) {
-            this.errorNode.style.display = 'block';
+        if (this._errorElement) {
+            this._errorElement.style.display = 'block';
         }
-    }
-
-    findErrorControl() {
-        return this.node.parentNode.querySelector(`.error_${this.node.name}`);
     }
 
     offError() {
-        if (!this.errorNode) {
-            this.errorNode = this.findErrorControl();
-        }
+        this._element.classList.remove(ERROR_CONTROL_BORDER);
 
-        this.node.classList.remove('border-red-500');
-        if (this.errorNode) {
-            this.errorNode.style.display = 'none';
+        if (this._errorElement) {
+            this._errorElement.style.display = 'none';
         }
+    }
+
+    destroy() {
+        this.getElement().removeEventListener('input', this._offErrorFn)
+    }
+
+    _getErrorNodeSelector() {
+        return `.error_${this._element.name}`;
+    }
+
+    _handleOffError() {
+        this.getElement().addEventListener('input', this._offErrorFn)
     }
 }
