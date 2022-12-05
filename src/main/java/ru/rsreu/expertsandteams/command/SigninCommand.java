@@ -1,12 +1,9 @@
 package ru.rsreu.expertsandteams.command;
 
-import ru.rsreu.expertsandteams.data.Session;
 import ru.rsreu.expertsandteams.data.User;
-import ru.rsreu.expertsandteams.database.dao.DAOFactory;
-import ru.rsreu.expertsandteams.database.dao.SessionDAO;
-import ru.rsreu.expertsandteams.database.dao.UserDAO;
-import ru.rsreu.expertsandteams.exception.CredentialsException;
 import ru.rsreu.expertsandteams.helper.UserHelper;
+import ru.rsreu.expertsandteams.service.ServiceFactory;
+import ru.rsreu.expertsandteams.service.UserService;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -14,24 +11,20 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 
 import static ru.rsreu.expertsandteams.constant.FormParams.PASSWORD_PARAM;
 import static ru.rsreu.expertsandteams.constant.FormParams.USERNAME_PARAM;
 import static ru.rsreu.expertsandteams.constant.Routes.PROFILE;
 import static ru.rsreu.expertsandteams.constant.Routes.SIGNIN;
-import static ru.rsreu.expertsandteams.constant.SessionOptions.SESSION_TIME_LIVE;
 
 public class SigninCommand extends FrontCommand {
-    private UserDAO userDAO;
-    private SessionDAO sessionDAO;
+    private UserService userService;
 
     @Override
     public void init(ServletContext servletContext, HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         super.init(servletContext, servletRequest, servletResponse);
 
-        userDAO = DAOFactory.getUserDAO();
-        sessionDAO = DAOFactory.getSessionDAO();
+        userService = ServiceFactory.getUserService();
     }
 
     @Override
@@ -40,22 +33,14 @@ public class SigninCommand extends FrontCommand {
     }
 
     @Override
-    public void send() throws ServletException, IOException {
+    public void send() throws IOException {
         String username = request.getParameter(USERNAME_PARAM);
         String password = request.getParameter(PASSWORD_PARAM);
 
-        User user = this.userDAO.findByUsername(username).orElseThrow(CredentialsException::new);
-
-        if (user.getBlocked() || !user.getPassword().equals(password)) {
-            throw new CredentialsException();
-        }
-
+        User user = userService.createSession(username, password);
         Cookie userCookie = UserHelper.getUserCookie(user);
+
         response.addCookie(userCookie);
-
-        Session session = new Session(user.getId(), new Date(System.currentTimeMillis() + SESSION_TIME_LIVE));
-        sessionDAO.save(session);
-
         redirect(PROFILE);
     }
 }

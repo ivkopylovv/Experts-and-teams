@@ -22,5 +22,9 @@ public interface UserService {
             Boolean isBlocked
     );
 
+    User createSession(String username, String password);
+
+    void deleteSession(User user);
+
     List<User> getAllUsersWithSession();
 }

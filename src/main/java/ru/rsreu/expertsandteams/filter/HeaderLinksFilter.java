@@ -1,11 +1,8 @@
 package ru.rsreu.expertsandteams.filter;
 
 
-import ru.rsreu.expertsandteams.config.AuthConfig;
-import ru.rsreu.expertsandteams.constant.RouteNames;
 import ru.rsreu.expertsandteams.data.Link;
 import ru.rsreu.expertsandteams.data.User;
-import ru.rsreu.expertsandteams.helper.UrlHelper;
 import ru.rsreu.expertsandteams.helper.UserLinkHelper;
 
 import javax.servlet.*;
@@ -13,10 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import static ru.rsreu.expertsandteams.constant.PageOptions.LINKS;
+import static ru.rsreu.expertsandteams.constant.RequestAttribute.LINKS;
 
 public class HeaderLinksFilter implements Filter {
     @Override

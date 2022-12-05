@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-import static ru.rsreu.expertsandteams.constant.PageOptions.PUSH_ERROR;
+import static ru.rsreu.expertsandteams.constant.RequestAttribute.PUSH_ERROR;
 
 public class AlertFilter implements Filter {
     @Override

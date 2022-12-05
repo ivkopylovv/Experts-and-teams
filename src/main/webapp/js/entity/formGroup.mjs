@@ -1,12 +1,30 @@
 import {SelectorEngine} from '../dom/selector-engine.mjs';
 
+const FORM_SELECTOR = 'formSelector';
+const LOADER_SELECTOR = 'loaderSelector';
+
+export function createFormConfig(formSelector, loaderSelector) {
+    return {
+        [FORM_SELECTOR]: formSelector,
+        [LOADER_SELECTOR]: loaderSelector
+    };
+}
+
 export class FormGroup {
-    constructor(formSelector, loaderSelector, controls, onSubmit) {
-        this._formElement = SelectorEngine.findOne(formSelector);
-        this._loaderElement = SelectorEngine.findOne(loaderSelector);
+    /**
+     * @param {Object} config
+     * @param {Object} controls
+     * @param {Function} onSubmit
+     * @param {Function[]} validators
+     */
+    constructor(config = {}, controls, onSubmit, validators = []) {
+        this._formElement = SelectorEngine.findOne(config[FORM_SELECTOR]);
+        this._loaderElement = SelectorEngine.findOne(config[LOADER_SELECTOR]);
         this._controls = controls;
         this._onSubmit = onSubmit;
+        this._validators = validators;
 
+        this._bindValidators();
         this._handleSubmit();
     }
 
@@ -22,6 +40,10 @@ export class FormGroup {
         return this._formElement.action;
     }
 
+    _bindValidators() {
+        this._validators = this._validators.map(validator => validator.bind(this));
+    }
+
     _showLoader() {
         this._loaderElement.style.display = 'inline';
     }
@@ -30,31 +52,33 @@ export class FormGroup {
         this._loaderElement.style.display = 'none';
     }
 
-    _formValid() {
-        return Object.getOwnPropertyNames(this._controls).every(name =>
-            this._controls[name].validate()
-        );
+    _validateForm() {
+        return this._validators
+            .map(validator => validator())
+            .every(valid => valid);
     }
 
     _validateControls() {
-        Object.getOwnPropertyNames(this._controls).forEach(name => {
-            const control = this._controls[name];
-            const controlValid = control.validate();
+        return Object.getOwnPropertyNames(this._controls)
+            .map(name => {
+                const control = this._controls[name];
+                const controlValid = control.validate();
 
-            if (!controlValid) {
-                control.showError();
-            }
-        });
+                if (!controlValid) {
+                    control.showError();
+                }
+
+                return controlValid;
+            })
+            .every(controlValid => controlValid);
     }
 
     _handleSubmit() {
         this._formElement.onsubmit = event => {
             event.preventDefault();
-
             this._showLoader();
-            this._validateControls();
 
-            const formValid = this._formValid();
+            const formValid = this._validateControls() && this._validateForm();
 
             if (!formValid) {
                 this._hideLoader();
@@ -63,6 +87,7 @@ export class FormGroup {
             }
 
             this._onSubmit();
+            this._hideLoader();
         };
     }
 }

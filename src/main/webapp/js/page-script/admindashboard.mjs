@@ -1,6 +1,6 @@
 import {submitForm, whenDomReady} from '../util.mjs';
 import {Control, Validators} from '../entity/control.mjs';
-import {FormGroup} from '../entity/formGroup.mjs';
+import {createFormConfig, FormGroup} from '../entity/formGroup.mjs';
 import {handleExpertSkills} from '../shared/skills.mjs';
 import {SelectorEngine} from '../dom/selector-engine.mjs';
 
@@ -47,8 +47,7 @@ function editUser() {
     };
 
     const formGroup = new FormGroup(
-        '#editForm',
-        '.loader',
+        createFormConfig('#editForm', '.loader'),
         controls,
         handleEditUserSubmit
     );
@@ -103,8 +102,7 @@ function addUser() {
         [AddUserControl.Password]: new Control('#addPassword', [Validators.required]),
     };
     const formGroup = new FormGroup(
-        '#addForm',
-        '.loader',
+        createFormConfig('#addForm', '.loader'),
         controls,
         handleAddUserSubmit
     );
@@ -162,9 +160,7 @@ function handleDropdownActionBtn() {
     });
 }
 
-function handleSearch() {
-
-}
+function handleSearch() {}
 
 function init() {
     // Edit user modal

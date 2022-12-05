@@ -1,6 +1,6 @@
 import {whenDomReady, submitForm} from '../util.mjs';
 import {Control, Validators} from '../entity/control.mjs';
-import {FormGroup} from '../entity/formGroup.mjs';
+import {createFormConfig, FormGroup} from '../entity/formGroup.mjs';
 
 const SigninControl = {
     Username: 'username',
@@ -20,8 +20,7 @@ whenDomReady(() => {
     };
 
     const formGroup = new FormGroup(
-        '#signin',
-        '.loader',
+        createFormConfig('#signin', '.loader'),
         controls,
         handleSigninSubmit
     );

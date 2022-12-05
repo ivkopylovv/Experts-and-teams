@@ -10,8 +10,8 @@ import java.io.IOException;
 
 import static ru.rsreu.expertsandteams.constant.ErrorMessages.EDIT_USER_ERROR;
 import static ru.rsreu.expertsandteams.constant.ErrorMessages.INTERNAL_ERROR;
-import static ru.rsreu.expertsandteams.constant.PageOptions.PUSH_ERROR;
 import static ru.rsreu.expertsandteams.constant.RequestAttribute.CONTROLS_INVALID_ATTR;
+import static ru.rsreu.expertsandteams.constant.RequestAttribute.PUSH_ERROR;
 import static ru.rsreu.expertsandteams.constant.Routes.SIGNIN;
 import static ru.rsreu.expertsandteams.constant.Routes.SIGNUP;
 

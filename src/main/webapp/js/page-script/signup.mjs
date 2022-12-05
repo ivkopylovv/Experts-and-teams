@@ -1,6 +1,6 @@
 import {whenDomReady, submitForm} from '../util.mjs';
 import {SelectorEngine} from '../dom/selector-engine.mjs';
-import {FormGroup} from '../entity/formGroup.mjs';
+import {createFormConfig, FormGroup} from '../entity/formGroup.mjs';
 import {Control, Validators} from '../entity/control.mjs';
 import {handleExpertSkills} from '../shared/skills.mjs';
 
@@ -38,15 +38,15 @@ whenDomReady(() => {
     const controls = {
         [SignupControl.Name]: new Control('#name', [Validators.required]),
         [SignupControl.Username]: new Control('#username', [Validators.required]),
-        [SignupControl.Password]: new Control('#password', [Validators.required, passwordValidator]),
+        [SignupControl.Password]: new Control('#password', [Validators.required]),
         [SignupControl.ConfirmPassword]: new Control('#confirmPassword', [Validators.required])
     };
 
     const formGroup = new FormGroup(
-        '#signup',
-        '.loader',
+        createFormConfig('#signup', '.loader'),
         controls,
-        handleSignupSubmit
+        handleSignupSubmit,
+        [passwordValidator]
     );
 
     const skillsContainer = handleExpertSkills();

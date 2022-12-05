@@ -19,6 +19,7 @@ export class Control {
         this._validators = validators;
         this._offErrorFn = this.offError.bind(this);
 
+        this._bindValidators();
         this._handleOffError();
     }
 
@@ -35,7 +36,7 @@ export class Control {
     }
 
     validate() {
-        return this._validators.every(validator => validator.call(this));
+        return this._validators.every(validator => validator());
     }
 
     showError() {
@@ -56,6 +57,10 @@ export class Control {
 
     destroy() {
         this.getElement().removeEventListener('input', this._offErrorFn)
+    }
+
+    _bindValidators() {
+        this._validators = this._validators.map(validator => validator.bind(this));
     }
 
     _getErrorNodeSelector() {
