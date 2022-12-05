@@ -167,6 +167,19 @@ public class UserDAOImpl implements UserDAO {
         return users;
     }
 
+    public void delete(List<Long> userIds) {
+        String query = resourcer.getString("user.query.delete");
+
+        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
+            for (Long userId : userIds) {
+                statement.setLong(1, userId);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Optional<User> save(User user) {
         String query = resourcer.getString("user.query.save.user");
         String[] returnId = {"id"};

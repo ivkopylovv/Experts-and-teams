@@ -9,5 +9,4 @@ public class FormParams {
     public static final String IS_BLOCKED_PARAM = "is_blocked";
     public static final String ROLE_PARAM = "role";
     public static final String MODE_PARAM = "mode";
-    public static final String USERS_ATTR = "users";
 }

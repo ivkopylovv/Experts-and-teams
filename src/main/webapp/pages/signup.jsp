@@ -18,7 +18,7 @@
                 <input type="text" id="name"
                        name="name"
                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                <p class="error_name mt-2 text-sm text-red-600 ${controlsInvalid ? '' : 'hidden'}">Field is empty</p>
+                <p class="error_name mt-2 text-sm text-red-600 hidden">Field is empty</p>
             </div>
 
             <div class="mb-4">
@@ -26,7 +26,7 @@
                 <input type="text" id="username"
                        name="username"
                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                <p class="error_username mt-2 text-sm text-red-600 ${controlsInvalid ? '' : 'hidden'}">Field is empty</p>
+                <p class="error_username mt-2 text-sm text-red-600 hidden">Field is empty</p>
             </div>
 
             <div class="mb-5">
@@ -34,7 +34,7 @@
                 <input type="password" id="password"
                        name="password"
                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                <p class="error_password mt-2 text-sm text-red-600 ${controlsInvalid ? '' : 'hidden'}">The password confirmation does not match</p>
+                <p class="error_password mt-2 text-sm text-red-600 hidden">The password confirmation does not match</p>
             </div>
 
             <div class="mb-5">
@@ -42,7 +42,7 @@
                 <input type="password" id="confirmPassword"
                        name="confirmPassword"
                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                <p class="error_confirmPassword mt-2 text-sm text-red-600 ${controlsInvalid ? '' : 'hidden'}">The password confirmation does not match</p>
+                <p class="error_confirmPassword mt-2 text-sm text-red-600 hidden">The password confirmation does not match</p>
             </div>
 
             <div class="flex items-center mb-5">
@@ -60,6 +60,9 @@
             </button>
         </form>
     </div>
+    <jsp:include page="../templates/alert.jsp">
+        <jsp:param name="pushError" value="${pushError}" />
+    </jsp:include>
 </body>
 
 <%@include file="../templates/skll-input.jsp" %>

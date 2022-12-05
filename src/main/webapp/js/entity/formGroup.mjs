@@ -2,6 +2,7 @@ import {SelectorEngine} from '../dom/selector-engine.mjs';
 
 const FORM_SELECTOR = 'formSelector';
 const LOADER_SELECTOR = 'loaderSelector';
+const HIDDEN = 'hidden';
 
 export function createFormConfig(formSelector, loaderSelector) {
     return {
@@ -45,11 +46,15 @@ export class FormGroup {
     }
 
     _showLoader() {
-        this._loaderElement.style.display = 'inline';
+        if (this._loaderElement.classList.contains(HIDDEN)) {
+            this._loaderElement.classList.remove(HIDDEN);
+        }
     }
 
     _hideLoader() {
-        this._loaderElement.style.display = 'none';
+        if (!this._loaderElement.classList.contains(HIDDEN)) {
+            this._loaderElement.classList.add(HIDDEN);
+        }
     }
 
     _validateForm() {

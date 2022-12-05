@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div
         id="alert-${param.id}"
-        class="flex p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+        class="flex p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg"
         role="alert"
 >
     <svg
@@ -22,7 +22,7 @@
             <div class="font-medium">Error!</div>
             <button
                     aria-label="Close"
-                    class="ml-auto -mx-1.5 -my-1.5 bg-red-100 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-red-200 dark:text-red-600 dark:hover:bg-red-300"
+                    class="close-alert-btn ml-auto -mx-1.5 -my-1.5 bg-red-100 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8"
                     data-dismiss-target="#alert-${param.id}"
                     type="button"
             >
@@ -37,6 +37,6 @@
                 </svg>
             </button>
         </div>
-        <div>${param.message}</div>
+        <div class="pt-1 pr-5">${param.message}</div>
     </div>
 </div>

@@ -1,6 +1,7 @@
 import {SelectorEngine} from '../dom/selector-engine.mjs';
 
 const ERROR_CONTROL_BORDER = 'border-red-500';
+const HIDDEN = 'hidden';
 
 export const Validators = {
     required: function () {
@@ -36,22 +37,22 @@ export class Control {
     }
 
     validate() {
-        return this._validators.every(validator => validator());
+        return this._validators.map(validator => validator()).every(valid => valid);
     }
 
     showError() {
         this._element.classList.add(ERROR_CONTROL_BORDER);
 
-        if (this._errorElement) {
-            this._errorElement.style.display = 'block';
+        if (this._errorElement && this._errorElement.classList.contains(HIDDEN)) {
+            this._errorElement.classList.remove(HIDDEN);
         }
     }
 
     offError() {
         this._element.classList.remove(ERROR_CONTROL_BORDER);
 
-        if (this._errorElement) {
-            this._errorElement.style.display = 'none';
+        if (this._errorElement && !this._errorElement.classList.contains(HIDDEN)) {
+            this._errorElement.classList?.add(HIDDEN);
         }
     }
 

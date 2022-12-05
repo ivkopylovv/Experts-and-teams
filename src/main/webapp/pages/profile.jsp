@@ -11,13 +11,6 @@
 <div class="body flex flex-col items-center justify-center">
     <h1 class="mx-auto text-lg">${user.getName()}</h1>
 </div>
-<c:if test="${pushError != null}">
-    <div class="fixed top-16 right-0 p-2 w-80">
-        <jsp:include page="../templates/error-alert.jsp">
-            <jsp:param name="id" value="pushError"/>
-            <jsp:param name="message" value="${pushError}"/>
-        </jsp:include>
-    </div>
-</c:if>
+<%@include file="../templates/alert.jsp" %>
 </body>
 </html>

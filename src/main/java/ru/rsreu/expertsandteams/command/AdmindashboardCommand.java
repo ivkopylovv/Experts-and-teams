@@ -11,9 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static ru.rsreu.expertsandteams.constant.FormParams.*;
+import static ru.rsreu.expertsandteams.constant.RequestAttribute.*;
 import static ru.rsreu.expertsandteams.constant.Routes.ADMIN_DASHBOARD;
 
 public class AdmindashboardCommand extends FrontCommand {
@@ -29,7 +32,10 @@ public class AdmindashboardCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
         List<User> users = userService.getAllUsersWithSession();
+        User user = (User)request.getUserPrincipal();
+
         request.setAttribute(USERS_ATTR, users);
+        request.setAttribute(USER_ATTR, user);
 
         forward(ADMIN_DASHBOARD);
     }
@@ -56,14 +62,17 @@ public class AdmindashboardCommand extends FrontCommand {
     }
 
     private void deleteUsers() {
+        List<Long> userIds = Arrays.stream(request.getParameterValues(USER_ID_ATTR))
+                .map(Long::parseLong).collect(Collectors.toList());
 
+        userService.deleteUsers(userIds);
     }
 
     private void addUser() {
         String name = request.getParameter(NAME_PARAM);
         String username = request.getParameter(USERNAME_PARAM);
         String password = request.getParameter(PASSWORD_PARAM);
-        String[] skills  = request.getParameterValues(SKILLS_PARAM);
+        String[] skills = request.getParameterValues(SKILLS_PARAM);
         RoleType role = RoleType.valueOf(
                 request.getParameter(ROLE_PARAM).toUpperCase()
         );

@@ -6,4 +6,5 @@ public class ErrorMessages {
     public static String PERMISSION_ERROR = "boba, you havent prava";
 
     public static String EDIT_USER_ERROR = "Failed to edit user. Please try again later";
+    public static String USER_ALREADY_EXIST_ERROR = "User with this username already exist";
 }

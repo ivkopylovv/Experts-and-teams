@@ -23,6 +23,8 @@ public interface UserDAO {
 
     List<User> findAllByTeamId(long teamId);
 
+    void delete(List<Long> userIds);
+
     Optional<User> save(User user);
 
     Optional<User> update(User user);

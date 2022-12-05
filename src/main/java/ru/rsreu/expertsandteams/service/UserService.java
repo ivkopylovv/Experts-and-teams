@@ -22,6 +22,8 @@ public interface UserService {
             Boolean isBlocked
     );
 
+    void deleteUsers(List<Long> userIds);
+
     User createSession(String username, String password);
 
     void deleteSession(User user);

@@ -78,6 +78,10 @@ public class UserServiceImpl implements UserService {
         userDAO.addRoleToUser(user, role);
     }
 
+    public void deleteUsers(List<Long> userIds) {
+        userDAO.delete(userIds);
+    }
+
     public User createSession(String username, String password) {
         User user = this.userDAO.findByUsername(username).orElseThrow(CredentialsException::new);
 

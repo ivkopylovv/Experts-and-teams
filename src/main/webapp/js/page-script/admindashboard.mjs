@@ -6,6 +6,8 @@ import {SelectorEngine} from '../dom/selector-engine.mjs';
 
 const MODE = 'mode';
 const HIDDEN = 'hidden';
+const ACTION = 'admindashboard';
+const EXPERT_ROLE = 'expert';
 
 const FormModes = {
     AddUser: 'add_user',
@@ -32,7 +34,7 @@ function handleEditUserSubmit() {
 
     formData.set(MODE, FormModes.UpdateUser);
 
-    submitForm(formData, this.getAction(), () => {
+    submitForm(formData, ACTION, () => {
         init();
     });
 }
@@ -60,11 +62,14 @@ function editUser() {
         editUserBtn.onclick = () => {
             const row = editUserBtn.closest('.table-row');
 
-            const id = row.querySelector('.id').innerText.trim();
-            const name = row.querySelector('.name').innerText.trim();
-            const username = row.querySelector('.username').innerText.trim();
-            const password = row.querySelector('.password').innerText.trim();
-            const isBlocked = row.querySelector('.isBlocked').innerText.trim();
+            const id = SelectorEngine.findOne('.id', row).innerText.trim();
+            const name = SelectorEngine.findOne('.name', row).innerText.trim();
+            const username = SelectorEngine.findOne('.username', row).innerText.trim();
+            const password = SelectorEngine.findOne('.password').innerText.trim();
+            const isBlocked = SelectorEngine.findOne('.isBlocked', row).innerText.trim();
+            const roles = SelectorEngine.findOne('.role', row).innerText.trim();
+
+            const isExpert = roles.toLowerCase().includes(EXPERT_ROLE);
 
             formGroup.getControl(EditUserControl.Id).setValue(id);
             formGroup.getControl(EditUserControl.Name).setValue(name);
@@ -78,7 +83,7 @@ function editUser() {
         };
     });
 
-    closeEditModalBtn.onclick = e => {
+    closeEditModalBtn.onclick = () => {
         if (!editUserModal.classList.contains(HIDDEN)) {
             editUserModal.classList.add(HIDDEN);
         }
@@ -90,9 +95,78 @@ function handleAddUserSubmit() {
 
     formData.set(MODE, FormModes.AddUser);
 
-    submitForm(formData, this.getAction(), () => {
+    submitForm(formData, ACTION, () => {
         init();
     });
+}
+
+function deleteUsers() {
+    const selectAllCheckboxes = SelectorEngine.findOne('#select-all-checkboxes');
+
+    selectAllCheckboxes.onclick = () => {
+        const deleteUserCheckboxElements = SelectorEngine.find('.delete-user-checkbox');
+
+        [...deleteUserCheckboxElements]
+            .filter(checkbox => !checkbox.disabled)
+            .forEach(checkbox => {
+                checkbox.checked = selectAllCheckboxes.checked;
+            });
+    };
+
+    const deleteUsersBtn = SelectorEngine.findOne('#deleteUsers');
+    const confirmModalElement = SelectorEngine.findOne(
+        deleteUsersBtn.getAttribute('data-modal-toggle')
+    );
+    const closeConfirmDeleteModalBtn = SelectorEngine.findOne('#close-confirm-delete-modal');
+    const confirmDeleteBtn = SelectorEngine.findOne('#confirm-delete');
+    const cancelDeleteBtn = SelectorEngine.findOne('#cancel-delete');
+
+    const openConfirmModal = () => {
+        if (confirmModalElement.classList.contains(HIDDEN)) {
+            confirmModalElement.classList.remove(HIDDEN);
+        }
+    };
+    const closeConfirmModal = () => {
+        if (!confirmModalElement.classList.contains(HIDDEN)) {
+            confirmModalElement.classList.add(HIDDEN);
+        }
+    };
+
+    closeConfirmDeleteModalBtn.onclick = () => {
+        closeConfirmModal();
+    };
+    cancelDeleteBtn.onclick = () => {
+        closeConfirmModal();
+    };
+    deleteUsersBtn.onclick = () => {
+        openConfirmModal();
+    };
+
+    confirmDeleteBtn.onclick = () => {
+        const deleteUserCheckboxElements = SelectorEngine.find('.delete-user-checkbox');
+
+        const userIds = [...deleteUserCheckboxElements]
+            .filter(el => el.checked)
+            .map(el => el.getAttribute('data-user-id')?.trim())
+            .filter(userId => !!userId);
+
+        if (userIds.length === 0) {
+            return;
+        }
+
+        const formData = new FormData();
+
+        userIds.forEach(id => {
+            formData.append('user_id', id);
+        });
+
+        formData.set(MODE, FormModes.DeleteUsers);
+
+        closeConfirmModal();
+        submitForm(formData, ACTION, () => {
+            init();
+        });
+    };
 }
 
 function addUser() {
@@ -160,7 +234,29 @@ function handleDropdownActionBtn() {
     });
 }
 
-function handleSearch() {}
+function handleSearch() {
+    const searchElement = SelectorEngine.findOne('#table-search-users');
+    const rows = SelectorEngine.find('.table-row');
+
+    searchElement.oninput = (e) => {
+        const value = e.target.value?.trim() ?? '';
+
+        [...rows].forEach(row => {
+            const name = SelectorEngine.findOne('.name', row).innerText.trim();
+            const username = SelectorEngine.findOne('.username', row).innerText.trim();
+
+            if (name.includes(value) || username.includes(value)) {
+                if (row.classList.contains(HIDDEN)) {
+                    row.classList.remove(HIDDEN);
+                }
+            } else {
+                if (!row.classList.contains(HIDDEN)) {
+                    row.classList.add(HIDDEN);
+                }
+            }
+        });
+    }
+}
 
 function init() {
     // Edit user modal
@@ -173,6 +269,8 @@ function init() {
     handleDropdownActionBtn();
 
     handleSearch();
+
+    deleteUsers();
 }
 
 whenDomReady(() => {

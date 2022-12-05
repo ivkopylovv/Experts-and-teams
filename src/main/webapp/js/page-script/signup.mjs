@@ -3,6 +3,7 @@ import {SelectorEngine} from '../dom/selector-engine.mjs';
 import {createFormConfig, FormGroup} from '../entity/formGroup.mjs';
 import {Control, Validators} from '../entity/control.mjs';
 import {handleExpertSkills} from '../shared/skills.mjs';
+import {handleAlerts} from '../shared/alert.mjs';
 
 const SignupControl = {
     Name: 'name',
@@ -24,7 +25,10 @@ function handleSignupSubmit() {
 
     formData.set(ROLE, thereIsSkill ? Role.Expert : Role.User);
 
-    submitForm(formData, this.getAction());
+    submitForm(formData, this.getAction(), () => {
+        handleAlerts();
+        handleSignup();
+    });
 }
 
 function passwordValidator() {
@@ -34,7 +38,7 @@ function passwordValidator() {
     return passwordControl.getValue() === confirmPasswordControl.getValue();
 }
 
-whenDomReady(() => {
+function handleSignup() {
     const controls = {
         [SignupControl.Name]: new Control('#name', [Validators.required]),
         [SignupControl.Username]: new Control('#username', [Validators.required]),
@@ -59,6 +63,10 @@ whenDomReady(() => {
             skillsContainer.style.display = 'none';
         }
     });
+}
+
+whenDomReady(() => {
+    handleSignup();
 });
 
 function checkThereIsSkill(formData) {

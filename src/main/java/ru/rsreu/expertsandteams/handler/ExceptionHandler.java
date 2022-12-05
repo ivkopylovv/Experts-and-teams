@@ -8,8 +8,7 @@ import ru.rsreu.expertsandteams.exception.UserEditingException;
 import javax.servlet.ServletException;
 import java.io.IOException;
 
-import static ru.rsreu.expertsandteams.constant.ErrorMessages.EDIT_USER_ERROR;
-import static ru.rsreu.expertsandteams.constant.ErrorMessages.INTERNAL_ERROR;
+import static ru.rsreu.expertsandteams.constant.ErrorMessages.*;
 import static ru.rsreu.expertsandteams.constant.RequestAttribute.CONTROLS_INVALID_ATTR;
 import static ru.rsreu.expertsandteams.constant.RequestAttribute.PUSH_ERROR;
 import static ru.rsreu.expertsandteams.constant.Routes.SIGNIN;
@@ -32,7 +31,7 @@ public class ExceptionHandler extends Router {
         }
 
         if (exception instanceof UserAlreadyExistsException) {
-            request.setAttribute(CONTROLS_INVALID_ATTR, true);
+            request.setAttribute(PUSH_ERROR, USER_ALREADY_EXIST_ERROR);
             forward(SIGNUP);
 
             return;
