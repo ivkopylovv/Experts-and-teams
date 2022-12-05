@@ -32,6 +32,7 @@ public class AuthConfig {
         ArrayList<String> moderatorUrlPatterns = new ArrayList<>();
 
         moderatorUrlPatterns.add(PROFILE);
+        moderatorUrlPatterns.add(MODERATOR_DASHBOARD);
         moderatorUrlPatterns.add(LOGOUT);
 
         ArrayList<String> expertUrlPatters = new ArrayList<>();

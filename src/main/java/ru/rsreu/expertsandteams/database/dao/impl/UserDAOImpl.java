@@ -13,6 +13,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class UserDAOImpl implements UserDAO {
     private static volatile UserDAOImpl instance;
@@ -31,13 +32,7 @@ public class UserDAOImpl implements UserDAO {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                User user = new User(
-                        resultSet.getLong("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("username"),
-                        resultSet.getString("password"),
-                        resultSet.getBoolean("is_blocked")
-                );
+                User user = UserHelper.getFromResultSet(resultSet);
 
                 return Optional.of(user);
             }
@@ -57,13 +52,7 @@ public class UserDAOImpl implements UserDAO {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                User user = new User(
-                        resultSet.getLong(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3),
-                        resultSet.getString(4),
-                        resultSet.getBoolean(5)
-                );
+                User user = UserHelper.getFromResultSet(resultSet);
 
                 return Optional.of(user);
             }
@@ -106,46 +95,6 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
-    public List<User> findAllByBlockStatus(boolean isBlocked) {
-        ArrayList<User> users = new ArrayList<>();
-        String query = this.resourcer.getString("user.query.find.all.by.block.status");
-
-        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
-            statement.setBoolean(1, isBlocked);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                User user = UserHelper.getFromResultSet(resultSet);
-
-                users.add(user);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return users;
-    }
-
-    public List<User> findAllAuthorized() {
-        ArrayList<User> users = new ArrayList<>();
-        String query = this.resourcer.getString("user.query.find.all.authorized");
-
-        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                User user = UserHelper.getFromResultSet(resultSet);
-
-                users.add(user);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return users;
-    }
-
     public List<User> findAllByTeamId(long teamId) {
         ArrayList<User> users = new ArrayList<>();
         String query = this.resourcer.getString("user.query.find.all.by.teamid");
@@ -173,6 +122,21 @@ public class UserDAOImpl implements UserDAO {
         try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
             for (Long userId : userIds) {
                 statement.setLong(1, userId);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changeBlockStatus(List<Long> userIds) {
+        List<User> users = findAllByIds(userIds);
+        String query = resourcer.getString("user.query.update.blocked");
+
+        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
+            for (User user : users) {
+                statement.setBoolean(1, !user.getBlocked());
+                statement.setLong(2, user.getId());
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -257,12 +221,53 @@ public class UserDAOImpl implements UserDAO {
             e.printStackTrace();
         }
 
-        for (User user: users) {
-            String roleQuery = resourcer.getString("role.query.find.by.user.id");
-            List<RoleType> roles = new ArrayList<>();
+        suppleWithRoles(users);
 
-            try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(roleQuery)) {
+        return users;
+    }
+
+    public List<User> findAllWithoutAdmins() {
+        List<User> users = findAll();
+
+        suppleWithRoles(users);
+
+        return users.stream()
+                .filter(user -> !user.getRoles().contains(RoleType.ADMIN))
+                .collect(Collectors.toList());
+    }
+
+    private List<User> findAllByIds(List<Long> ids) {
+        String query = this.resourcer.getString("user.query.find.by.id");
+        List<User> users = new ArrayList<>();
+
+        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
+            for (Long id : ids) {
+                statement.setLong(1, id);
+
+                ResultSet resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    User user = UserHelper.getFromResultSet(resultSet);
+
+                    users.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return users;
+    }
+
+    private void suppleWithRoles(List<User> users) {
+        String roleQuery = resourcer.getString("role.query.find.by.user.id");
+
+        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(roleQuery)) {
+            for (User user : users) {
+                List<RoleType> roles = new ArrayList<>();
+
                 statement.setLong(1, user.getId());
+
                 ResultSet resultSet = statement.executeQuery();
 
                 while (resultSet.next()) {
@@ -271,12 +276,10 @@ public class UserDAOImpl implements UserDAO {
                 }
 
                 user.setRoles(roles);
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        return users;
     }
 
     public static UserDAOImpl getInstance() {

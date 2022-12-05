@@ -112,9 +112,6 @@
                     <td class="id hidden">
                             ${u.getId()}
                     </td>
-                    <td class="id hidden">
-                            ${u.getId()}
-                    </td>
                     <td class="name py-4 px-6">
                             ${u.getName()}
                     </td>

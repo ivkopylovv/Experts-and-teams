@@ -17,11 +17,11 @@ public interface UserDAO {
 
     void addRoleToUser(User user, Role role);
 
-    List<User> findAllByBlockStatus(boolean isBlocked);
-
-    List<User> findAllAuthorized();
-
     List<User> findAllByTeamId(long teamId);
+
+    List<User> findAllWithoutAdmins();
+
+    void changeBlockStatus(List<Long> userIds);
 
     void delete(List<Long> userIds);
 

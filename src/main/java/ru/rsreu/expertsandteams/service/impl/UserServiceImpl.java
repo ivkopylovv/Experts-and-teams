@@ -82,6 +82,14 @@ public class UserServiceImpl implements UserService {
         userDAO.delete(userIds);
     }
 
+    public void changeBlockStatus(List<Long> userIds) {
+        userDAO.changeBlockStatus(userIds);
+    }
+
+    public List<User> getAllWithoutAdmins() {
+        return userDAO.findAllWithoutAdmins();
+    }
+
     public User createSession(String username, String password) {
         User user = this.userDAO.findByUsername(username).orElseThrow(CredentialsException::new);
 

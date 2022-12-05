@@ -10,6 +10,7 @@ public class Routes {
     public static final String LOGOUT = "logout";
     public static final String PROFILE = "profile";
     public static final String ADMIN_DASHBOARD = "admindashboard";
+    public static final String MODERATOR_DASHBOARD = "moderatordashboard";
 
     private static final ArrayList<String> routes = new ArrayList<>();
 
@@ -19,6 +20,7 @@ public class Routes {
         routes.add(LOGOUT);
         routes.add(PROFILE);
         routes.add(ADMIN_DASHBOARD);
+        routes.add(MODERATOR_DASHBOARD);
     }
 
     public static List<String> getRoutes() {

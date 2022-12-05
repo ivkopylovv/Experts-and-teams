@@ -62,7 +62,7 @@ public class AdmindashboardCommand extends FrontCommand {
     }
 
     private void deleteUsers() {
-        List<Long> userIds = Arrays.stream(request.getParameterValues(USER_ID_ATTR))
+        List<Long> userIds = Arrays.stream(request.getParameterValues(USER_ID_PARAM))
                 .map(Long::parseLong).collect(Collectors.toList());
 
         userService.deleteUsers(userIds);

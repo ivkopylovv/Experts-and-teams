@@ -24,6 +24,10 @@ public interface UserService {
 
     void deleteUsers(List<Long> userIds);
 
+    List<User> getAllWithoutAdmins();
+
+    void changeBlockStatus(List<Long> userIds);
+
     User createSession(String username, String password);
 
     void deleteSession(User user);
