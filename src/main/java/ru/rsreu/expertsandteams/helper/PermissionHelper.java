@@ -10,11 +10,11 @@ import java.util.Set;
 
 public class PermissionHelper {
     public static boolean isSecurityPage(HttpServletRequest request) {
-        String pathInfo = request.getPathInfo();
+        String pathInfo = request.getPathInfo().substring(1);
         Set<RoleType> allRoles = AuthConfig.getAllRoles();
 
         for (RoleType role : allRoles) {
-            ArrayList<String> roleUrlPatterns = AuthConfig.getRoleUrlPatterns(role);
+            List<String> roleUrlPatterns = AuthConfig.getRoleUrlPatterns(role);
 
             if (roleUrlPatterns != null && roleUrlPatterns.contains(pathInfo)) {
                 return true;
@@ -25,7 +25,7 @@ public class PermissionHelper {
     }
 
     public static boolean hasPermission(HttpServletRequest request, List<RoleType> userRoles) {
-        String pathInfo = request.getPathInfo();
+        String pathInfo = request.getPathInfo().substring(1);
         Set<RoleType> allRoles = AuthConfig.getAllRoles();
 
         for (RoleType role : allRoles) {
@@ -33,7 +33,7 @@ public class PermissionHelper {
                 continue;
             }
 
-            ArrayList<String> roleUrlPatterns = AuthConfig.getRoleUrlPatterns(role);
+            List<String> roleUrlPatterns = AuthConfig.getRoleUrlPatterns(role);
 
             if (roleUrlPatterns != null && roleUrlPatterns.contains(pathInfo)) {
                 return true;

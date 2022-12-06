@@ -22,7 +22,7 @@ public class RoleDAOImpl implements RoleDAO {
     }
 
     public List<Role> findByUserId(Long userId) {
-        ArrayList<Role> roles = new ArrayList<>();
+        List<Role> roles = new ArrayList<>();
         String query = resourcer.getString("role.query.find.by.user.id");
 
         try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {

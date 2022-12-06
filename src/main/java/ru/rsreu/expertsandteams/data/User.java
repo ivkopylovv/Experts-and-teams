@@ -7,7 +7,7 @@ import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
-public class User implements Serializable, Principal {
+public class User implements Principal {
     private Long id;
     private String name;
     private String username;

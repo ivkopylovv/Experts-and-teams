@@ -11,8 +11,9 @@ public class Routes {
     public static final String PROFILE = "profile";
     public static final String ADMIN_DASHBOARD = "admindashboard";
     public static final String MODERATOR_DASHBOARD = "moderatordashboard";
+    public static final String TEAMS = "teams";
 
-    private static final ArrayList<String> routes = new ArrayList<>();
+    private static final List<String> routes = new ArrayList<>();
 
     static {
         routes.add(SIGNIN);
@@ -21,6 +22,7 @@ public class Routes {
         routes.add(PROFILE);
         routes.add(ADMIN_DASHBOARD);
         routes.add(MODERATOR_DASHBOARD);
+        routes.add(TEAMS);
     }
 
     public static List<String> getRoutes() {

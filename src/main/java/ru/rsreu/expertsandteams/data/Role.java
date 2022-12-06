@@ -2,7 +2,7 @@ package ru.rsreu.expertsandteams.data;
 
 import java.io.Serializable;
 
-public class Role implements Serializable {
+public class Role {
     private Long id;
     private String name;
 

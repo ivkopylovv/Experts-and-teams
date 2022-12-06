@@ -64,7 +64,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public List<User> findAll() {
-        ArrayList<User> users = new ArrayList<>();
+        List<User> users = new ArrayList<>();
         String query = this.resourcer.getString("user.query.find.all");
 
         try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
@@ -96,7 +96,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public List<User> findAllByTeamId(long teamId) {
-        ArrayList<User> users = new ArrayList<>();
+        List<User> users = new ArrayList<>();
         String query = this.resourcer.getString("user.query.find.all.by.teamid");
 
         try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {

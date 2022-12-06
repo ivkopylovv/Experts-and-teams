@@ -1,6 +1,6 @@
 package ru.rsreu.expertsandteams.filter;
 
-import ru.rsreu.expertsandteams.constant.FileTypes;
+import ru.rsreu.expertsandteams.constant.ContentType;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -16,11 +16,11 @@ public class ContentTypeFilter implements Filter {
             throws IOException, ServletException {
         String uri = ((HttpServletRequest)request).getRequestURI();
 
-        response.setContentType(FileTypes.DEFAULT_MIME);
+        response.setContentType(ContentType.DEFAULT);
 
-        for (String fileType: FileTypes.getFileTypes()) {
+        for (String fileType: ContentType.getFileTypes()) {
             if (uri.contains(fileType)) {
-                String mimeType = FileTypes.getMimeType(fileType);
+                String mimeType = ContentType.getContentType(fileType);
 
                 response.setContentType(mimeType);
                 break;

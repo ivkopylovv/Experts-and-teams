@@ -1,9 +1,6 @@
 package ru.rsreu.expertsandteams.database.dao;
 
-import ru.rsreu.expertsandteams.database.dao.impl.ExpertSkillDAOImpl;
-import ru.rsreu.expertsandteams.database.dao.impl.RoleDAOImpl;
-import ru.rsreu.expertsandteams.database.dao.impl.SessionDAOImpl;
-import ru.rsreu.expertsandteams.database.dao.impl.UserDAOImpl;
+import ru.rsreu.expertsandteams.database.dao.impl.*;
 
 public class DAOFactory {
     private DAOFactory() {
@@ -23,6 +20,10 @@ public class DAOFactory {
 
     public static ExpertSkillDAO getExpertSkillDAO() {
         return ExpertSkillDAOImpl.getInstance();
+    }
+
+    public static TeamDAO getTeamDAO() {
+        return TeamDAOImpl.getInstance();
     }
 }
 
