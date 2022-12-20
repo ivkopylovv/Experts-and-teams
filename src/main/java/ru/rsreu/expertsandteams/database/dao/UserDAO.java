@@ -1,7 +1,7 @@
 package ru.rsreu.expertsandteams.database.dao;
 
-import ru.rsreu.expertsandteams.data.Role;
-import ru.rsreu.expertsandteams.data.User;
+import ru.rsreu.expertsandteams.model.entity.User;
+import ru.rsreu.expertsandteams.model.enums.Role;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,13 +13,13 @@ public interface UserDAO {
 
     List<User> findAll();
 
-    List<User> findAllWithSession();
+//    List<User> findAllWithSession();
 
-    void addRoleToUser(User user, Role role);
+//    void addRoleToUser(User user, Role role);
 
     List<User> findAllByTeamId(long teamId);
 
-    List<User> findAllWithoutAdmins();
+//    List<User> findAllWithoutAdmins();
 
     void changeBlockStatus(List<Long> userIds);
 

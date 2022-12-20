@@ -2,7 +2,7 @@ package ru.rsreu.expertsandteams.database.dao.impl;
 
 import com.prutzjow.resourcer.ProjectResourcer;
 import com.prutzjow.resourcer.Resourcer;
-import ru.rsreu.expertsandteams.data.Session;
+import ru.rsreu.expertsandteams.model.entity.Session;
 import ru.rsreu.expertsandteams.database.ConnectionPool;
 import ru.rsreu.expertsandteams.database.dao.SessionDAO;
 
@@ -20,34 +20,34 @@ public class SessionDAOImpl implements SessionDAO {
         resourcer = ProjectResourcer.getInstance();
     }
 
-    public Optional<Session> findByUserId(Long userId) {
-        String query = resourcer.getString("session.query.find.by.user.id");
-
-        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
-            statement.setLong(1, userId);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Session session = new Session(
-                        resultSet.getLong("user_id"),
-                        resultSet.getTimestamp("expired_at")
-                );
-
-                return Optional.of(session);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return Optional.empty();
-    }
+//    public Optional<Session> findByUserId(Long userId) {
+//        String query = resourcer.getString("session.query.find.by.user.id");
+//
+//        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
+//            statement.setLong(1, userId);
+//
+//            ResultSet resultSet = statement.executeQuery();
+//
+//            while (resultSet.next()) {
+//                Session session = new Session(
+//                        resultSet.getLong("user_id"),
+//                        resultSet.getTimestamp("expired_at")
+//                );
+//
+//                return Optional.of(session);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return Optional.empty();
+//    }
 
     public void save(Session session) {
         String query = resourcer.getString("session.query.save");
 
         try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
-            statement.setLong(1, session.getUserId());
+            statement.setLong(1, session.getUser().getId());
             statement.setDate(2, new Date(session.getExpiredAt().getTime()));
 
             statement.executeUpdate();

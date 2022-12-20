@@ -1,82 +1,45 @@
-/**
- * Return formData as urlencoded string
- *
- * @param formData {FormData}
- * @returns {string}
- */
-export function getUrlencodedFormData(formData) {
-    const params = new URLSearchParams();
+export function mapFormDataToObject(formData) {
+    const result = {};
 
-    for (const pair of formData.entries()) {
-        const value = pair[1];
-
-        if (typeof value === 'string' && value !== '') {
-            params.append(pair[0], value);
+    for (const [key, value] of formData.entries()) {
+        if (value !== '') {
+            result[key] = value;
         }
     }
 
-    return params.toString();
+    return result;
 }
 
-/**
- * Submit form asynchronously and render the resulting html
- *
- * @param reqBody {FormData | String}
- * @param url {String}
- * @param callback {Function | null}
- */
-export function submitForm(reqBody, url, callback = null) {
-    let redirectUrl = null;
+export function redirect(path) {
+    const url = [
+        window.location.origin,
+        'experts-and-teams',
+        path
+    ].join('/');
 
-    const body = reqBody instanceof FormData
-        ? getUrlencodedFormData(reqBody)
-        : reqBody;
+    window.location.href = url;
+}
 
-    fetch(url, {
-        method: 'post',
-        body,
+export async function makeRequest(url, options, plainText = true) {
+    const requestBody = options.body ?? {};
+    const body = requestBody instanceof FormData
+        ? mapFormDataToObject(requestBody)
+        : requestBody;
+    const method = options.method ?? 'get';
+
+    const response = await fetch(url, {
+        method,
+        body: JSON.stringify(body),
         credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        }
-    }).then(res => {
-        redirectUrl = res.headers.get('X-Target');
-
-        return res.text();
-    }).then(html => {
-        const page = document.querySelector('html');
-
-        const scriptSources = Array.from(document.querySelectorAll('script')).map(script => script.src);
-
-        page.innerHTML = html;
-
-        const newScripts = Array.from(document.querySelectorAll('script'))
-            .filter(script => !scriptSources.includes(script.src));
-
-        parseScriptTags(newScripts);
-
-        window.history.pushState(null, '', redirectUrl ?? 'unknown');
-        window.dispatchEvent(new Event('popstate'));
-
-        if (callback) {
-            callback();
-        }
-    })
-}
-
-function parseScriptTags(newScripts) {
-    newScripts.forEach(oldScriptEl => {
-        const newScriptEl = document.createElement("script");
-
-        Array.from(oldScriptEl.attributes).forEach(attr => {
-            newScriptEl.setAttribute(attr.name, attr.value)
-        });
-
-        const scriptText = document.createTextNode(oldScriptEl.innerHTML);
-        newScriptEl.appendChild(scriptText);
-
-        oldScriptEl.parentNode.replaceChild(newScriptEl, oldScriptEl);
+        headers: {'Content-Type': 'application/json'}
     });
+
+    const status = response.status;
+    const data = plainText
+        ? await response.text()
+        : await response.json();
+
+    return {status, data};
 }
 
 /**

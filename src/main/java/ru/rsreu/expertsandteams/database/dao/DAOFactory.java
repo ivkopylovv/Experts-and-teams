@@ -6,10 +6,6 @@ public class DAOFactory {
     private DAOFactory() {
     }
 
-    public static RoleDAO getRoleDAO() {
-        return RoleDAOImpl.getInstance();
-    }
-
     public static UserDAO getUserDAO() {
         return UserDAOImpl.getInstance();
     }

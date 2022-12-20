@@ -3,15 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
-    <resource-ref>
-        <res-ref-name>jdbc/qusavin</res-ref-name>
-        <res-type>javax.sql.DataSource</res-type>
-        <res-auth>Container</res-auth>
-    </resource-ref>
-
     <filter>
         <filter-name>ContentTypeFilter</filter-name>
-        <filter-class>ru.rsreu.expertsandteams.filter.ContentTypeFilter</filter-class>
+        <filter-class>ru.rsreu.expertsandteams.api.filter.ContentTypeFilter</filter-class>
         <init-param>
             <param-name>requestEncoding</param-name>
             <param-value>UTF-8</param-value>
@@ -23,39 +17,19 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <filter>
-        <filter-name>AuthFilter</filter-name>
-        <filter-class>ru.rsreu.expertsandteams.filter.AuthFilter</filter-class>
-    </filter>
+<!--    <filter>-->
+<!--        <filter-name>AuthFilter</filter-name>-->
+<!--        <filter-class>ru.rsreu.expertsandteams.api.filter.AuthFilter</filter-class>-->
+<!--    </filter>-->
 
-    <filter-mapping>
-        <filter-name>AuthFilter</filter-name>
-        <url-pattern>/experts-and-teams/*</url-pattern>
-    </filter-mapping>
-
-    <filter>
-        <filter-name>AlertFilter</filter-name>
-        <filter-class>ru.rsreu.expertsandteams.filter.AlertFilter</filter-class>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>AlertFilter</filter-name>
-        <url-pattern>/experts-and-teams/*</url-pattern>
-    </filter-mapping>
-
-    <filter>
-        <filter-name>HeaderLinksFilter</filter-name>
-        <filter-class>ru.rsreu.expertsandteams.filter.HeaderLinksFilter</filter-class>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>HeaderLinksFilter</filter-name>
-        <url-pattern>/experts-and-teams/*</url-pattern>
-    </filter-mapping>
+<!--    <filter-mapping>-->
+<!--        <filter-name>AuthFilter</filter-name>-->
+<!--        <url-pattern>/experts-and-teams/*</url-pattern>-->
+<!--    </filter-mapping>-->
 
     <servlet>
         <servlet-name>FrontController</servlet-name>
-        <servlet-class>ru.rsreu.expertsandteams.controller.FrontController</servlet-class>
+        <servlet-class>ru.rsreu.expertsandteams.api.controller.FrontController</servlet-class>
     </servlet>
 
     <servlet-mapping>

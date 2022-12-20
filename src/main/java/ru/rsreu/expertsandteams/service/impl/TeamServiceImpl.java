@@ -1,6 +1,6 @@
 package ru.rsreu.expertsandteams.service.impl;
 
-import ru.rsreu.expertsandteams.data.Team;
+import ru.rsreu.expertsandteams.model.entity.Team;
 import ru.rsreu.expertsandteams.database.dao.DAOFactory;
 import ru.rsreu.expertsandteams.database.dao.TeamDAO;
 import ru.rsreu.expertsandteams.service.TeamService;
@@ -18,7 +18,8 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public List<Team> getAllTeams() {
-        return teamDAO.findAll();
+//        return teamDAO.findAll();
+        return List.of();
     }
 
     public static TeamServiceImpl getInstance() {

@@ -1,6 +1,6 @@
 package ru.rsreu.expertsandteams.service;
 
-import ru.rsreu.expertsandteams.data.Team;
+import ru.rsreu.expertsandteams.model.entity.Team;
 
 import java.util.List;
 

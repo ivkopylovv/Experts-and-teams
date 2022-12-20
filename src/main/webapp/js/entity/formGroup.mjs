@@ -1,8 +1,8 @@
+import {HIDDEN_CLASS} from '../const/global.mjs';
 import {SelectorEngine} from '../dom/selector-engine.mjs';
 
 const FORM_SELECTOR = 'formSelector';
 const LOADER_SELECTOR = 'loaderSelector';
-const HIDDEN = 'hidden';
 
 export function createFormConfig(formSelector, loaderSelector) {
     return {
@@ -20,7 +20,7 @@ export class FormGroup {
      */
     constructor(config = {}, controls, onSubmit, validators = []) {
         this._formElement = SelectorEngine.findOne(config[FORM_SELECTOR]);
-        this._loaderElement = SelectorEngine.findOne(config[LOADER_SELECTOR]);
+        this._loaderElement = SelectorEngine.findOne(config[LOADER_SELECTOR] ?? '.loader');
         this._controls = controls;
         this._onSubmit = onSubmit;
         this._validators = validators;
@@ -46,14 +46,12 @@ export class FormGroup {
     }
 
     _showLoader() {
-        if (this._loaderElement.classList.contains(HIDDEN)) {
-            this._loaderElement.classList.remove(HIDDEN);
-        }
+        this._loaderElement.classList.remove(HIDDEN_CLASS);
     }
 
     _hideLoader() {
-        if (!this._loaderElement.classList.contains(HIDDEN)) {
-            this._loaderElement.classList.add(HIDDEN);
+        if (!this._loaderElement.classList.contains(HIDDEN_CLASS)) {
+            this._loaderElement.classList.add(HIDDEN_CLASS);
         }
     }
 

@@ -1,12 +1,9 @@
 package ru.rsreu.expertsandteams.constant;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class ContentType {
-    private static final Map<String, String> contentTypes = new HashMap<>();
-
     public static final String JS = "text/javascript";
     public static final String MJS = "text/javascript";
     public static final String CSS = "text/css";
@@ -23,14 +20,14 @@ public class ContentType {
     public static final String PNG_EXT = "png";
     public static final String SVG_EXT = "svg";
 
-    static {
-        contentTypes.put(JS_EXT, JS);
-        contentTypes.put(MJS_EXT, MJS);
-        contentTypes.put(CSS_EXT, CSS);
-        contentTypes.put(JPEG_EXT, JPEG);
-        contentTypes.put(PNG_EXT, PNG);
-        contentTypes.put(SVG_EXT, SVG);
-    }
+    private static final Map<String, String> contentTypes = Map.ofEntries(
+            Map.entry(JS_EXT, JS),
+            Map.entry(MJS_EXT, MJS),
+            Map.entry(CSS_EXT, CSS),
+            Map.entry(JPEG_EXT, JPEG),
+            Map.entry(PNG_EXT, PNG),
+            Map.entry(SVG_EXT, SVG)
+    );
 
     public static Set<String> getFileTypes() {
         return contentTypes.keySet();

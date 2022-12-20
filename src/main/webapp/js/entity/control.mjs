@@ -1,7 +1,7 @@
+import {HIDDEN_CLASS} from '../const/global.mjs';
 import {SelectorEngine} from '../dom/selector-engine.mjs';
 
 const ERROR_CONTROL_BORDER = 'border-red-500';
-const HIDDEN = 'hidden';
 
 export const Validators = {
     required: function () {
@@ -43,16 +43,16 @@ export class Control {
     showError() {
         this._element.classList.add(ERROR_CONTROL_BORDER);
 
-        if (this._errorElement && this._errorElement.classList.contains(HIDDEN)) {
-            this._errorElement.classList.remove(HIDDEN);
+        if (this._errorElement && this._errorElement.classList.contains(HIDDEN_CLASS)) {
+            this._errorElement.classList.remove(HIDDEN_CLASS);
         }
     }
 
     offError() {
         this._element.classList.remove(ERROR_CONTROL_BORDER);
 
-        if (this._errorElement && !this._errorElement.classList.contains(HIDDEN)) {
-            this._errorElement.classList?.add(HIDDEN);
+        if (this._errorElement && !this._errorElement.classList.contains(HIDDEN_CLASS)) {
+            this._errorElement.classList?.add(HIDDEN_CLASS);
         }
     }
 

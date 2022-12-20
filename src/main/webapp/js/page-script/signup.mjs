@@ -1,4 +1,5 @@
-import {whenDomReady, submitForm} from '../util.mjs';
+import {ROLE} from '../const/global.mjs';
+import {whenDomReady, makeRequest} from '../util.mjs';
 import {SelectorEngine} from '../dom/selector-engine.mjs';
 import {createFormConfig, FormGroup} from '../entity/formGroup.mjs';
 import {Control, Validators} from '../entity/control.mjs';
@@ -6,28 +7,25 @@ import {handleExpertSkills} from '../shared/skills.mjs';
 import {handleAlerts} from '../shared/alert.mjs';
 
 const SignupControl = {
-    Name: 'name',
-    Username: 'username',
-    Password: 'password',
-    ConfirmPassword: 'confirmPassword'
+    NAME: 'name',
+    USERNAME: 'username',
+    PASSWORD: 'password',
+    CONFIRM_PASSWORD: 'confirmPassword'
 };
 
-const ROLE = 'role';
-
 const Role = {
-    Expert: 'expert',
-    User: 'user'
+    EXPERT: 'expert',
+    USER: 'user'
 };
 
 function handleSignupSubmit() {
     const formData = new FormData(this.getFormElement());
     const thereIsSkill = checkThereIsSkill(formData);
 
-    formData.set(ROLE, thereIsSkill ? Role.Expert : Role.User);
+    formData.set(ROLE, thereIsSkill ? Role.EXPERT : Role.USER);
 
-    submitForm(formData, this.getAction(), () => {
-        handleAlerts();
-        handleSignup();
+    makeRequest(this.getAction(), {body: formData}).then(() => {
+        // TODO:
     });
 }
 
@@ -40,14 +38,14 @@ function passwordValidator() {
 
 function handleSignup() {
     const controls = {
-        [SignupControl.Name]: new Control('#name', [Validators.required]),
-        [SignupControl.Username]: new Control('#username', [Validators.required]),
-        [SignupControl.Password]: new Control('#password', [Validators.required]),
-        [SignupControl.ConfirmPassword]: new Control('#confirmPassword', [Validators.required])
+        [SignupControl.NAME]: new Control('#name', [Validators.required]),
+        [SignupControl.USERNAME]: new Control('#username', [Validators.required]),
+        [SignupControl.PASSWORD]: new Control('#password', [Validators.required]),
+        [SignupControl.CONFIRM_PASSWORD]: new Control('#confirmPassword', [Validators.required])
     };
 
     const formGroup = new FormGroup(
-        createFormConfig('#signup', '.loader'),
+        createFormConfig('#signup'),
         controls,
         handleSignupSubmit,
         [passwordValidator]
@@ -65,10 +63,6 @@ function handleSignup() {
     });
 }
 
-whenDomReady(() => {
-    handleSignup();
-});
-
 function checkThereIsSkill(formData) {
     for (const pair of formData.entries()) {
         const key = pair[0];
@@ -81,3 +75,15 @@ function checkThereIsSkill(formData) {
 
     return false;
 }
+
+const SIGNUP = '#signup';
+
+whenDomReady(() => {
+    const isSignup = !!document.querySelector(SIGNUP);
+
+    if (!isSignup) {
+        return;
+    }
+
+    handleSignup();
+});
