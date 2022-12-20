@@ -108,6 +108,12 @@ UserResponse {
 
 ### POST /admin-dashboard/edit-user
 
+Steps:
+- Check existing of user
+- Edit user fields
+- Query edit user
+- Return edited user
+
 Request:
 ```
 EditUserRequest {
@@ -133,4 +139,78 @@ UserResponse {
 }
 ```
 
+### POST /admin-dashboard/delete-user
 
+Request:
+```
+DeleteUserRequest {
+    userId: long
+}
+```
+
+Response:
+
+Status 200:
+```
+{}
+```
+
+Status 400:
+```
+ErrorResponse {
+    message: string
+}
+```
+
+### GET /admin-dashboard/users
+
+Steps:
+- Return users list except current user
+
+Response:
+
+Status 200:
+```
+UsersResponse {
+    users: Array<UsersResponse>
+}
+```
+
+# Moderator Dashboard
+
+### GET /moderator-dashboard/users
+
+Steps:
+- Return users list except current user
+
+Response:
+
+Status 200:
+```
+UsersResponse {
+    users: Array<UsersResponse>
+}
+```
+
+### POST /moderator-dashboard/block-users
+
+Steps:
+- Toggle block status of users
+
+Request:
+```
+BlockUsersRequest {
+    userIds: Array<Long>
+}
+```
+
+Response:
+
+Status 200:
+```
+{}
+```
+
+# User Dashboard
+
+### GET /user-dashboard/experts
