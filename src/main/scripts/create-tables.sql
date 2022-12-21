@@ -5,7 +5,8 @@ CREATE TABLE users
     name VARCHAR2 (30 CHAR) NOT NULL,
     username VARCHAR2 (30 CHAR) UNIQUE NOT NULL,
     password VARCHAR2 (150 CHAR) NOT NULL,
-    is_blocked NUMBER(1, 0) DEFAULT 0
+    is_blocked NUMBER(1, 0) DEFAULT 0,
+    role VARCHAR2(30 CHAR) NOT NULL
 );
 
 -- Первичный ключ таблицы Пользователи
@@ -16,52 +17,6 @@ ALTER TABLE users
 
 -- Создание последовательности для автогенерации первичного ключа
 CREATE SEQUENCE users_seq START WITH 1;
-
------------------------------------------------
-
--- Создание таблицы Роли
-CREATE TABLE roles
-(
-    id NUMBER,
-    name VARCHAR2(30 CHAR) NOT NULL
-);
-
--- Первичный ключ таблицы Роли
-ALTER TABLE roles
-    ADD (
-    CONSTRAINT roles_pk PRIMARY KEY (id)
-  );
-
--- Создание последовательности для автогенерации первичного ключа
-CREATE SEQUENCE roles_seq START WITH 1;
-
------------------------------------------------------------
-
--- Создание промежуточной таблицы Роли пользователей
-CREATE TABLE users_roles
-(
-    user_id NUMBER,
-    role_id NUMBER
-);
-
--- Первичный ключ промежуточной таблицы Роли пользователей
-ALTER TABLE users_roles
-    ADD (
-    CONSTRAINT users_roles_pk PRIMARY KEY (user_id, role_id)
-  );
-
--- Создание внешнего ключа на таблицу Роли
-ALTER TABLE users_roles
-    ADD CONSTRAINT roles_fk
-        FOREIGN KEY (role_id)
-            REFERENCES roleTypes (id);
-
--- Создание внешнего ключа на таблицу Пользователи
-ALTER TABLE users_roles
-    ADD CONSTRAINT users_fk
-        FOREIGN KEY (user_id)
-            REFERENCES users (id)
-            ON DELETE CASCADE;
 
 -----------------------------------------------------------
 
@@ -119,7 +74,7 @@ CREATE TABLE teams
 (
     id NUMBER,
     name VARCHAR2(40 CHAR) UNIQUE NOT NULL,
-    members_count NUMBER NOT NULL,
+    members_count NUMBER DEFAULT 1,
     captain_id NUMBER NOT NULL
 );
 
@@ -244,22 +199,22 @@ ALTER TABLE teams_members
 ------------------------------------------------
 
 -- Создание промежуточной таблицы Навыки экспертов
-CREATE TABLE expers_skills
+CREATE TABLE experts_skills
 (
     user_id NUMBER,
     skill VARCHAR2(40 CHAR)
 );
 
 -- Первичный ключ промежуточной таблицы Навыки экспертов
-ALTER TABLE expers_skills
+ALTER TABLE experts_skills
     ADD (
-    CONSTRAINT expers_skills_pk PRIMARY KEY (expert_id)
+    CONSTRAINT experts_skills_pk PRIMARY KEY (user_id)
   );
 
 -- Создание внешнего ключа на таблицу Пользователи
-ALTER TABLE expers_skills
-    ADD CONSTRAINT expers_skills_expert_fk
-        FOREIGN KEY (expert_id)
+ALTER TABLE experts_skills
+    ADD CONSTRAINT experts_skills_expert_fk
+        FOREIGN KEY (user_id)
             REFERENCES users (id);
 
 ------------------------------------------------

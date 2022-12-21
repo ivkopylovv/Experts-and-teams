@@ -1,12 +1,21 @@
 package ru.rsreu.expertsandteams.model.entity;
 
+import java.util.List;
+
 public class Team {
     private Long id;
     private String name;
-    private Integer membersCount;
+    private Long membersCount;
     private User captain;
+    private List<User> members;
 
-    public Team(Long id, String name, Integer membersCount, User captain) {
+    public Team(String name, Long membersCount, User captain) {
+        this.name = name;
+        this.membersCount = membersCount;
+        this.captain = captain;
+    }
+
+    public Team(Long id, String name, Long membersCount, User captain) {
         this.id = id;
         this.name = name;
         this.membersCount = membersCount;
@@ -29,11 +38,11 @@ public class Team {
         this.name = name;
     }
 
-    public Integer getMembersCount() {
+    public Long getMembersCount() {
         return membersCount;
     }
 
-    public void setMembersCount(Integer membersCount) {
+    public void setMembersCount(Long membersCount) {
         this.membersCount = membersCount;
     }
 
@@ -43,5 +52,13 @@ public class Team {
 
     public void setCaptain(User captain) {
         this.captain = captain;
+    }
+
+    public List<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<User> members) {
+        this.members = members;
     }
 }

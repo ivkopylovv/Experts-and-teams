@@ -13,19 +13,17 @@ public interface UserDAO {
 
     List<User> findAll();
 
-//    List<User> findAllWithSession();
-
-//    void addRoleToUser(User user, Role role);
-
     List<User> findAllByTeamId(long teamId);
 
-//    List<User> findAllWithoutAdmins();
+    List<User> findAllWithoutAdmins();
 
-    void changeBlockStatus(List<Long> userIds);
+    void changeBlockStatus(User user);
 
-    void delete(List<Long> userIds);
+    void delete(User user);
+
+    void deleteById(Long id);
 
     Optional<User> save(User user);
 
-    Optional<User> update(User user);
+    void update(User user);
 }

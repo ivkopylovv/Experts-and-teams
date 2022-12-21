@@ -9,16 +9,6 @@ INTO :new.id
 FROM dual;
 END;
 
--- Создание триггера для генерации Id при INSERT INTO для таблицы Роли
-CREATE OR REPLACE TRIGGER roles_on_insert
-  BEFORE INSERT ON roleTypes
-  FOR EACH ROW
-BEGIN
-SELECT roles_seq.nextval
-INTO :new.id
-FROM dual;
-END;
-
 -- Создание триггера для генерации Id при INSERT INTO для таблицы Сессии
 CREATE OR REPLACE TRIGGER sessions_on_insert
   BEFORE INSERT ON sessions

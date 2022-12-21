@@ -18,11 +18,7 @@ public class SigninCommand extends FrontCommand {
     private UserService userService;
 
     @Override
-    public void init(
-        ServletContext servletContext,
-        HttpServletRequest servletRequest,
-        HttpServletResponse servletResponse
-    ) {
+    public void init(ServletContext servletContext, HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         super.init(servletContext, servletRequest, servletResponse);
 
         userService = ServiceFactory.getUserService();

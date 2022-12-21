@@ -44,6 +44,6 @@ public class ModeratorDashboardCommand extends FrontCommand {
         List<Long> userIds = Arrays.stream(request.getParameterValues(USER_ID_PARAM))
                 .map(Long::parseLong).collect(Collectors.toList());
 
-        userService.changeBlockStatus(userIds);
+      // userService.changeBlockStatus(userIds);
     }
 }

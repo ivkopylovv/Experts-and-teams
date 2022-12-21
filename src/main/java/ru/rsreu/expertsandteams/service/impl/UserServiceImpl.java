@@ -1,11 +1,19 @@
 package ru.rsreu.expertsandteams.service.impl;
 
-import ru.rsreu.expertsandteams.model.api.request.SignInRequest;
+import ru.rsreu.expertsandteams.model.api.request.*;
+import ru.rsreu.expertsandteams.model.api.response.RoleResponse;
+import ru.rsreu.expertsandteams.model.api.response.UserResponse;
+import ru.rsreu.expertsandteams.model.entity.ExpertSkill;
 import ru.rsreu.expertsandteams.model.entity.Session;
 import ru.rsreu.expertsandteams.model.entity.User;
 import ru.rsreu.expertsandteams.database.dao.*;
+import ru.rsreu.expertsandteams.model.enums.Role;
 import ru.rsreu.expertsandteams.model.error.CredentialsException;
+import ru.rsreu.expertsandteams.model.error.UserAlreadyExistsException;
+import ru.rsreu.expertsandteams.model.error.UserNotFoundException;
 import ru.rsreu.expertsandteams.service.UserService;
+import ru.rsreu.expertsandteams.support.mapper.RoleMapper;
+import ru.rsreu.expertsandteams.support.mapper.UserMapper;
 
 import java.util.Date;
 import java.util.List;
@@ -15,87 +23,100 @@ import static ru.rsreu.expertsandteams.constant.SessionOptions.SESSION_TIME_LIVE
 public class UserServiceImpl implements UserService {
     private static volatile UserServiceImpl instance;
 
-    private UserDAO userDAO;
-    private SessionDAO sessionDAO;
-    private ExpertSkillDAO expertSkillDAO;
+    private final UserDAO userDAO;
+    private final SessionDAO sessionDAO;
+    private final ExpertSkillDAO expertSkillDAO;
 
     private UserServiceImpl(UserDAO userDAO, SessionDAO sessionDAO, ExpertSkillDAO expertSkillDAO) {
         this.userDAO = userDAO;
         this.sessionDAO = sessionDAO;
         this.expertSkillDAO = expertSkillDAO;
     }
-//
-//    public void updateUser(
-//            Long id,
-//            String name,
-//            String username,
-//            String password,
-//            Boolean isBlocked
-//    ) {
-//        User user = new User(
-//                id,
-//                name,
-//                username,
-//                password,
-//                isBlocked
-//        );
-//
-//        userDAO.update(user).orElseThrow(UserEditingException::new);
-//    }
 
-//    public void addUser(
-//            String name,
-//            String username,
-//            String password,
-//            String[] skills,
-//            Role roleType
-//    ) {
-//        User user = new User(
-//                name,
-//                username,
-//                password
-//        );
-//
-//        userDAO.save(user).orElseThrow(UserAlreadyExistsException::new);
-//
-//        if (roleType.equals(EXPERT)) {
-//            user.setSkills(SkillMapper.mapSkills(user.getId(), skills));
-//            expertSkillDAO.saveAll(user);
-//        }
-//
-//        Role role = roleDAO.findByName(roleType.getRole()).orElseThrow(RoleNotFoundException::new);
-//
-//        userDAO.addRoleToUser(user, role);
-//    }
+    @Override
+    public void addUser(AddUserRequest addUserRequest) {
+        if (userDAO.findByUsername(addUserRequest.getUsername()).isPresent())
+            throw new UserAlreadyExistsException();
 
-    public void deleteUsers(List<Long> userIds) {
-        userDAO.delete(userIds);
+        User user = UserMapper.mapToUser(addUserRequest);
+
+        saveUser(user, addUserRequest.getSkills());
     }
 
-    public void changeBlockStatus(List<Long> userIds) {
-        userDAO.changeBlockStatus(userIds);
+    @Override
+    public void signUp(SignUpRequest signUpRequest) {
+        if (userDAO.findByUsername(signUpRequest.getUsername()).isPresent())
+            throw new UserAlreadyExistsException();
+
+        User user = UserMapper.mapToUser(signUpRequest);
+
+        saveUser(user, signUpRequest.getSkills());
     }
 
-    public User createSession(SignInRequest signInRequest) {
-        User user = this.userDAO.findByUsername(signInRequest.getUsername()).orElseThrow(CredentialsException::new);
+    @Override
+    public RoleResponse signIn(SignInRequest signInRequest) {
+        User user = userDAO.findByUsername(signInRequest.getUsername())
+                .orElseThrow(CredentialsException::new);
 
         if (user.getBlocked() || !user.getPassword().equals(signInRequest.getPassword())) {
             throw new CredentialsException();
         }
 
-        Session session = new Session(user, new Date(System.currentTimeMillis() + SESSION_TIME_LIVE));
+        Session session = new Session(new Date(System.currentTimeMillis() + SESSION_TIME_LIVE), user);
         sessionDAO.save(session);
 
-        return user;
+        return RoleMapper.mapToRoleResponse(user.getRole());
+    }
+
+    @Override
+    public void deleteUser(DeleteUserRequest deleteUserRequest) {
+        userDAO.deleteById(deleteUserRequest.getUserId());
+    }
+
+    @Override
+    public void editUser(EditUserRequest editUserRequest) {
+        if (userDAO.findByUsername(editUserRequest.getUsername()).isPresent())
+            throw new UserAlreadyExistsException();
+
+
+        User user = UserMapper.mapToUser(editUserRequest);
+
+        userDAO.update(user);
+    }
+
+    @Override
+    public User findById(Long id) {
+        return userDAO.findById(id)
+                .orElseThrow(UserNotFoundException::new);
+}
+
+    @Override
+    public User findByUsername(String username) {
+        return userDAO.findByUsername(username)
+                .orElseThrow(UserNotFoundException::new);
+    }
+
+    @Override
+    public void changeBlockStatus(BlockUsersRequest blockUsersRequest) {
+        for (Long userId : blockUsersRequest.getUserIds()) {
+            User user = findById(userId);
+            userDAO.changeBlockStatus(user);
+        }
     }
 
     public void deleteSession(User user) {
         sessionDAO.deleteByUserId(user.getId());
     }
 
-    public List<User> getAllUsersWithSession() {
-        return List.of();
-//        return userDAO.findAllWithSession();
+    private void saveUser(User user, String[] skills) {
+        userDAO.save(user);
+
+        if (user.getRole().equals(Role.EXPERT.getName())) {
+            for (String skill : skills) {
+                ExpertSkill expertSkill = new ExpertSkill(user, skill);
+                expertSkillDAO.save(expertSkill);
+            }
+        }
     }
 
     public static UserServiceImpl getInstance() {

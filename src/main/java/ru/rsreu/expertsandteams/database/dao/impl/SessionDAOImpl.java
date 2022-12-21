@@ -7,7 +7,7 @@ import ru.rsreu.expertsandteams.database.ConnectionPool;
 import ru.rsreu.expertsandteams.database.dao.SessionDAO;
 
 import java.sql.Date;
-import java.sql.PreparedStatement;
+import java.sql.Preparedst;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;

@@ -3,12 +3,27 @@ package ru.rsreu.expertsandteams.model.entity;
 import java.util.Date;
 
 public class Session {
+    private Long id;
     private Date expiredAt;
     private User user;
 
-    public Session(User user, Date expiredAt) {
-        this.user = user;
+    public Session(Long id, Date expiredAt, User user) {
+        this.id = id;
         this.expiredAt = expiredAt;
+        this.user = user;
+    }
+
+    public Session(Date expiredAt, User user) {
+        this.expiredAt = expiredAt;
+        this.user = user;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Date getExpiredAt() {

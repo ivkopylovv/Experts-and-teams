@@ -213,4 +213,191 @@ Status 200:
 
 # User Dashboard
 
-### GET /user-dashboard/experts
+### GET /chats
+
+Steps:
+- Find all teams of user
+
+Request:
+```aidl
+void
+```
+
+Response:
+
+Status 200:
+```aidl
+TeamsResponse {
+    teams: List<TeamResponse> {
+        teamId: long,
+        teamName: string,
+        membersCount: long,
+        captainId: long
+}
+```
+
+### DELETE /leave-team
+- if user is captain - delete team
+
+Request:
+```aidl
+teamId
+```
+Response:
+
+void
+
+### POST /create-team
+Request:
+```
+AddTeamRequest {
+    name: string
+}
+```
+
+Response:
+```aidl
+void
+```
+
+### GET /available-teams
+Request:
+```aidl
+void
+```
+
+Response:
+
+Status 200:
+```aidl
+TeamsResponse {
+    teams: List<TeamResponse>
+}
+```
+
+### POST /join-team
+Request:
+```aidl
+TeamJoinRequest {
+    teamId: long,
+    message: string
+```
+
+Response:
+```aidl
+void
+```
+
+### GET /chat
+Request
+```aidl
+    teamId: long
+```
+
+Response:
+```aidl
+TeamResponse {
+    teamName: string,
+    teamMessages: {
+        username: string,
+        expertName: string,
+        message: string,
+        date: Date
+    }
+}
+```
+
+### POST /send-message
+- if message to expert - join expert in team
+
+Request:
+```aidl
+SendMessageRequest {
+    teamId: long,
+    message: string,
+    expertId: long
+```
+
+Response:
+```aidl
+void
+```
+
+### GET /available-experts
+
+- Not blocked and not in this team and current_teams_count != max_teams_count
+
+```aidl
+AvailableExpertsRequest {
+    teamId: long
+}
+```
+
+```aidl
+AvailableExpertsResponse{
+    List<AvailableExpertResponse> : {
+        expertId : long,
+        expertName: name,
+        skills : array<string>
+}
+```
+
+### GET /team-join-requests
+
+ВЕЗДЕ ПРОСТО ИМЯ И СВЕРХУ ТОЖЕ, А НЕ USERNAME
+
+Request:
+Достать юзера из фильтра
+
+Response:
+```aidl
+TeamJoinsRequest {
+    list<TeamJoinRequest> :
+    requestId: long,
+    name of user: long,
+    message: string
+}
+```
+
+### POST /join-request-decision
+Request:
+```aidl
+JoinDesicion {
+    requestId: long,
+    isAccepted: boolean
+```
+
+Response:
+```aidl
+void
+```
+
+### GET /team-experts
+
+Request:
+```aidl
+TeamExpertsRequest {
+    teamId: long
+}
+```
+
+Response:
+```aidl
+TeamExpertsResponse {
+    list<TeamExpertResponse> {
+        expertId: long,
+        expertName: string,
+        isBlocked: boolean
+    }
+ }
+```
+
+
+### POST /block-expert
+
+Request
+expertId
+teamId
+
+Response
+void
