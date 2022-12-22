@@ -5,10 +5,24 @@ import ru.rsreu.expertsandteams.model.api.request.EditUserRequest;
 import ru.rsreu.expertsandteams.model.api.request.SignUpRequest;
 import ru.rsreu.expertsandteams.model.api.response.UserResponse;
 import ru.rsreu.expertsandteams.model.entity.User;
-import ru.rsreu.expertsandteams.model.enums.Role;
+
+import java.util.Date;
 
 public class UserMapper {
     private UserMapper() {
+    }
+
+    public static UserResponse mapToUserResponse(User user, Date expiredAt) {
+        return new UserResponse(
+                user.getId(),
+                user.getName(),
+                user.getUsername(),
+                user.getPassword(),
+                user.getRole(),
+                null,
+                user.isOnline(expiredAt),
+                user.getBlocked()
+        );
     }
 
     public static UserResponse mapToUserResponse(User user) {
@@ -17,7 +31,7 @@ public class UserMapper {
                 user.getName(),
                 user.getUsername(),
                 user.getPassword(),
-                user.getRole().getName(),
+                user.getRole(),
                 null,
                 null,
                 user.getBlocked()
@@ -29,7 +43,7 @@ public class UserMapper {
                 userRequest.getName(),
                 userRequest.getUsername(),
                 userRequest.getPassword(),
-                Role.valueOf(userRequest.getRole().toUpperCase())
+                userRequest.getRole()
         );
     }
 
@@ -38,7 +52,7 @@ public class UserMapper {
                 userRequest.getName(),
                 userRequest.getUsername(),
                 userRequest.getPassword(),
-                Role.valueOf(userRequest.getRole().toUpperCase())
+                userRequest.getRole()
         );
     }
 

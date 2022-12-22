@@ -12,11 +12,14 @@ import ru.rsreu.expertsandteams.model.error.CredentialsException;
 import ru.rsreu.expertsandteams.model.error.UserAlreadyExistsException;
 import ru.rsreu.expertsandteams.model.error.UserNotFoundException;
 import ru.rsreu.expertsandteams.service.UserService;
+import ru.rsreu.expertsandteams.support.mapper.DAOMapper;
 import ru.rsreu.expertsandteams.support.mapper.RoleMapper;
+import ru.rsreu.expertsandteams.support.mapper.SessionMapper;
 import ru.rsreu.expertsandteams.support.mapper.UserMapper;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static ru.rsreu.expertsandteams.constant.SessionOptions.SESSION_TIME_LIVE;
 
@@ -31,20 +34,6 @@ public class UserServiceImpl implements UserService {
         this.userDAO = userDAO;
         this.sessionDAO = sessionDAO;
         this.expertSkillDAO = expertSkillDAO;
-    }
-
-    @Override
-    public void logout(User user) {
-    }
-
-    @Override
-    public List<UserResponse> getModerDashboardUsers() {
-        return List.of();
-    }
-
-    @Override
-    public List<UserResponse> getAdminDashboardUsers() {
-        return List.of();
     }
 
     @Override
@@ -79,7 +68,7 @@ public class UserServiceImpl implements UserService {
         Session session = new Session(new Date(System.currentTimeMillis() + SESSION_TIME_LIVE), user);
         sessionDAO.save(session);
 
-        return RoleMapper.mapToRoleResponse(user.getRole().getName());
+        return RoleMapper.mapToRoleResponse(user.getRole());
     }
 
     @Override
@@ -118,13 +107,31 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public void deleteSession(User user) {
+    @Override
+    public void logout(User user) {
         sessionDAO.deleteByUserId(user.getId());
+    }
+
+    @Override
+    public List<UserResponse> getModerDashboardUsers() {
+        return userDAO.findAllWithoutAdmins()
+                .stream()
+                .map(UserMapper::mapToUserResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserResponse> getAdminDashboardUsers() {
+        return sessionDAO.findAll()
+                .stream()
+                .map(SessionMapper::mapToUserResponse)
+                .collect(Collectors.toList());
     }
 
     private void saveUser(User user, String[] skills) {
         userDAO.save(user);
 
+        // to do add to expert details
         if (user.getRole().equals(Role.EXPERT.getName())) {
             for (String skill : skills) {
                 ExpertSkill expertSkill = new ExpertSkill(user, skill);

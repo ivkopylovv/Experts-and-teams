@@ -14,16 +14,6 @@ import java.sql.SQLException;
 public class ExpertSkillDAOImpl extends AbstractDAO implements ExpertSkillDAO {
     private static volatile ExpertSkillDAOImpl instance;
 
-    public static ExpertSkillDAOImpl getInstance() {
-        synchronized (ExpertSkillDAOImpl.class) {
-            if (instance == null) {
-                instance = new ExpertSkillDAOImpl();
-            }
-        }
-
-        return instance;
-    }
-
     @Override
     public void save(ExpertSkill expertSkill) {
         String query = resourcer.getString("expert.skill.query.save");
@@ -36,5 +26,15 @@ public class ExpertSkillDAOImpl extends AbstractDAO implements ExpertSkillDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static ExpertSkillDAOImpl getInstance() {
+        synchronized (ExpertSkillDAOImpl.class) {
+            if (instance == null) {
+                instance = new ExpertSkillDAOImpl();
+            }
+        }
+
+        return instance;
     }
 }

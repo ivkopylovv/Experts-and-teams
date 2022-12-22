@@ -9,6 +9,21 @@ public class Team {
     private User captain;
     private List<User> members;
 
+    public Team(Long id) {
+        this.id = id;
+    }
+
+    public Team(String name, User captain) {
+        this.name = name;
+        this.captain = captain;
+    }
+
+    public Team(Long id, String name, Long membersCount) {
+        this.id = id;
+        this.name = name;
+        this.membersCount = membersCount;
+    }
+
     public Team(String name, Long membersCount, User captain) {
         this.name = name;
         this.membersCount = membersCount;

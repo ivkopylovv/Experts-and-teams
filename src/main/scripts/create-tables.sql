@@ -73,7 +73,7 @@ ALTER TABLE expert_details
 CREATE TABLE teams
 (
     id NUMBER,
-    name VARCHAR2(40 CHAR) UNIQUE NOT NULL,
+    name VARCHAR2(40 CHAR) NOT NULL,
     members_count NUMBER DEFAULT 1,
     captain_id NUMBER NOT NULL
 );
@@ -96,43 +96,43 @@ ALTER TABLE teams
 
 ------------------------------------------------
 
--- Создание таблицы Чаты команд
-CREATE TABLE team_chats
+-- Создание таблицы Сообщения команд
+CREATE TABLE team_messages
 (
-    message_id NUMBER,
+    id NUMBER,
     team_id NUMBER NOT NULL,
     user_id NUMBER NOT NULL,
     message VARCHAR2(500 CHAR) NOT NULL,
     message_date TIMESTAMP NOT NULL,
-    expert_id NUMBER NOT NULL
+    expert_id NUMBER
 );
 
 -- Первичный ключ таблицы Чаты команд
-ALTER TABLE team_chats
+ALTER TABLE team_messages
     ADD (
-    CONSTRAINT team_chats_pk PRIMARY KEY (message_id)
+    CONSTRAINT team_messages_pk PRIMARY KEY (id)
   );
 
 -- Создание последовательности для автогенерации первичного ключа
-CREATE SEQUENCE team_chats_seq START WITH 1;
+CREATE SEQUENCE team_messages_seq START WITH 1;
 
 -- Создание внешнего ключа на таблицу Команды
-ALTER TABLE team_chats
-    ADD CONSTRAINT team_chats_team_fk
+ALTER TABLE team_messages
+    ADD CONSTRAINT team_messages_team_fk
         FOREIGN KEY (team_id)
             REFERENCES teams (id)
             ON DELETE CASCADE;
 
 -- Создание внешнего ключа на таблицу Пользователи
-ALTER TABLE team_chats
-    ADD CONSTRAINT team_chats_user_fk
+ALTER TABLE team_messages
+    ADD CONSTRAINT team_messages_user_fk
         FOREIGN KEY (user_id)
             REFERENCES users (id)
             ON DELETE CASCADE;
 
 -- Создание внешнего ключа на таблицу Пользователи
-ALTER TABLE team_chats
-    ADD CONSTRAINT team_chats_expert_fk
+ALTER TABLE team_messages
+    ADD CONSTRAINT team_messages_expert_fk
         FOREIGN KEY (expert_id)
             REFERENCES users (id)
             ON DELETE CASCADE;
@@ -218,13 +218,12 @@ ALTER TABLE experts_skills
             REFERENCES users (id);
 
 ------------------------------------------------
-
 -- Создание таблицы Запросы вступления в команду
 CREATE TABLE team_join_requests
 (
     id NUMBER,
     user_id NUMBER NOT NULL,
-    captain_id NUMBER NOT NULL,
+    team_id NUMBER NOT NULL,
     message VARCHAR2(100 CHAR) NOT NULL
 );
 
@@ -246,8 +245,8 @@ ALTER TABLE team_join_requests
 
 -- Создание внешнего ключа на таблицу Пользователи
 ALTER TABLE team_join_requests
-    ADD CONSTRAINT team_join_requests_captain_fk
-        FOREIGN KEY (captain_id)
-            REFERENCES users (id)
+    ADD CONSTRAINT team_join_requests_team_fk
+        FOREIGN KEY (team_id)
+            REFERENCES teams (id)
             ON DELETE CASCADE;
 

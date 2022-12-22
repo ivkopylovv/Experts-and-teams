@@ -1,5 +1,6 @@
 package ru.rsreu.expertsandteams.service;
 
+import ru.rsreu.expertsandteams.service.impl.SessionServiceImpl;
 import ru.rsreu.expertsandteams.service.impl.TeamServiceImpl;
 import ru.rsreu.expertsandteams.service.impl.UserServiceImpl;
 
@@ -13,5 +14,9 @@ public class ServiceFactory {
 
     public static TeamService getTeamService() {
         return TeamServiceImpl.getInstance();
+    }
+
+    public static SessionService getSessionService() {
+        return SessionServiceImpl.getInstance();
     }
 }

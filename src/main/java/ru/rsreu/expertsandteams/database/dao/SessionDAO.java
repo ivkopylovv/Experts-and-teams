@@ -2,6 +2,7 @@ package ru.rsreu.expertsandteams.database.dao;
 
 import ru.rsreu.expertsandteams.model.entity.Session;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface SessionDAO {
@@ -10,4 +11,6 @@ public interface SessionDAO {
     void save(Session session);
 
     void deleteByUserId(Long userId);
+
+    List<Session> findAll();
 }

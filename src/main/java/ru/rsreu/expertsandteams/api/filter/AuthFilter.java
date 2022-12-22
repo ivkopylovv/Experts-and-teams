@@ -36,7 +36,7 @@ public class AuthFilter implements Filter {
             return;
         }
 
-        Optional<Integer> userId = UserHelper.getUserIdFromCookies(request.getCookies());
+        Optional<Long> userId = UserHelper.getUserIdFromCookies(request.getCookies());
         Optional<Session> session = userId.isPresent()
                 ? sessionService.getSession(userId.get())
                 : Optional.empty();

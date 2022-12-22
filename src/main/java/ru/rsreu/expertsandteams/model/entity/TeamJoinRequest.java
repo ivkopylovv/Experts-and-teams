@@ -3,19 +3,25 @@ package ru.rsreu.expertsandteams.model.entity;
 public class TeamJoinRequest {
     private Long id;
     private User user;
-    private User captain;
+    private Team team;
     private String message;
 
-    public TeamJoinRequest(User user, User captain, String message) {
+    public TeamJoinRequest(Long id, User user, String message) {
+        this.id = id;
         this.user = user;
-        this.captain = captain;
         this.message = message;
     }
 
-    public TeamJoinRequest(Long id, User user, User captain, String message) {
+    public TeamJoinRequest(User user, Team team, String message) {
+        this.user = user;
+        this.team = team;
+        this.message = message;
+    }
+
+    public TeamJoinRequest(Long id, User user, Team team, String message) {
         this.id = id;
         this.user = user;
-        this.captain = captain;
+        this.team = team;
         this.message = message;
     }
 
@@ -35,12 +41,12 @@ public class TeamJoinRequest {
         this.user = user;
     }
 
-    public User getCaptain() {
-        return captain;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setCaptain(User captain) {
-        this.captain = captain;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
     public String getMessage() {

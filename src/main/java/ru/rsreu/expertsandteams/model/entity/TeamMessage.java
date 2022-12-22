@@ -2,15 +2,15 @@ package ru.rsreu.expertsandteams.model.entity;
 
 import java.util.Date;
 
-public class TeamChat {
-    private String messageId;
+public class TeamMessage {
+    private Long id;
     private Team team;
     private User user;
     private String message;
     private Date messageDate;
     private User expert;
 
-    public TeamChat(Team team, User user, String message, Date messageDate, User expert) {
+    public TeamMessage(Team team, User user, String message, Date messageDate, User expert) {
         this.team = team;
         this.user = user;
         this.message = message;
@@ -18,8 +18,8 @@ public class TeamChat {
         this.expert = expert;
     }
 
-    public TeamChat(String messageId, Team team, User user, String message, Date messageDate, User expert) {
-        this.messageId = messageId;
+    public TeamMessage(Long id, Team team, User user, String message, Date messageDate, User expert) {
+        this.id = id;
         this.team = team;
         this.user = user;
         this.message = message;
@@ -27,12 +27,12 @@ public class TeamChat {
         this.expert = expert;
     }
 
-    public String getMessageId() {
-        return messageId;
+    public Long getId() {
+        return id;
     }
 
-    public void setMessageId(String messageId) {
-        this.messageId = messageId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Team getTeam() {

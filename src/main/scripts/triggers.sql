@@ -29,13 +29,13 @@ INTO :new.id
 FROM dual;
 END;
 
--- Создание триггера для генерации Id при INSERT INTO для таблицы Чаты команд
-CREATE OR REPLACE TRIGGER team_chats_on_insert
-  BEFORE INSERT ON team_chats
+-- Создание триггера для генерации Id при INSERT INTO для таблицы Сообщения команд
+CREATE OR REPLACE TRIGGER team_messages_on_insert
+  BEFORE INSERT ON team_messages
   FOR EACH ROW
 BEGIN
-SELECT team_chats_seq.nextval
-INTO :new.message_id
+SELECT team_messages_seq.nextval
+INTO :new.id
 FROM dual;
 END;
 

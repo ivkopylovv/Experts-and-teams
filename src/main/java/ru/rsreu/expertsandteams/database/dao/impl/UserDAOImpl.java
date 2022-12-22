@@ -121,7 +121,7 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
             st.setString(1, user.getName());
             st.setString(2, user.getUsername());
             st.setString(3, user.getPassword());
-            st.setString(4, user.getRole().getName());
+            st.setString(4, user.getRole());
 
             int affectedRows = st.executeUpdate();
 
@@ -159,67 +159,6 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
             e.printStackTrace();
         }
     }
-
-//    public List<User> findAllWithSession() {
-//        String query = resourcer.getString("user.query.find.all.with.session");
-//        List<User> users = new ArrayList<>();
-//
-//        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
-//            ResultSet resultSet = statement.executeQuery();
-//
-//            while (resultSet.next()) {
-//                User user = new User(
-//                        resultSet.getLong("id"),
-//                        resultSet.getString("name"),
-//                        resultSet.getString("username"),
-//                        resultSet.getString("password"),
-//                        resultSet.getBoolean("is_blocked"),
-//                        resultSet.getTimestamp("expired_at")
-//                );
-//
-//                users.add(user);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        suppleWithRoles(users);
-//
-//        return users;
-//    }
-
-//    public List<User> findAllWithoutAdmins() {
-//        List<User> users = findAll();
-//
-//        suppleWithRoles(users);
-//
-//        return users.stream()
-//                .filter(user -> !user.getRoles().contains(Role.ADMIN))
-//                .collect(Collectors.toList());
-//    }
-
-//    private void suppleWithRoles(List<User> users) {
-//        String roleQuery = resourcer.getString("role.query.find.by.user.id");
-//
-//        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(roleQuery)) {
-//            for (User user : users) {
-//                List<Role> roles = new ArrayList<>();
-//
-//                statement.setLong(1, user.getId());
-//
-//                ResultSet resultSet = statement.executeQuery();
-//
-//                while (resultSet.next()) {
-//                    Role role = Role.valueOf(resultSet.getString("name").toUpperCase());
-//                    roles.add(role);
-//                }
-//
-//                user.setRoles(roles);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     public List<User> findAllByTeamId(long teamId) {
         List<User> users = new ArrayList<>();
