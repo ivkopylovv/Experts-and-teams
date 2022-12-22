@@ -5,6 +5,7 @@ import ru.rsreu.expertsandteams.model.api.request.EditUserRequest;
 import ru.rsreu.expertsandteams.model.api.request.SignUpRequest;
 import ru.rsreu.expertsandteams.model.api.response.UserResponse;
 import ru.rsreu.expertsandteams.model.entity.User;
+import ru.rsreu.expertsandteams.model.enums.Role;
 
 public class UserMapper {
     private UserMapper() {
@@ -16,7 +17,7 @@ public class UserMapper {
                 user.getName(),
                 user.getUsername(),
                 user.getPassword(),
-                user.getRole(),
+                user.getRole().getName(),
                 null,
                 null,
                 user.getBlocked()
@@ -28,7 +29,7 @@ public class UserMapper {
                 userRequest.getName(),
                 userRequest.getUsername(),
                 userRequest.getPassword(),
-                userRequest.getRole()
+                Role.valueOf(userRequest.getRole().toUpperCase())
         );
     }
 
@@ -37,7 +38,7 @@ public class UserMapper {
                 userRequest.getName(),
                 userRequest.getUsername(),
                 userRequest.getPassword(),
-                userRequest.getRole()
+                Role.valueOf(userRequest.getRole().toUpperCase())
         );
     }
 

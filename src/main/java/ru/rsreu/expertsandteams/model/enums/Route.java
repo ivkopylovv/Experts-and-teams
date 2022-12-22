@@ -2,8 +2,10 @@ package ru.rsreu.expertsandteams.model.enums;
 
 public enum Route {
     ADMIN_DASHBOARD("Dashboard", "/admin-dashboard"),
-    LOGOUT("Logout", "/logout"),
     MODERATOR_DASHBOARD("Dashboard", "/moderator-dashboard"),
+    USER_TEAMS("User Teams", "/user-teams"),
+    USER_TEAM_CHAT("User Teams", "/user-teams/chat"),
+    LOGOUT("Logout", "/logout"),
     SIGNIN("Sign In", "/signin"),
     SIGNUP("Sign Up", "/signup"),
     TEAMS("Teams", "/teams"),

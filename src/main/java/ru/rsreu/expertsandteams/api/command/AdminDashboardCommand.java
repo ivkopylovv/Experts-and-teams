@@ -31,13 +31,13 @@ public class AdminDashboardCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
-        List<User> users = userService.getAllUsersWithSession();
-        User user = (User)request.getUserPrincipal();
-
-        request.setAttribute(USERS, users);
-        request.setAttribute(USER, user);
-
-        forward(Jsp.ADMIN_DASHBOARD);
+//        List<User> users = userService.getAllUsersWithSession();
+//        User user = (User)request.getUserPrincipal();
+//
+//        request.setAttribute(USERS, users);
+//        request.setAttribute(USER, user);
+//
+//        forward(Jsp.ADMIN_DASHBOARD);
     }
 
     @Override
@@ -62,10 +62,10 @@ public class AdminDashboardCommand extends FrontCommand {
     }
 
     private void deleteUsers() {
-        List<Long> userIds = Arrays.stream(request.getParameterValues(USER_ID_PARAM))
-                .map(Long::parseLong).collect(Collectors.toList());
-
-        userService.deleteUsers(userIds);
+//        List<Long> userIds = Arrays.stream(request.getParameterValues(USER_ID_PARAM))
+//                .map(Long::parseLong).collect(Collectors.toList());
+//
+//        userService.deleteUsers(userIds);
     }
 
     private void addUser() {

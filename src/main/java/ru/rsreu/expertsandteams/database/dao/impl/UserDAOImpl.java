@@ -121,7 +121,7 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
             st.setString(1, user.getName());
             st.setString(2, user.getUsername());
             st.setString(3, user.getPassword());
-            st.setString(4, user.getRole());
+            st.setString(4, user.getRole().getName());
 
             int affectedRows = st.executeUpdate();
 

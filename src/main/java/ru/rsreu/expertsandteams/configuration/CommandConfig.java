@@ -10,19 +10,25 @@ import java.util.Map;
 public class CommandConfig {
     private static final Map<Route, FrontCommand> commands = Map.ofEntries(
             Map.entry(Route.ADMIN_DASHBOARD, new AdminDashboardCommand()),
+            Map.entry(Route.MODERATOR_DASHBOARD, new ModeratorDashboardCommand()),
+            Map.entry(Route.USER_TEAMS, new UserTeamsCommand()),
+            Map.entry(Route.USER_TEAM_CHAT, new UserTeamChatCommand()),
+
             Map.entry(Route.SIGNIN, new SigninCommand()),
             Map.entry(Route.LOGOUT, new LogoutCommand()),
-            Map.entry(Route.MODERATOR_DASHBOARD, new ModeratorDashboardCommand()),
+
             Map.entry(Route.NOT_FOUND, new NotFoundCommand())
     );
 
     private static final List<Route> commandRoutes = Arrays.asList(
             Route.ADMIN_DASHBOARD,
+            Route.MODERATOR_DASHBOARD,
+            Route.USER_TEAMS,
+            Route.USER_TEAM_CHAT,
 
             Route.SIGNIN,
             Route.LOGOUT,
 
-            Route.MODERATOR_DASHBOARD,
             Route.NOT_FOUND
     );
 

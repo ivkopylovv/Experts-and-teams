@@ -16,7 +16,7 @@ public class DAOMapper {
                 resultSet.getString("username"),
                 resultSet.getString("password"),
                 resultSet.getBoolean("is_blocked"),
-                resultSet.getString("role")
+                Role.valueOf(resultSet.getString("role").toUpperCase())
         );
     }
 }

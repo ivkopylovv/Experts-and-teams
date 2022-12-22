@@ -34,6 +34,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void logout(User user) {
+    }
+
+    @Override
+    public List<UserResponse> getModerDashboardUsers() {
+        return List.of();
+    }
+
+    @Override
+    public List<UserResponse> getAdminDashboardUsers() {
+        return List.of();
+    }
+
+    @Override
     public void addUser(AddUserRequest addUserRequest) {
         if (userDAO.findByUsername(addUserRequest.getUsername()).isPresent())
             throw new UserAlreadyExistsException();
@@ -65,7 +79,7 @@ public class UserServiceImpl implements UserService {
         Session session = new Session(new Date(System.currentTimeMillis() + SESSION_TIME_LIVE), user);
         sessionDAO.save(session);
 
-        return RoleMapper.mapToRoleResponse(user.getRole());
+        return RoleMapper.mapToRoleResponse(user.getRole().getName());
     }
 
     @Override

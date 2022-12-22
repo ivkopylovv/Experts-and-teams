@@ -7,8 +7,7 @@ import ru.rsreu.expertsandteams.database.ConnectionPool;
 import ru.rsreu.expertsandteams.database.dao.SessionDAO;
 
 import java.sql.Date;
-import java.sql.Preparedst;
-import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -20,37 +19,19 @@ public class SessionDAOImpl implements SessionDAO {
         resourcer = ProjectResourcer.getInstance();
     }
 
-//    public Optional<Session> findByUserId(Long userId) {
-//        String query = resourcer.getString("session.query.find.by.user.id");
-//
-//        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
-//            statement.setLong(1, userId);
-//
-//            ResultSet resultSet = statement.executeQuery();
-//
-//            while (resultSet.next()) {
-//                Session session = new Session(
-//                        resultSet.getLong("user_id"),
-//                        resultSet.getTimestamp("expired_at")
-//                );
-//
-//                return Optional.of(session);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return Optional.empty();
-//    }
+    // TODO: realisation
+    public Optional<Session> findByUserId(Long userId) {
+        return Optional.empty();
+    }
 
     public void save(Session session) {
         String query = resourcer.getString("session.query.save");
 
-        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
-            statement.setLong(1, session.getUser().getId());
-            statement.setDate(2, new Date(session.getExpiredAt().getTime()));
+        try (PreparedStatement st = ConnectionPool.getConnection().prepareStatement(query)) {
+            st.setLong(1, session.getUser().getId());
+            st.setDate(2, new Date(session.getExpiredAt().getTime()));
 
-            statement.executeUpdate();
+            st.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -59,10 +40,10 @@ public class SessionDAOImpl implements SessionDAO {
     public void deleteByUserId(Long userId) {
         String query = resourcer.getString("session.query.delete");
 
-        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
-            statement.setLong(1, userId);
+        try (PreparedStatement st = ConnectionPool.getConnection().prepareStatement(query)) {
+            st.setLong(1, userId);
 
-            statement.executeUpdate();
+            st.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

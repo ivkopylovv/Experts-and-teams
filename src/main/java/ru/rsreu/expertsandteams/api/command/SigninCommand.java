@@ -31,11 +31,11 @@ public class SigninCommand extends FrontCommand {
 
     @Override
     public void send() throws IOException {
-        SignInRequest signInRequest = getBody(SignInRequest.class);
+//        SignInRequest signInRequest = getBody(SignInRequest.class);
 
-        User user = userService.createSession(signInRequest);
-        Cookie userCookie = UserHelper.createCookie(user);
+//        User user = userService.createSession(signInRequest);
+//        Cookie userCookie = UserHelper.createCookie(user);
 
-        response.addCookie(userCookie);
+//        response.addCookie(userCookie);
     }
 }

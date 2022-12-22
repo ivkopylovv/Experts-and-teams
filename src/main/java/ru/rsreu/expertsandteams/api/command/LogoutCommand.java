@@ -21,8 +21,8 @@ public class LogoutCommand extends FrontCommand {
 
     @Override
     public void process() throws IOException {
-        User user = (User)request.getUserPrincipal();
-
-        userService.deleteSession(user);
+//        User user = (User)request.getUserPrincipal();
+//
+//        userService.deleteSession(user);
     }
 }
