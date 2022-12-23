@@ -2,12 +2,12 @@ package ru.rsreu.expertsandteams.model.api.request;
 
 public class SendMessageRequest {
     private Long teamId;
-    private String messageId;
+    private String message;
     private Long expertId;
 
-    public SendMessageRequest(Long teamId, String messageId, Long expertId) {
+    public SendMessageRequest(Long teamId, String message, Long expertId) {
         this.teamId = teamId;
-        this.messageId = messageId;
+        this.message = message;
         this.expertId = expertId;
     }
 
@@ -19,12 +19,12 @@ public class SendMessageRequest {
         this.teamId = teamId;
     }
 
-    public String getMessageId() {
-        return messageId;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMessageId(String messageId) {
-        this.messageId = messageId;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Long getExpertId() {

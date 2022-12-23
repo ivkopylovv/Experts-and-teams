@@ -13,6 +13,11 @@ public class Team {
         this.id = id;
     }
 
+    public Team(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Team(String name, User captain) {
         this.name = name;
         this.captain = captain;
