@@ -5,8 +5,8 @@ import ru.rsreu.expertsandteams.model.entity.Team;
 import ru.rsreu.expertsandteams.database.dao.DAOFactory;
 import ru.rsreu.expertsandteams.database.dao.TeamDAO;
 import ru.rsreu.expertsandteams.model.entity.User;
+import ru.rsreu.expertsandteams.model.error.LeaveTeamNoPermissionException;
 import ru.rsreu.expertsandteams.model.error.TeamNotFoundException;
-import ru.rsreu.expertsandteams.model.error.UserNotFoundException;
 import ru.rsreu.expertsandteams.service.TeamService;
 import ru.rsreu.expertsandteams.support.mapper.TeamMapper;
 
@@ -41,10 +41,15 @@ public class TeamServiceImpl implements TeamService {
     public void leaveTeam(Long teamId, Long userId) {
         Team team = findById(teamId);
 
-        if (Objects.equals(team.getCaptain().getId(), userId)) {
-            teamDAO.deleteById(teamId);
+        if (team.getMembersCount() > 1) {
+            if (Objects.equals(team.getCaptain().getId(), userId)) {
+                teamDAO.deleteById(teamId);
+            } else {
+                throw new LeaveTeamNoPermissionException();
+            }
         } else {
             teamDAO.deleteTeamMember(teamId, userId);
+            teamDAO.decrementTeamMembers(teamId);
         }
     }
 
@@ -53,6 +58,7 @@ public class TeamServiceImpl implements TeamService {
         Team team = teamDAO.save(new Team(teamName, new User(captainId)))
                 .orElseThrow(TeamNotFoundException::new);
         teamDAO.addTeamMember(team.getId(), captainId);
+        teamDAO.incrementTeamMembers(team.getId());
     }
 
     @Override

@@ -165,6 +165,32 @@ public class TeamDAOImpl extends AbstractDAO implements TeamDAO {
         return teams;
     }
 
+    @Override
+    public void incrementTeamMembers(Long id) {
+        String query = resourcer.getString("team.query.increment.members.count");
+
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setLong(1, id);
+
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void decrementTeamMembers(Long id) {
+        String query = resourcer.getString("team.query.decrement.members.count");
+
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setLong(1, id);
+
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static TeamDAOImpl getInstance() {
         synchronized (TeamDAOImpl.class) {
             if (instance == null) {

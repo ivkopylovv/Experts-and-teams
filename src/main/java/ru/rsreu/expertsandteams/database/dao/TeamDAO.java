@@ -21,4 +21,8 @@ public interface TeamDAO {
     void deleteTeamMember(Long teamId, Long userId);
 
     List<Team> findAvailableTeams(Long userId);
+
+    void incrementTeamMembers(Long id);
+
+    void decrementTeamMembers(Long id);
 }
