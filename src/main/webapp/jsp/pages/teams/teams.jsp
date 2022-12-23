@@ -1,10 +1,11 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Title</title>
     <%@include file="/jsp/shared/meta.jsp" %>
 </head>
-<body class="user-dashboard">
+<body id="teams-dashboard">
 <%@include file="/jsp/shared/header.jsp" %>
 
 <div class="container mx-auto pt-14">
@@ -38,28 +39,30 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="table-row bg-white border-b hover:bg-gray-50">
-                    <td class="hidden team-id py-4 px-6 font-semibold">123</td>
-                    <td class="team-name py-4 px-6 font-semibold">Team 1</td>
-                    <td class="team-members-count py-4 px-6">12</td>
-                    <td>
-                        <button type="button"
-                                class="leave-btn text-lg text-blue-600"
-                                data-modal-toggle="confirm-leave-modal"
-                        >
-                            <span class="material-symbols-outlined font-bold">logout</span>
-                        </button>
-                    </td>
-                </tr>
+                <c:forEach items="${teams}" var="team">
+                    <tr class="table-row bg-white border-b hover:bg-gray-50">
+                        <td class="hidden team-id py-4 px-6 font-semibold">${team.getId()}</td>
+                        <td class="team-name py-4 px-6 font-semibold">${team.getName()}</td>
+                        <td class="team-members-count py-4 px-6">${team.getMembersCount()}</td>
+                        <td>
+                            <button type="button"
+                                    class="leave-btn text-lg text-blue-600"
+                                    data-modal-toggle="confirm-leave-modal"
+                            >
+                                <span class="material-symbols-outlined font-bold">logout</span>
+                            </button>
+                        </td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-<%@include file="/jsp/pages/user-teams/confirm-leave-modal.jsp" %>
-<%@include file="/jsp/pages/user-teams/create-team-modal.jsp" %>
-<%@include file="/jsp/pages/user-teams/join-team-modal.jsp" %>
+<%@include file="/jsp/pages/teams/confirm-leave-modal.jsp" %>
+<%@include file="/jsp/pages/teams/create-team-modal.jsp" %>
+<%@include file="/jsp/pages/teams/join-team-modal.jsp" %>
 
 <%@include file="/jsp/shared/scripts.jsp" %>
 </body>

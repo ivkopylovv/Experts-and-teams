@@ -129,8 +129,8 @@
     </div>
 </div>
 
-<%@include file="/jsp/pages/user-team-chat/write-expert-message-modal.jsp" %>
-<%@include file="/jsp/pages/user-team-chat/team-settings-modal.jsp" %>
+<%@include file="/jsp/pages/team-chat/write-expert-message-modal.jsp" %>
+<%@include file="/jsp/pages/team-chat/team-settings-modal.jsp" %>
 
 <%@include file="/jsp/shared/scripts.jsp" %>
 </body>

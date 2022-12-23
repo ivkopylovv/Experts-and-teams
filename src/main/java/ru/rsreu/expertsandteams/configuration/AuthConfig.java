@@ -9,6 +9,7 @@ public class AuthConfig {
     private static final Map<Role, List<Route>> roleRoutes = Map.ofEntries(
             Map.entry(Role.USER, List.of(
                     Route.LOGOUT,
+                    Route.TEAM_CREATE,
                     Route.TEAMS,
                     Route.TEAM_CHAT
             )),

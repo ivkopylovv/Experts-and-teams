@@ -46,10 +46,18 @@ export class FormGroup {
     }
 
     _showLoader() {
+        if (!this._loaderElement) {
+            return;
+        }
+
         this._loaderElement.classList.remove(HIDDEN_CLASS);
     }
 
     _hideLoader() {
+        if (!this._loaderElement) {
+            return;
+        }
+
         if (!this._loaderElement.classList.contains(HIDDEN_CLASS)) {
             this._loaderElement.classList.add(HIDDEN_CLASS);
         }

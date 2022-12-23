@@ -24,11 +24,7 @@
                 <p id="create-team-name-error" class="mt-2 text-sm text-red-600 hidden">Field is empty</p>
             </div>
             <div class="flex items-center justify-center p-6 space-x-2 rounded-b">
-                <button
-                        type="button"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-6 py-3 focus:outline-none"
-                        data-modal-toggle="create-team-modal"
-                >
+                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-6 py-3 focus:outline-none">
                     Create
                 </button>
                 <button

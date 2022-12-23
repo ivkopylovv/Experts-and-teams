@@ -1,8 +1,6 @@
 package ru.rsreu.expertsandteams.api.command;
 
-import ru.rsreu.expertsandteams.model.api.response.TeamResponse;
 import ru.rsreu.expertsandteams.model.entity.User;
-import ru.rsreu.expertsandteams.model.enums.Jsp;
 import ru.rsreu.expertsandteams.service.ServiceFactory;
 import ru.rsreu.expertsandteams.service.TeamService;
 import ru.rsreu.expertsandteams.support.helper.UserHelper;
@@ -12,11 +10,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
-import static ru.rsreu.expertsandteams.constant.RequestAttribute.TEAMS;
+import static ru.rsreu.expertsandteams.constant.RequestParams.TEAM_NAME;
 
-public class TeamsCommand extends FrontCommand {
+public class CreateTeamCommand extends FrontCommand {
     private TeamService teamService;
     private User user;
 
@@ -29,11 +26,9 @@ public class TeamsCommand extends FrontCommand {
     }
 
     @Override
-    public void process() throws ServletException, IOException {
-        List<TeamResponse> teamResponses = teamService.findUserTeams(user.getId());
+    public void send() throws ServletException, IOException {
+        String tableName = request.getParameter(TEAM_NAME);
 
-        request.setAttribute(TEAMS, teamResponses);
-
-        forward(Jsp.TEAMS);
+        teamService.createTeam(tableName, user.getId());
     }
 }

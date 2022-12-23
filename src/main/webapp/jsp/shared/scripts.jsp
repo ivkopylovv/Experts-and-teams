@@ -12,4 +12,4 @@
 <script type="module" src="/js/page-script/moderator-dashboard.mjs"></script>
 <script type="module" src="/js/page-script/signin.mjs"></script>
 <script type="module" src="/js/page-script/signup.mjs"></script>
-<script type="module" src="/js/page-script/user-teams.mjs"></script>
+<script type="module" src="/js/page-script/teams.mjs"></script>

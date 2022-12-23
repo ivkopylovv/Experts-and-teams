@@ -5,6 +5,7 @@ import ru.rsreu.expertsandteams.api.wrapper.UserRoleRequestWrapper;
 import ru.rsreu.expertsandteams.model.enums.Route;
 import ru.rsreu.expertsandteams.service.ServiceFactory;
 import ru.rsreu.expertsandteams.service.SessionService;
+import ru.rsreu.expertsandteams.service.UserService;
 import ru.rsreu.expertsandteams.support.helper.SessionHelper;
 import ru.rsreu.expertsandteams.support.helper.UserHelper;
 
@@ -17,10 +18,12 @@ import java.util.Optional;
 
 public class AuthFilter implements Filter {
     private SessionService sessionService;
+    private UserService userService;
 
     @Override
     public void init(FilterConfig filterConfig) {
         sessionService = ServiceFactory.getSessionService();
+        userService = ServiceFactory.getUserService();
     }
 
     public void doFilter(
@@ -44,6 +47,8 @@ public class AuthFilter implements Filter {
                 : Optional.empty();
 
         if (!session.isPresent() || !SessionHelper.checkValid(session.get())) {
+            session.ifPresent(value -> userService.logout(value.getUser()));
+
             if (path.equals(Route.SIGNIN.getRelative())) {
                 next.doFilter(request, response);
                 return;

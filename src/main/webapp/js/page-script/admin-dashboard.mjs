@@ -100,7 +100,7 @@ function handleAddUserSubmit() {
         name: this.getControl(AddUserControl.NAME).getValue(),
         username: this.getControl(AddUserControl.USERNAME).getValue(),
         password: this.getControl(AddUserControl.PASSWORD).getValue(),
-        role: formElement.querySelector('input[name="role"]:checked'),
+        role: formElement.querySelector('input[name="role"]:checked').value,
         skills
     };
 
@@ -111,7 +111,7 @@ function handleAddUserSubmit() {
 
 function addUser() {
     const controls = {
-        [AddUserControl.Name]: new Control('#add-name', [Validators.required]),
+        [AddUserControl.NAME]: new Control('#add-name', [Validators.required]),
         [AddUserControl.USERNAME]: new Control('#add-username', [Validators.required]),
         [AddUserControl.PASSWORD]: new Control('#add-password', [Validators.required]),
     };
@@ -127,7 +127,7 @@ function addUser() {
     roleContainer.onclick = () => {
         const role = SelectorEngine.findOne('input[name="role"]:checked').value;
 
-        if (role === 'expert') {
+        if (role === 'Expert') {
             skillsContainer.style.display = 'block';
         } else {
             skillsContainer.style.display = 'none';

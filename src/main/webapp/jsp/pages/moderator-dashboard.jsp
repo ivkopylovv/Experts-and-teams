@@ -5,8 +5,9 @@
     <title>Dashboard</title>
     <%@include file="/jsp/shared/meta.jsp" %>
 </head>
-<body>
+<body id="moderator-dashboard">
 <%@include file="/jsp/shared/header.jsp" %>
+
 <div class="body flex flex-col items-center justify-center">
     <div class="w-3/5 mt-8 overflow-x-auto relative drop-shadow-lg sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 mb-2">
@@ -59,5 +60,7 @@
         </div>
     </div>
 </div>
+
+<%@include file="/jsp/shared/scripts.jsp" %>
 </body>
 </html>

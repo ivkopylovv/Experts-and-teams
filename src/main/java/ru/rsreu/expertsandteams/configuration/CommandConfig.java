@@ -16,6 +16,7 @@ public class CommandConfig {
 
             Map.entry(Route.MODERATOR_DASHBOARD, new ModeratorDashboardCommand()),
 
+            Map.entry(Route.TEAM_CREATE, new CreateTeamCommand()),
             Map.entry(Route.TEAMS, new TeamsCommand()),
             Map.entry(Route.TEAM_CHAT, new TeamChatCommand()),
 
@@ -32,6 +33,8 @@ public class CommandConfig {
             Route.ADMIN_DASHBOARD,
 
             Route.MODERATOR_DASHBOARD,
+
+            Route.TEAM_CREATE,
             Route.TEAMS,
             Route.TEAM_CHAT,
 

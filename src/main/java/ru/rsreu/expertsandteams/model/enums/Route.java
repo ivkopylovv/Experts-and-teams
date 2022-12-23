@@ -8,6 +8,7 @@ public enum Route {
 
     MODERATOR_DASHBOARD("Dashboard", "/moderator-dashboard"),
 
+    TEAM_CREATE("Create Team", "/teams/create"),
     TEAMS("Teams", "/teams"),
     TEAM_CHAT("Team Chat", "/teams/chat"),
 

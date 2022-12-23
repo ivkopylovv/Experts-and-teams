@@ -45,7 +45,6 @@ public class TeamServiceImpl implements TeamService {
             teamDAO.deleteById(teamId);
         } else {
             teamDAO.deleteTeamMember(teamId, userId);
-
         }
     }
 

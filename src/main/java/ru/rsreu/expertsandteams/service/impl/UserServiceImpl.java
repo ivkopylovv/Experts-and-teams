@@ -79,9 +79,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void editUser(EditUserRequest editUserRequest) {
-        if (userDAO.findByUsername(editUserRequest.getUsername()).isPresent())
+        if (!userDAO.findByUsername(editUserRequest.getUsername()).isPresent()) {
             throw new UserAlreadyExistsException();
-
+        }
 
         User user = UserMapper.mapToUser(editUserRequest);
 
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
     public User findById(Long id) {
         return userDAO.findById(id)
                 .orElseThrow(UserNotFoundException::new);
-}
+    }
 
     @Override
     public User findByUsername(String username) {

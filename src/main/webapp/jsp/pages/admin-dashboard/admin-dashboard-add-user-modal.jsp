@@ -54,17 +54,17 @@
                         <label class="ml-2 text-sm font-medium text-gray-900">User</label>
                     </div>
                     <div class="flex items-center mr-4">
-                        <input type="radio" value="expert" name="role"
+                        <input type="radio" value="Expert" name="role"
                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300">
                         <label class="ml-2 text-sm font-medium text-gray-900">Expert</label>
                     </div>
                     <div class="flex items-center mr-4">
-                        <input type="radio" value="moderator" name="role"
+                        <input type="radio" value="Moderator" name="role"
                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300">
                         <label class="ml-2 text-sm font-medium text-gray-900">Moderator</label>
                     </div>
                     <div class="flex items-center mr-4">
-                        <input type="radio" value="admin" name="role"
+                        <input type="radio" value="Admin" name="role"
                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300">
                         <label class="ml-2 text-sm font-medium text-gray-900">Administrator</label>
                     </div>

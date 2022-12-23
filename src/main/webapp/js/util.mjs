@@ -25,11 +25,11 @@ export function reload() {
 }
 
 export async function makeRequest(url, options, plainText = true) {
-    const requestBody = options.body ?? {};
-    const body = JSON.stringify(requestBody);
+    const body = options.body ? JSON.stringify(options.body) : undefined;
+    const query = options.query ? `?${new URLSearchParams(options.query).toString()}` : '';
     const method = options.method ?? 'get';
 
-    const response = await fetch(url, {
+    const response = await fetch(url + query, {
         method,
         body,
         credentials: 'same-origin',

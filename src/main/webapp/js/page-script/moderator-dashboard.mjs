@@ -1,10 +1,9 @@
 import {HIDDEN_CLASS} from '../const/global.mjs';
 import {SelectorEngine} from '../dom/selector-engine.mjs';
-import {makeRequest, redirect, whenDomReady} from '../util.mjs';
+import {makeRequest, redirect, reload, whenDomReady} from '../util.mjs';
+import {Route} from "../const/route.mjs";
 
-const ACTION = 'moderator-dashboard';
-
-function handleChanges() {
+function main() {
     const changesAlertElement = SelectorEngine.findOne('#changes-alert');
     const changesCountElement = SelectorEngine.findOne('#changes-count');
     const applyChangesBtnElement = SelectorEngine.findOne('#apply-changes');
@@ -59,16 +58,12 @@ function handleChanges() {
             .filter((rowState, index) =>
                 rowState.isBlocked !== initialState[index].isBlocked
             )
-            .map(rowState => rowState.userId.trim());
+            .map(rowState => +rowState.userId.trim());
 
-        const formData = new FormData();
+        const dto = {userIds};
 
-        userIds.forEach(id => {
-            formData.append('user_id', id);
-        });
-
-        makeRequest(ACTION, {body: formData, method: 'post'}).then(() => {
-            redirect(ACTION);
+        makeRequest(Route.MODERATOR_DASHBOARD, {body: dto, method: 'post'}).then(() => {
+            reload();
         });
     };
 }
@@ -82,5 +77,5 @@ whenDomReady(() => {
         return;
     }
 
-    handleChanges();
+    main();
 });
