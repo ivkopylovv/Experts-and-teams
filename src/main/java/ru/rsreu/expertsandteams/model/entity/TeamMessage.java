@@ -10,6 +10,13 @@ public class TeamMessage {
     private Date messageDate;
     private User expert;
 
+    public TeamMessage(Team team, User user, String message, User expert) {
+        this.team = team;
+        this.user = user;
+        this.message = message;
+        this.expert = expert;
+    }
+
     public TeamMessage(Team team, User user, String message, Date messageDate, User expert) {
         this.team = team;
         this.user = user;

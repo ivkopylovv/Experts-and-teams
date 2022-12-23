@@ -26,7 +26,7 @@ public class DAOFactory {
         return TeamJoinRequestDAOImpl.getInstance();
     }
 
-    public static TeamMessageDAO getTeamChatDAO() {
+    public static TeamMessageDAO getTeamMessageDAO() {
         return TeamMessageDAOImpl.getInstance();
     }
 }

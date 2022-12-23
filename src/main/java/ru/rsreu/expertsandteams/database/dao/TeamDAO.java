@@ -14,6 +14,8 @@ public interface TeamDAO {
 
     void addTeamMember(Long teamId, Long userId);
 
+    void addExpert(Long teamId, Long expertId);
+
     void deleteById(Long id);
 
     void deleteTeamMember(Long teamId, Long userId);

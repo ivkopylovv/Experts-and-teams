@@ -1,9 +1,6 @@
 package ru.rsreu.expertsandteams.support.mapper;
 
-import ru.rsreu.expertsandteams.model.entity.Session;
-import ru.rsreu.expertsandteams.model.entity.Team;
-import ru.rsreu.expertsandteams.model.entity.TeamJoinRequest;
-import ru.rsreu.expertsandteams.model.entity.User;
+import ru.rsreu.expertsandteams.model.entity.*;
 import ru.rsreu.expertsandteams.model.enums.Role;
 
 import java.sql.ResultSet;
@@ -63,6 +60,24 @@ public class DAOMapper {
                 resultSet.getLong("id"),
                 resultSet.getString("name"),
                 resultSet.getLong("members_count")
+        );
+    }
+
+    public static TeamMessage mapToTeamMessage(ResultSet resultSet) throws SQLException {
+        return new TeamMessage(
+                resultSet.getLong("id"),
+                new Team(
+                        resultSet.getLong("team_id"),
+                        resultSet.getString("team_name")
+                ),
+                new User(
+                        resultSet.getString("user_name")
+                ),
+                resultSet.getString("message"),
+                resultSet.getDate("message_date"),
+                new User(
+                        resultSet.getString("expert_name")
+                )
         );
     }
 }

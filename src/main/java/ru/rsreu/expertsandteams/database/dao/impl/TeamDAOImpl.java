@@ -103,6 +103,20 @@ public class TeamDAOImpl extends AbstractDAO implements TeamDAO {
     }
 
     @Override
+    public void addExpert(Long teamId, Long expertId) {
+        String query = resourcer.getString("team.query.add.expert");
+
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setLong(1, teamId);
+            st.setLong(2, expertId);
+
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void deleteById(Long id) {
         String query = resourcer.getString("team.query.delete.by.id");
 
