@@ -39,7 +39,7 @@ public class SessionDAOImpl extends AbstractDAO implements SessionDAO {
     public void save(Session session) {
         String query = resourcer.getString("session.query.save");
 
-        try (PreparedStatement st = ConnectionPool.getConnection().prepareStatement(query)) {
+        try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setLong(1, session.getUser().getId());
             st.setDate(2, new Date(session.getExpiredAt().getTime()));
 
@@ -52,7 +52,7 @@ public class SessionDAOImpl extends AbstractDAO implements SessionDAO {
     public void deleteByUserId(Long userId) {
         String query = resourcer.getString("session.query.delete");
 
-        try (PreparedStatement st = ConnectionPool.getConnection().prepareStatement(query)) {
+        try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setLong(1, userId);
 
             st.executeUpdate();
@@ -62,11 +62,13 @@ public class SessionDAOImpl extends AbstractDAO implements SessionDAO {
     }
 
     @Override
-    public List<Session> findAll() {
+    public List<Session> findAll(Long userId) {
         String query = resourcer.getString("session.query.find.all.with.session");
         List<Session> sessions = new ArrayList<>();
 
         try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setLong(1, userId);
+
             ResultSet resultSet = st.executeQuery();
 
             while (resultSet.next()) {

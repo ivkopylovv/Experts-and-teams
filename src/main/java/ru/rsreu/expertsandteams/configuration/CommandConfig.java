@@ -9,10 +9,15 @@ import java.util.Map;
 
 public class CommandConfig {
     private static final Map<Route, FrontCommand> commands = Map.ofEntries(
+            Map.entry(Route.ADMIN_DASHBOARD_ADD_USER, new AdminDashboardAddUserCommand()),
+            Map.entry(Route.ADMIN_DASHBOARD_DELETE_USER, new AdminDashboardDeleteUserCommand()),
+            Map.entry(Route.ADMIN_DASHBOARD_EDIT_USER, new AdminDashboardEditUserCommand()),
             Map.entry(Route.ADMIN_DASHBOARD, new AdminDashboardCommand()),
+
             Map.entry(Route.MODERATOR_DASHBOARD, new ModeratorDashboardCommand()),
-            Map.entry(Route.USER_TEAMS, new UserTeamsCommand()),
-            Map.entry(Route.USER_TEAM_CHAT, new UserTeamChatCommand()),
+
+            Map.entry(Route.TEAMS, new TeamsCommand()),
+            Map.entry(Route.TEAM_CHAT, new TeamChatCommand()),
 
             Map.entry(Route.SIGNIN, new SigninCommand()),
             Map.entry(Route.LOGOUT, new LogoutCommand()),
@@ -21,10 +26,14 @@ public class CommandConfig {
     );
 
     private static final List<Route> commandRoutes = Arrays.asList(
+            Route.ADMIN_DASHBOARD_ADD_USER,
+            Route.ADMIN_DASHBOARD_DELETE_USER,
+            Route.ADMIN_DASHBOARD_EDIT_USER,
             Route.ADMIN_DASHBOARD,
+
             Route.MODERATOR_DASHBOARD,
-            Route.USER_TEAMS,
-            Route.USER_TEAM_CHAT,
+            Route.TEAMS,
+            Route.TEAM_CHAT,
 
             Route.SIGNIN,
             Route.LOGOUT,

@@ -1,17 +1,10 @@
-import {HIDDEN_CLASS, MODE} from '../const/global.mjs';
-import {makeRequest, redirect, whenDomReady} from '../util.mjs';
+import {Route} from '../const/route.mjs';
+import {HIDDEN_CLASS} from '../const/global.mjs';
+import {makeRequest, reload, whenDomReady} from '../util.mjs';
 import {Control, Validators} from '../entity/control.mjs';
 import {createFormConfig, FormGroup} from '../entity/formGroup.mjs';
 import {handleExpertSkills} from '../shared/skills.mjs';
 import {SelectorEngine} from '../dom/selector-engine.mjs';
-
-const ACTION = 'admin-dashboard';
-
-const FormModes = {
-    ADD_USER: 'add_user',
-    UPDATE_USER: 'update_user',
-    DELETE_USER: 'delete_users'
-};
 
 const EditUserControl = {
     ID: 'id',
@@ -28,12 +21,15 @@ const AddUserControl = {
 };
 
 function handleEditUserSubmit() {
-    const formData = new FormData(this.getFormElement());
+    const dto = {
+        id: this.getControl(EditUserControl.ID).getValue(),
+        name: this.getControl(EditUserControl.NAME).getValue(),
+        username: this.getControl(EditUserControl.USERNAME).getValue(),
+        password: this.getControl(EditUserControl.PASSWORD).getValue()
+    };
 
-    formData.set(MODE, FormModes.UPDATE_USER);
-
-    makeRequest(ACTION, {body: formData, method: 'post'}).then(() => {
-        redirect(ACTION);
+    makeRequest(Route.ADMIN_DASHBOARD_EDIT_USER, {body: dto, method: 'post'}).then(() => {
+        reload();
     });
 }
 
@@ -47,14 +43,12 @@ function editUser() {
     };
 
     const formGroup = new FormGroup(
-        createFormConfig('#editForm'),
+        createFormConfig('#edit-form'),
         controls,
         handleEditUserSubmit
     );
 
     const editUserBtns = SelectorEngine.find('.edit-btn');
-    const closeEditModalBtn = SelectorEngine.findOne('#close-edit-modal');
-    const editUserModal = SelectorEngine.findOne('#editUserModal');
 
     [...editUserBtns].forEach(editUserBtn => {
         editUserBtn.onclick = () => {
@@ -71,126 +65,61 @@ function editUser() {
             formGroup.getControl(EditUserControl.USERNAME).setValue(username);
             formGroup.getControl(EditUserControl.PASSWORD).setValue(password);
             formGroup.getControl(EditUserControl.IS_BLOCKED).setValue(isBlocked);
-
-            if (editUserModal.classList.contains(HIDDEN_CLASS)) {
-                editUserModal.classList.remove(HIDDEN_CLASS);
-            }
         };
-    });
-
-    closeEditModalBtn.onclick = () => {
-        if (!editUserModal.classList.contains(HIDDEN_CLASS)) {
-            editUserModal.classList.add(HIDDEN_CLASS);
-        }
-    };
-}
-
-function handleAddUserSubmit() {
-    const formData = new FormData(this.getFormElement());
-
-    formData.set(MODE, FormModes.ADD_USER);
-
-    makeRequest(ACTION, {body: formData, method: 'post'}).then(() => {
-        redirect(ACTION);
     });
 }
 
 function deleteUsers() {
-    const selectAllCheckboxes = SelectorEngine.findOne('#select-all-checkboxes');
-
-    selectAllCheckboxes.onclick = () => {
-        const deleteUserCheckboxElements = SelectorEngine.find('.delete-user-checkbox');
-
-        [...deleteUserCheckboxElements]
-            .filter(checkbox => !checkbox.disabled)
-            .forEach(checkbox => {
-                checkbox.checked = selectAllCheckboxes.checked;
-            });
-    };
-
-    const deleteUsersBtn = SelectorEngine.findOne('#deleteUsers');
-    const confirmModalElement = SelectorEngine.findOne(
-        deleteUsersBtn.getAttribute('data-modal-toggle')
-    );
-    const closeConfirmDeleteModalBtn = SelectorEngine.findOne('#close-confirm-delete-modal');
+    const deleteUsersBtnElements = SelectorEngine.find('.delete-btn');
     const confirmDeleteBtn = SelectorEngine.findOne('#confirm-delete');
-    const cancelDeleteBtn = SelectorEngine.findOne('#cancel-delete');
 
-    const openConfirmModal = () => {
-        if (confirmModalElement.classList.contains(HIDDEN_CLASS)) {
-            confirmModalElement.classList.remove(HIDDEN_CLASS);
-        }
-    };
-    const closeConfirmModal = () => {
-        if (!confirmModalElement.classList.contains(HIDDEN_CLASS)) {
-            confirmModalElement.classList.add(HIDDEN_CLASS);
-        }
-    };
+    let userId = null;
 
-    closeConfirmDeleteModalBtn.onclick = () => {
-        closeConfirmModal();
-    };
-    cancelDeleteBtn.onclick = () => {
-        closeConfirmModal();
-    };
-    deleteUsersBtn.onclick = () => {
-        openConfirmModal();
-    };
+    [...deleteUsersBtnElements].forEach(deleteUserBtnElement => {
+        deleteUserBtnElement.addEventListener('click', () => {
+            userId = +deleteUserBtnElement.getAttribute('data-user-id').trim();
+        });
+    });
 
     confirmDeleteBtn.onclick = () => {
-        const deleteUserCheckboxElements = SelectorEngine.find('.delete-user-checkbox');
+        const dto = {userId};
 
-        const userIds = [...deleteUserCheckboxElements]
-            .filter(el => el.checked)
-            .map(el => el.getAttribute('data-user-id')?.trim())
-            .filter(userId => !!userId);
-
-        if (userIds.length === 0) {
-            return;
-        }
-
-        const formData = new FormData();
-
-        userIds.forEach(id => {
-            formData.append('user_id', id);
-        });
-
-        formData.set(MODE, FormModes.DELETE_USER);
-
-        closeConfirmModal();
-        makeRequest(ACTION, {body: formData, method: 'post'}).then(() => {
-            redirect(ACTION);
+        makeRequest(Route.ADMIN_DASHBOARD_DELETE_USER, {body: dto, method: 'post'}).then(() => {
+            reload();
         });
     };
 }
 
+function handleAddUserSubmit() {
+    const formElement = this.getFormElement();
+    const skills = [...formElement.querySelectorAll('input[name="skill"]')]
+        .map(input => input.value?.trim() ?? '')
+        .filter(value => !!value);
+
+    const dto = {
+        name: this.getControl(AddUserControl.NAME).getValue(),
+        username: this.getControl(AddUserControl.USERNAME).getValue(),
+        password: this.getControl(AddUserControl.PASSWORD).getValue(),
+        role: formElement.querySelector('input[name="role"]:checked'),
+        skills
+    };
+
+    makeRequest(Route.ADMIN_DASHBOARD_ADD_USER, {body: dto, method: 'post'}).then(() => {
+        reload();
+    });
+}
+
 function addUser() {
     const controls = {
-        [AddUserControl.Name]: new Control('#addName', [Validators.required]),
-        [AddUserControl.Username]: new Control('#addUsername', [Validators.required]),
-        [AddUserControl.Password]: new Control('#addPassword', [Validators.required]),
+        [AddUserControl.Name]: new Control('#add-name', [Validators.required]),
+        [AddUserControl.USERNAME]: new Control('#add-username', [Validators.required]),
+        [AddUserControl.PASSWORD]: new Control('#add-password', [Validators.required]),
     };
     const formGroup = new FormGroup(
-        createFormConfig('#addForm'),
+        createFormConfig('#add-form'),
         controls,
         handleAddUserSubmit
     );
-
-    const addUserBtn = SelectorEngine.findOne('#addUser');
-    const addUserModal = SelectorEngine.findOne("#addUserModal");
-    const closeAddUserModal = SelectorEngine.findOne('#close-add-modal');
-
-    addUserBtn.onclick = () => {
-        if (addUserModal.classList.contains(HIDDEN_CLASS)) {
-            addUserModal.classList.remove(HIDDEN_CLASS);
-        }
-    };
-
-    closeAddUserModal.onclick = () => {
-        if (!addUserModal.classList.contains(HIDDEN_CLASS)) {
-            addUserModal.classList.add(HIDDEN_CLASS);
-        }
-    };
 
     const skillsContainer = handleExpertSkills();
     const roleContainer = SelectorEngine.findOne('#role');
@@ -204,29 +133,6 @@ function addUser() {
             skillsContainer.style.display = 'none';
         }
     };
-}
-
-function handleDropdownActionBtn() {
-    const dropdownActionButtonElement = SelectorEngine.findOne('#actionDropdownBtn');
-    const actionDropdownElement = SelectorEngine.findOne('#actionDropdown');
-
-    dropdownActionButtonElement.onclick = () => {
-        if (actionDropdownElement.classList.contains('hidden')) {
-            actionDropdownElement.classList.remove('hidden');
-        } else {
-            actionDropdownElement.classList.add('hidden');
-        }
-    };
-
-    document.addEventListener('click', ({target}) => {
-        if (dropdownActionButtonElement.isEqualNode(target)) {
-            return;
-        }
-
-        if (!actionDropdownElement.classList.contains('hidden')) {
-            actionDropdownElement.classList.add('hidden');
-        }
-    });
 }
 
 function handleSearch() {
@@ -267,9 +173,6 @@ whenDomReady(() => {
 
     // Add user modal
     addUser();
-
-    // Action button
-    handleDropdownActionBtn();
 
     handleSearch();
 

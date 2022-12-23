@@ -27,7 +27,7 @@ public interface UserService {
 
     void logout(User user);
 
-    List<UserResponse> getModerDashboardUsers();
+    List<UserResponse> getModerDashboardUsers(Long userId);
 
-    List<UserResponse> getAdminDashboardUsers();
+    List<UserResponse> getAdminDashboardUsers(Long userId);
 }

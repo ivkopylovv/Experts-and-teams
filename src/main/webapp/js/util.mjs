@@ -20,16 +20,18 @@ export function redirect(path) {
     window.location.href = url;
 }
 
+export function reload() {
+    window.location.reload();
+}
+
 export async function makeRequest(url, options, plainText = true) {
     const requestBody = options.body ?? {};
-    const body = requestBody instanceof FormData
-        ? mapFormDataToObject(requestBody)
-        : requestBody;
+    const body = JSON.stringify(requestBody);
     const method = options.method ?? 'get';
 
     const response = await fetch(url, {
         method,
-        body: JSON.stringify(body),
+        body,
         credentials: 'same-origin',
         headers: {'Content-Type': 'application/json'}
     });

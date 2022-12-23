@@ -1,6 +1,7 @@
 package ru.rsreu.expertsandteams.support.helper;
 
 import ru.rsreu.expertsandteams.model.entity.User;
+import ru.rsreu.expertsandteams.model.error.UnauthorizedException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +19,12 @@ public class UserHelper {
         return Optional.ofNullable(user);
     }
 
-    public static Cookie createCookie(User user) {
-        Cookie cookie = new Cookie(USER_ID, user.getId().toString());
+    public static User tryGetFromRequest(HttpServletRequest request) {
+        return getFromRequest(request).orElseThrow(UnauthorizedException::new);
+    }
+
+    public static Cookie createCookie(Long userId) {
+        Cookie cookie = new Cookie(USER_ID, userId.toString());
 
         cookie.setMaxAge(COOKIE_MAX_AGE);
 

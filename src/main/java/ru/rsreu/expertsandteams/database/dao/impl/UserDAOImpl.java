@@ -54,11 +54,13 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
         return Optional.empty();
     }
 
-    public List<User> findAll() {
+    public List<User> findAll(Long id) {
         List<User> users = new ArrayList<>();
-        String query = this.resourcer.getString("user.query.find.all");
+        String query = resourcer.getString("user.query.find.all.without.current.user");
 
         try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setLong(1, id);
+
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
@@ -182,11 +184,13 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
     }
 
     @Override
-    public List<User> findAllWithoutAdmins() {
+    public List<User> findAllWithoutAdmins(Long id) {
         List<User> users = new ArrayList<>();
         String query = resourcer.getString("user.query.find.all.without.admin");
 
         try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setLong(1, id);
+
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {

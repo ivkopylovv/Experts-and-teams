@@ -1,6 +1,8 @@
 package ru.rsreu.expertsandteams.api.filter;
 
+import ru.rsreu.expertsandteams.configuration.AuthConfig;
 import ru.rsreu.expertsandteams.model.entity.User;
+import ru.rsreu.expertsandteams.model.enums.Role;
 import ru.rsreu.expertsandteams.model.enums.Route;
 import ru.rsreu.expertsandteams.support.helper.PermissionHelper;
 import ru.rsreu.expertsandteams.support.helper.UserHelper;
@@ -48,6 +50,10 @@ public class PermissionFilter implements Filter {
             return;
         }
 
-        response.sendRedirect(Route.NOT_FOUND.getAbsolute());
+        Route startPage = AuthConfig.getStartPage(
+                Role.valueOf(user.get().getRole().toUpperCase())
+        );
+
+        response.sendRedirect(startPage.getAbsolute());
     }
 }

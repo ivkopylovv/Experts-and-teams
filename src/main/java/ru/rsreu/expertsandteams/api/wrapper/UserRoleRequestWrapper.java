@@ -17,7 +17,7 @@ public class UserRoleRequestWrapper extends HttpServletRequestWrapper {
 
     @Override
     public boolean isUserInRole(String roleAsString) {
-        return user.getRole().getName().equalsIgnoreCase(roleAsString);
+        return user.getRole().equalsIgnoreCase(roleAsString);
     }
 
     @Override

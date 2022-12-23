@@ -11,11 +11,11 @@ public interface UserDAO {
 
     Optional<User> findByUsername(String username);
 
-    List<User> findAll();
+    List<User> findAll(Long id);
 
     List<User> findAllByTeamId(long teamId);
 
-    List<User> findAllWithoutAdmins();
+    List<User> findAllWithoutAdmins(Long id);
 
     void changeBlockStatus(User user);
 

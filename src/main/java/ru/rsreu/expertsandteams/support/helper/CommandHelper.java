@@ -6,7 +6,8 @@ import ru.rsreu.expertsandteams.configuration.CommandConfig;
 import javax.servlet.http.HttpServletRequest;
 
 public class CommandHelper {
-    private CommandHelper() {}
+    private CommandHelper() {
+    }
 
     public static FrontCommand getCommand(HttpServletRequest request) {
         String path = request.getPathInfo();

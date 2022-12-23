@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<script type="module" src="/js/const/route.mjs"></script>
 <script type="module" src="/js/const/global.mjs"></script>
 <script type="module" src="/js/dom/selector-engine.mjs"></script>
 <script type="module" src="/js/entity/formGroup.mjs"></script>

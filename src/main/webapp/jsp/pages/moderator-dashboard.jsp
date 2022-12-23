@@ -24,24 +24,23 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${users}" var="u">
+            <c:forEach items="${users}" var="user">
                 <tr class="table-row bg-white border-b hover:bg-gray-50">
                     <td class="id hidden">
-                            ${u.getId()}
+                            ${user.getId()}
                     </td>
                     <td class="name py-4 px-6">
-                            ${u.getName()}
+                            ${user.getName()}
                     </td>
                     <td class="username py-4 px-6">
-                            ${u.getUsername()}
+                            ${user.getUsername()}
                     </td>
                     <td class="is-blocked py-4 px-6">
                         <div class="flex items-center">
                             <input
                                 type="checkbox"
                                 value=""
-                                ${u.getBlocked() ? "checked" : ""}
-                                ${u.getId() == user.getId() ? "disabled" : ""}
+                                ${user.getBlocked() ? "checked" : ""}
                                 class="block-checkbox w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500"
                             >
                         </div>
@@ -51,7 +50,7 @@
             </tbody>
         </table>
         <div id="changes-alert" class="hidden flex items-center justify-between py-2 px-4 text-base text-yellow-700 bg-yellow-100 rounded-lg">
-            <div>There is <span id="changes-count" class="font-bold">10</span> changes</div>
+            <div>There is <span id="changes-count" class="font-bold">0</span> changes</div>
             <button
                     id="apply-changes"
                     class="px-5 py-2.5 focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm"

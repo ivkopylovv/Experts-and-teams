@@ -12,5 +12,5 @@ public interface SessionDAO {
 
     void deleteByUserId(Long userId);
 
-    List<Session> findAll();
+    List<Session> findAll(Long userId);
 }

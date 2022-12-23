@@ -40,10 +40,21 @@ public class DAOMapper {
         );
     }
 
+    public static User mapToSessionUser(ResultSet resultSet) throws SQLException {
+        return new User(
+                resultSet.getLong("user_id"),
+                resultSet.getString("name"),
+                resultSet.getString("username"),
+                resultSet.getString("password"),
+                resultSet.getBoolean("is_blocked"),
+                resultSet.getString("role")
+        );
+    }
+
     public static Session mapToSession(ResultSet resultSet) throws SQLException {
         return new Session(
                 resultSet.getTimestamp("expired_at"),
-                mapToUser(resultSet)
+                mapToSessionUser(resultSet)
         );
     }
 

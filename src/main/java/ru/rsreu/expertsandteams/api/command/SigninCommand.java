@@ -1,11 +1,12 @@
 package ru.rsreu.expertsandteams.api.command;
 
 import ru.rsreu.expertsandteams.model.api.request.SignInRequest;
-import ru.rsreu.expertsandteams.model.entity.User;
+import ru.rsreu.expertsandteams.model.api.response.RoleResponse;
 import ru.rsreu.expertsandteams.model.enums.Jsp;
 import ru.rsreu.expertsandteams.support.helper.UserHelper;
 import ru.rsreu.expertsandteams.service.ServiceFactory;
 import ru.rsreu.expertsandteams.service.UserService;
+import ru.rsreu.expertsandteams.support.mapper.RoleMapper;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -31,11 +32,13 @@ public class SigninCommand extends FrontCommand {
 
     @Override
     public void send() throws IOException {
-//        SignInRequest signInRequest = getBody(SignInRequest.class);
+        SignInRequest signInRequest = getBody(SignInRequest.class);
 
-//        User user = userService.createSession(signInRequest);
-//        Cookie userCookie = UserHelper.createCookie(user);
+        RoleResponse roleResponse = userService.signIn(signInRequest);
+        Cookie userCookie = UserHelper.createCookie(roleResponse.getUserId());
 
-//        response.addCookie(userCookie);
+        response.addCookie(userCookie);
+
+        json(RoleMapper.mapToRedirectResponse(roleResponse));
     }
 }

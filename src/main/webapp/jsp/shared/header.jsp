@@ -3,7 +3,7 @@
     <div class="container mx-auto xl:max-w-7xl flex items-center justify-between">
         <div class="text-xl font-medium">Experts and Teams</div>
         <nav class="flex items-center space-x-2 text-sm">
-            <a class="router_link font-medium hover:underline" href="/logout">Logout</a>
+            <a class="router_link font-medium hover:underline" href="/experts-and-teams/logout">Logout</a>
         </nav>
     </div>
 </header>

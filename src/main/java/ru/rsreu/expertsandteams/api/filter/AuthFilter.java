@@ -3,6 +3,7 @@ package ru.rsreu.expertsandteams.api.filter;
 import ru.rsreu.expertsandteams.model.entity.Session;
 import ru.rsreu.expertsandteams.api.wrapper.UserRoleRequestWrapper;
 import ru.rsreu.expertsandteams.model.enums.Route;
+import ru.rsreu.expertsandteams.service.ServiceFactory;
 import ru.rsreu.expertsandteams.service.SessionService;
 import ru.rsreu.expertsandteams.support.helper.SessionHelper;
 import ru.rsreu.expertsandteams.support.helper.UserHelper;
@@ -19,6 +20,7 @@ public class AuthFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
+        sessionService = ServiceFactory.getSessionService();
     }
 
     public void doFilter(

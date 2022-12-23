@@ -56,6 +56,7 @@ public class UserServiceImpl implements UserService {
         saveUser(user, signUpRequest.getSkills());
     }
 
+    // TODO: check user block status
     @Override
     public RoleResponse signIn(SignInRequest signInRequest) {
         User user = userDAO.findByUsername(signInRequest.getUsername())
@@ -68,7 +69,7 @@ public class UserServiceImpl implements UserService {
         Session session = new Session(new Date(System.currentTimeMillis() + SESSION_TIME_LIVE), user);
         sessionDAO.save(session);
 
-        return RoleMapper.mapToRoleResponse(user.getRole());
+        return RoleMapper.mapToRoleResponse(user);
     }
 
     @Override
@@ -113,16 +114,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponse> getModerDashboardUsers() {
-        return userDAO.findAllWithoutAdmins()
+    public List<UserResponse> getModerDashboardUsers(Long userId) {
+        return userDAO.findAllWithoutAdmins(userId)
                 .stream()
                 .map(UserMapper::mapToUserResponse)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<UserResponse> getAdminDashboardUsers() {
-        return sessionDAO.findAll()
+    public List<UserResponse> getAdminDashboardUsers(Long userId) {
+        return sessionDAO.findAll(userId)
                 .stream()
                 .map(SessionMapper::mapToUserResponse)
                 .collect(Collectors.toList());

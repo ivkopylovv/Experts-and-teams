@@ -30,11 +30,11 @@ public abstract class Router {
         dispatcher.forward(request, response);
     }
 
-    protected void send(Object object) throws IOException {
-        send(object, HttpServletResponse.SC_OK);
+    protected void json(Object object) throws IOException {
+        json(object, HttpServletResponse.SC_OK);
     }
 
-    protected void send(Object object, int status) throws IOException {
+    protected void json(Object object, int status) throws IOException {
         PrintWriter out = response.getWriter();
         String objectAsString = new Gson().toJson(object);
 

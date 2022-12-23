@@ -1,4 +1,4 @@
-import {whenDomReady, makeRequest} from '../util.mjs';
+import {whenDomReady, makeRequest, redirect} from '../util.mjs';
 import {Control, Validators} from '../entity/control.mjs';
 import {createFormConfig, FormGroup} from '../entity/formGroup.mjs';
 
@@ -6,13 +6,18 @@ const SigninControl = {
     USERNAME: 'username',
     PASSWORD: 'password'
 };
-const ACTION = 'signin';
 
 function handleSigninSubmit() {
-    const formData = new FormData(this.getFormElement());
+    const username = this.getControl(SigninControl.USERNAME).getValue();
+    const password = this.getControl(SigninControl.PASSWORD).getValue();
 
-    makeRequest(ACTION, {body: formData, method: 'post'}).then(() => {
-        // TODO:
+    const dto = {
+        username,
+        password
+    };
+
+    makeRequest('signin', {body:dto, method: 'post'}, false).then(res => {
+        redirect(res.data.url);
     });
 }
 

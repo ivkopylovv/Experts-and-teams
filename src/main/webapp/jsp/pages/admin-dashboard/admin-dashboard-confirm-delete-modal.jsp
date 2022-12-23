@@ -7,7 +7,7 @@
                     id="close-confirm-delete-modal"
                     type="button"
                     class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                    data-modal-toggle="popup-modal">
+                    data-modal-toggle="confirm-delete-modal">
                 <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                      xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
@@ -25,14 +25,14 @@
                 <h3 class="mb-5 text-lg font-normal text-gray-500">Are you sure you want to delete these users?</h3>
                 <button
                         id="confirm-delete"
-                        data-modal-ok="confirm-delete-modal"
+                        data-modal-toggle="confirm-delete-modal"
                         type="button"
                         class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                     Yes, I'm sure
                 </button>
                 <button
                         id="cancel-delete"
-                        data-modal-cancel="confirm-delete-modal"
+                        data-modal-toggle="confirm-delete-modal"
                         type="button"
                         class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">
                     No, cancel
