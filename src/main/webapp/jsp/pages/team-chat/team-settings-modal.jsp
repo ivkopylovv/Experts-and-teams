@@ -56,7 +56,7 @@
                          id="team-experts"
                          role="team-experts"
                          aria-labelledby="team-experts-tab">
-                        <div id="team-experts-container" class="overflow-y-auto max-h-[66%] border border-gray-200 rounded-lg shadow-sm">
+                        <div class="overflow-y-auto max-h-[66%] border border-gray-200 rounded-lg shadow-sm">
                             <%@include file="/jsp/pages/team-chat/team-experts-table.jsp" %>
                         </div>
                     </div>

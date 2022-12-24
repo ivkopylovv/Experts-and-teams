@@ -16,6 +16,51 @@ function main() {
     sendingMessage();
     joinRequests();
     lastMessages();
+    teamExperts();
+}
+
+function teamExperts() {
+    const settingsBtnElement = document.querySelector('#settings-btn');
+    const teamExpertContainerEl = document.querySelector('#team-experts-container');
+
+    const toggleBlock = async (expertId, blockStatus) => {
+        const dto = {expertId, teamId: params.team_id, previousBlockStatus: blockStatus};
+
+        await makeRequest('', {body: dto, method: 'post'});
+    };
+
+    const createTeamExpertElement = ({expertId, expertName, skills, isBlocked}) => {
+        const teamExpertEl = SelectorEngine.importElement('#team-expert-template');
+
+        teamExpertEl.querySelector('.expert-id').innerHTML = expertId;
+        teamExpertEl.querySelector('.expert-name').innerHTML = expertName;
+        teamExpertEl.querySelector('.expert-skill').innerHTML = skills.join('/');
+
+        const blockExpertBtnEl = teamExpertEl.querySelector('.block-expert');
+
+        blockExpertBtnEl.value = isBlocked ? 'Unblock' : 'Block';
+
+        const toggleBtnTitle = () => {
+            return blockExpertBtnEl.value === 'Block' ? 'Unblock' : 'Block';
+        };
+
+        blockExpertBtnEl.addEventListener('click', async () => {
+            toggleBtnTitle();
+
+            await toggleBlock(expertId, isBlocked);
+        });
+
+        teamExpertContainerEl.appendChild(teamExpertEl);
+    };
+
+    settingsBtnElement?.addEventListener('click', async () => {
+        const res = await makeRequest('', {}, false);
+
+        teamExpertContainerEl.innerHTML = '';
+
+        res.data.forEach(dto => createTeamExpertElement(dto));
+    })
+
 }
 
 function sendingMessage() {
