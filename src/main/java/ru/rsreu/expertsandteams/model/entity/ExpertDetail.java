@@ -5,6 +5,10 @@ public class ExpertDetail {
     private Long currentTeamsCount;
     private Long maxTeamsCount;
 
+    public ExpertDetail(User expert) {
+        this.expert = expert;
+    }
+
     public ExpertDetail(User expert, Long currentTeamsCount, Long maxTeamsCount) {
         this.expert = expert;
         this.currentTeamsCount = currentTeamsCount;

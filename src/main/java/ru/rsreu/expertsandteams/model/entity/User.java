@@ -2,6 +2,7 @@ package ru.rsreu.expertsandteams.model.entity;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.List;
 
 public class User implements Principal {
     private Long id;
@@ -10,7 +11,7 @@ public class User implements Principal {
     private String password;
     private Boolean isBlocked;
     private String role;
-    private String[] skills;
+    private List<String> skills;
 
     public User(Long id) {
         this.id = id;
@@ -104,11 +105,11 @@ public class User implements Principal {
         return expiredAt != null && expiredAt.after(new Date(System.currentTimeMillis()));
     }
 
-    public String[] getSkills() {
+    public List<String> getSkills() {
         return skills;
     }
 
-    public void setSkills(String[] skills) {
+    public void setSkills(List<String> skills) {
         this.skills = skills;
     }
 

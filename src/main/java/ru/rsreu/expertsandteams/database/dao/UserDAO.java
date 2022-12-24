@@ -1,5 +1,6 @@
 package ru.rsreu.expertsandteams.database.dao;
 
+import ru.rsreu.expertsandteams.model.entity.ExpertDetail;
 import ru.rsreu.expertsandteams.model.entity.User;
 
 import java.util.List;
@@ -49,11 +50,11 @@ public interface UserDAO {
     void changeBlockStatus(User user);
 
     /**
-     * Saves details of Expert Entity
+     * Saves details of Expert Entity to DB
      *
-     * @param expertId ID of required User Entity
+     * @param expertDetail required ExpertDetail Entity to save
      */
-    void saveExpertDetails(Long expertId);
+    void saveExpertDetails(ExpertDetail expertDetail);
 
     /**
      * Deletes User Entity from DB

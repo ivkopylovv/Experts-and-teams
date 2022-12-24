@@ -1,6 +1,7 @@
 package ru.rsreu.expertsandteams.database.dao.impl;
 
 import ru.rsreu.expertsandteams.database.dao.AbstractDAO;
+import ru.rsreu.expertsandteams.model.entity.ExpertDetail;
 import ru.rsreu.expertsandteams.model.entity.User;
 import ru.rsreu.expertsandteams.database.dao.UserDAO;
 import ru.rsreu.expertsandteams.support.mapper.DAOMapper;
@@ -94,11 +95,11 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
     }
 
     @Override
-    public void saveExpertDetails(Long expertId) {
+    public void saveExpertDetails(ExpertDetail expertDetail) {
         String query = resourcer.getString("expert.detail.query.save");
 
         try (PreparedStatement st = connection.prepareStatement(query)) {
-            st.setLong(1, expertId);
+            st.setLong(1, expertDetail.getExpert().getId());
 
             st.executeUpdate();
         } catch (SQLException e) {
