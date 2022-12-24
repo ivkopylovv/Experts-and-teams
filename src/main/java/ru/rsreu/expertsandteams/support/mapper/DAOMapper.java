@@ -1,13 +1,13 @@
 package ru.rsreu.expertsandteams.support.mapper;
 
 import ru.rsreu.expertsandteams.model.entity.*;
-import ru.rsreu.expertsandteams.model.enums.Role;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DAOMapper {
-    private DAOMapper() {}
+    private DAOMapper() {
+    }
 
     public static TeamJoinRequest mapToFullTeamJoinRequest(ResultSet resultSet) throws SQLException {
         return new TeamJoinRequest(

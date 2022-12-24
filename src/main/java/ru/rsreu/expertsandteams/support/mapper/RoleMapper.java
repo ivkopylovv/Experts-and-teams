@@ -6,11 +6,9 @@ import ru.rsreu.expertsandteams.model.api.response.RoleResponse;
 import ru.rsreu.expertsandteams.model.entity.User;
 import ru.rsreu.expertsandteams.model.enums.Role;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class RoleMapper {
-    private RoleMapper() {}
+    private RoleMapper() {
+    }
 
     public static RoleResponse mapToRoleResponse(User user) {
         return new RoleResponse(

@@ -25,6 +25,11 @@ public class ExpertDetail {
      */
     private Long maxTeamsCount;
 
+    /**
+     * Constructor for class {@link ExpertDetail}
+     *
+     * @param expert {@link ExpertDetail#expert}
+     */
     public ExpertDetail(User expert) {
         this.expert = expert;
     }

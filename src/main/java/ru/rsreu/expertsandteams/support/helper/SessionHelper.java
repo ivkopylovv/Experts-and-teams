@@ -5,7 +5,8 @@ import ru.rsreu.expertsandteams.model.entity.Session;
 import java.util.Date;
 
 public class SessionHelper {
-    private SessionHelper() {}
+    private SessionHelper() {
+    }
 
     public static boolean checkValid(Session session) {
         Date currentDate = new Date();

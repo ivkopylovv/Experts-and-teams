@@ -9,7 +9,6 @@ import ru.rsreu.expertsandteams.model.api.response.UserResponse;
 import ru.rsreu.expertsandteams.model.entity.ExpertSkill;
 import ru.rsreu.expertsandteams.model.entity.User;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,19 +40,6 @@ public class UserMapper {
                 userRequest.getName(),
                 userRequest.getUsername(),
                 userRequest.getPassword()
-        );
-    }
-
-    public static UserResponse mapToUserResponse(User user, Date expiredAt) {
-        return new UserResponse(
-                user.getId(),
-                user.getName(),
-                user.getUsername(),
-                user.getPassword(),
-                user.getRole(),
-                null,
-                user.isOnline(expiredAt),
-                user.isBlocked()
         );
     }
 

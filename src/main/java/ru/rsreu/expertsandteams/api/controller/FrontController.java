@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * Class that combines all request processing.
  * This pattern contains the general logic of behavior
- * and after processing the request  accesses a specific object
+ * and after processing the request accesses a specific object
  * to work out a specific behavior.
  *
  * @author Ivan Kopylov

@@ -9,4 +9,5 @@ public class ErrorMessages {
 
     public static String EDIT_USER_ERROR = "Failed to edit user. Please try again later";
     public static String USER_ALREADY_EXIST_ERROR = "User with this username already exist";
+    public static String DATES_NOT_VALID = "The dates must not be null";
 }

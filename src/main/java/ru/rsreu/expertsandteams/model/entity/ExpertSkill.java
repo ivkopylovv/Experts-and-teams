@@ -21,10 +21,21 @@ public class ExpertSkill {
      */
     private String skill;
 
+    /**
+     * Constructor for class {@link ExpertSkill}
+     *
+     * @param skill {@link ExpertSkill#skill}
+     */
     public ExpertSkill(String skill) {
         this.skill = skill;
     }
 
+    /**
+     * Constructor for class {@link ExpertSkill}
+     *
+     * @param expert {@link ExpertSkill#expert}
+     * @param skill {@link ExpertSkill#skill}
+     */
     public ExpertSkill(User expert, String skill) {
         this.expert = expert;
         this.skill = skill;
