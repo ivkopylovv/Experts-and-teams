@@ -37,9 +37,12 @@ export async function makeRequest(url, options, plainText = true) {
     });
 
     const status = response.status;
-    const data = plainText
-        ? await response.text()
-        : await response.json();
+    let data = {};
+
+    try {
+        data = plainText ? await response.text() : await response.json();
+    } catch (e) {
+    }
 
     return {status, data};
 }
@@ -55,4 +58,20 @@ export function whenDomReady(callback) {
     } else {
         callback();
     }
+}
+
+export function sendNotification(title, message) {
+    const errorAlertElement = document.querySelector('#error-alert');
+
+    if (!errorAlertElement) {
+        throw new Error('Connect alerts');
+    }
+
+    const titleElement = errorAlertElement.querySelector('#error-alert-title');
+    const messageElement = errorAlertElement.querySelector('#error-alert-message');
+
+    titleElement.innerHTML = title;
+    messageElement.innerHTML = message;
+
+    errorAlertElement.classList.remove('opacity-0', 'hidden');
 }

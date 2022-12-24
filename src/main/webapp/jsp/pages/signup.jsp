@@ -58,6 +58,7 @@
             </button>
         </form>
     </div>
+
     <%@include file="/jsp/shared/alert.jsp" %>
 </body>
 

@@ -56,6 +56,11 @@ export class Control {
         }
     }
 
+    clear() {
+        this.setValue('');
+        this.offError();
+    }
+
     destroy() {
         this.getElement().removeEventListener('input', this._offErrorFn)
     }

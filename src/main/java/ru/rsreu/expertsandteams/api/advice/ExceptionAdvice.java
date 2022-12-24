@@ -7,6 +7,7 @@ import ru.rsreu.expertsandteams.model.enums.Route;
 import ru.rsreu.expertsandteams.model.error.*;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static ru.rsreu.expertsandteams.constant.ErrorMessages.*;
@@ -43,6 +44,15 @@ public class ExceptionAdvice extends Router {
 
         if (exception instanceof UnauthorizedException) {
             response.sendRedirect(Route.SIGNIN.getAbsolute());
+
+            return;
+        }
+
+        if (exception instanceof LeaveTeamNoPermissionException) {
+            json(
+                new ErrorResponse(LEAVE_TEAM_NO_PERMISSION_ERROR),
+                HttpServletResponse.SC_BAD_REQUEST
+            );
 
             return;
         }

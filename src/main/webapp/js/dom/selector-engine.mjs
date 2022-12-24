@@ -23,8 +23,7 @@ export const SelectorEngine = {
     // There is one restriction, that first child element in template must be div
     importElement(selector) {
         const templateElement = document.querySelector(selector);
-        const innerElement = templateElement.content.querySelector('div');
 
-        return document.importNode(innerElement, true);
+        return templateElement.content.cloneNode(true);
     }
 }

@@ -6,6 +6,9 @@ export const Route = {
 
     MODERATOR_DASHBOARD: 'moderator-dashboard',
 
+    TEAMS_JOIN_REQUEST: 'teams/join-request',
+    TEAMS_AVAILABLE: 'teams/available',
+    TEAM_LEAVE: 'teams/leave',
     TEAM_CREATE: 'teams/create',
     TEAMS: 'teams',
     TEAM_CHAT: 'teams/chat',

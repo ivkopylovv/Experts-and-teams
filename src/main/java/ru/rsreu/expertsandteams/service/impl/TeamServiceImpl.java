@@ -41,12 +41,12 @@ public class TeamServiceImpl implements TeamService {
     public void leaveTeam(Long teamId, Long userId) {
         Team team = findById(teamId);
 
-        if (team.getMembersCount() > 1) {
-            if (Objects.equals(team.getCaptain().getId(), userId)) {
-                teamDAO.deleteById(teamId);
-            } else {
+        if (Objects.equals(team.getCaptain().getId(), userId)) {
+            if (team.getMembersCount() > 1) {
                 throw new LeaveTeamNoPermissionException();
             }
+
+            teamDAO.deleteById(teamId);
         } else {
             teamDAO.deleteTeamMember(teamId, userId);
             teamDAO.decrementTeamMembers(teamId);
@@ -58,7 +58,6 @@ public class TeamServiceImpl implements TeamService {
         Team team = teamDAO.save(new Team(teamName, new User(captainId)))
                 .orElseThrow(TeamNotFoundException::new);
         teamDAO.addTeamMember(team.getId(), captainId);
-        teamDAO.incrementTeamMembers(team.getId());
     }
 
     @Override

@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div id="join-team-modal" tabindex="-1" aria-hidden="true"
+<div id="team-settings-modal" tabindex="-1" aria-hidden="true"
      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center p-6 w-full md:inset-0 h-modal md:h-full">
     <div class="relative w-full max-w-2xl h-4/6">
         <div class="relative bg-white rounded-lg shadow h-full">
@@ -10,7 +10,7 @@
                 <button
                         type="button"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                        data-modal-toggle="join-team-modal">
+                        data-modal-toggle="team-settings-modal">
                     <%@include file="/jsp/icons/close.jsp" %>
                 </button>
             </div>

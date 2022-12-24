@@ -19,6 +19,7 @@
                 Create team
             </button>
             <button
+                    id="join-team-btn"
                     type="button"
                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-1.5 focus:outline-none"
                     data-modal-toggle="join-team-modal">
@@ -41,12 +42,12 @@
                 <tbody>
                 <c:forEach items="${teams}" var="team">
                     <tr class="table-row bg-white border-b hover:bg-gray-50">
-                        <td class="hidden team-id py-4 px-6 font-semibold">${team.getId()}</td>
                         <td class="team-name py-4 px-6 font-semibold">${team.getName()}</td>
                         <td class="team-members-count py-4 px-6">${team.getMembersCount()}</td>
                         <td>
                             <button type="button"
                                     class="leave-btn text-lg text-blue-600"
+                                    data-team-id="${team.getId()}"
                                     data-modal-toggle="confirm-leave-modal"
                             >
                                 <span class="material-symbols-outlined font-bold">logout</span>
@@ -63,6 +64,8 @@
 <%@include file="/jsp/pages/teams/confirm-leave-modal.jsp" %>
 <%@include file="/jsp/pages/teams/create-team-modal.jsp" %>
 <%@include file="/jsp/pages/teams/join-team-modal.jsp" %>
+<%@include file="/jsp/shared/alert.jsp" %>
+<%@include file="/jsp/templates/available-team.jsp" %>
 
 <%@include file="/jsp/shared/scripts.jsp" %>
 </body>

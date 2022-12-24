@@ -18,7 +18,7 @@
             </button>
             <button type="button"
                     class="join-btn text-lg text-blue-600"
-                    data-modal-toggle="join-team-modal">
+                    data-modal-toggle="">
                 <span class="material-symbols-outlined font-bold">settings</span>
             </button>
         </div>
