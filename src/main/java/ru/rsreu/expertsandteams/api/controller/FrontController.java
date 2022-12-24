@@ -10,7 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Class that combines all request processing.
+ * This pattern contains the general logic of behavior
+ * and after processing the request  accesses a specific object
+ * to work out a specific behavior.
+ *
+ * @author Ivan Kopylov
+ * @author Mikhail Proskuryakov
+ * @version 1.0
+ */
 public class FrontController extends HttpServlet {
+
     /**
      * @param req provide request information for HTTP servlets
      * @param res provide response information for HTTP servlets

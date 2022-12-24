@@ -1,11 +1,7 @@
 package ru.rsreu.expertsandteams.database.dao.impl;
 
-import com.prutzjow.resourcer.ProjectResourcer;
-import com.prutzjow.resourcer.Resourcer;
 import ru.rsreu.expertsandteams.database.dao.AbstractDAO;
 import ru.rsreu.expertsandteams.model.entity.ExpertSkill;
-import ru.rsreu.expertsandteams.model.entity.User;
-import ru.rsreu.expertsandteams.database.ConnectionPool;
 import ru.rsreu.expertsandteams.database.dao.ExpertSkillDAO;
 import ru.rsreu.expertsandteams.support.mapper.DAOMapper;
 
@@ -23,7 +19,7 @@ public class ExpertSkillDAOImpl extends AbstractDAO implements ExpertSkillDAO {
         String query = resourcer.getString("expert.skill.query.save");
 
         try (PreparedStatement st = connection.prepareStatement(query)) {
-            st.setLong(1, expertSkill.getUser().getId());
+            st.setLong(1, expertSkill.getExpert().getId());
             st.setString(2, expertSkill.getSkill());
 
             st.executeUpdate();

@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
         User user = userDAO.findByUsername(signInRequest.getUsername())
                 .orElseThrow(CredentialsException::new);
 
-        if (user.getBlocked() || !user.getPassword().equals(signInRequest.getPassword())) {
+        if (user.isBlocked() || !user.getPassword().equals(signInRequest.getPassword())) {
             throw new CredentialsException();
         }
 

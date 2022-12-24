@@ -53,7 +53,7 @@ public class UserMapper {
                 user.getRole(),
                 null,
                 user.isOnline(expiredAt),
-                user.getBlocked()
+                user.isBlocked()
         );
     }
 
@@ -66,7 +66,7 @@ public class UserMapper {
                 user.getRole(),
                 null,
                 null,
-                user.getBlocked()
+                user.isBlocked()
         );
     }
 
@@ -74,7 +74,7 @@ public class UserMapper {
         return new AvailableExpertResponse(
                 user.getId(),
                 user.getName(),
-                user.getBlocked(),
+                user.isBlocked(),
                 expertSkills
                         .stream()
                         .map(ExpertSkill::getSkill)
@@ -86,7 +86,7 @@ public class UserMapper {
         return new TeamExpertsResponse(
                 user.getId(),
                 user.getName(),
-                user.getBlocked(),
+                user.isBlocked(),
                 expertSkills
                         .stream()
                         .map(ExpertSkill::getSkill)

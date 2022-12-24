@@ -85,7 +85,7 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
         String query = resourcer.getString("user.query.update.blocked");
 
         try (PreparedStatement st = connection.prepareStatement(query)) {
-            st.setBoolean(1, !user.getBlocked());
+            st.setBoolean(1, !user.isBlocked());
             st.setLong(2, user.getId());
 
             st.executeUpdate();
