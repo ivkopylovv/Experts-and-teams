@@ -29,5 +29,9 @@ public class DAOFactory {
     public static TeamMessageDAO getTeamMessageDAO() {
         return TeamMessageDAOImpl.getInstance();
     }
+
+    public static LastMessageRequestDAO getLastMessageRequestDAO() {
+        return LastMessageRequestDAOImpl.getInstance();
+    }
 }
 

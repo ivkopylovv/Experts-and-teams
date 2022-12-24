@@ -87,4 +87,14 @@ public class DAOMapper {
                 resultSet.getString("skill")
         );
     }
+
+    public static LastMessageRequest mapToLastMessageRequest(ResultSet resultSet) throws SQLException {
+        return new LastMessageRequest(
+                new Team(
+                        resultSet.getLong("team_id")
+                ),
+                new User(resultSet.getLong("user_id")),
+                resultSet.getDate("request_date")
+        );
+    }
 }

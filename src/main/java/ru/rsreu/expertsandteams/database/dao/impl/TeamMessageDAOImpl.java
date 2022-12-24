@@ -55,6 +55,28 @@ public class TeamMessageDAOImpl extends AbstractDAO implements TeamMessageDAO {
         }
     }
 
+    @Override
+    public List<TeamMessage> findActualMessagesByTeamIdAndUserId(Long teamId, Long userId) {
+        String query = resourcer.getString("team.message.query.find.actual.by.team.id.user.id");
+        List<TeamMessage> teamMessages = new ArrayList<>();
+
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setLong(1, teamId);
+            st.setLong(2, teamId);
+            st.setLong(3, userId);
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                teamMessages.add(DAOMapper.mapToTeamMessage(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return teamMessages;
+    }
+
     public static TeamMessageDAOImpl getInstance() {
         synchronized (TeamMessageDAOImpl.class) {
             if (instance == null) {

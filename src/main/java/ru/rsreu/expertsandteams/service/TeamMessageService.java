@@ -7,5 +7,7 @@ import ru.rsreu.expertsandteams.model.api.response.ChatResponse;
 public interface TeamMessageService {
     void sendMessage(SendMessageRequest request, Long userId);
 
-    ChatResponse getChatHistory(GetChatRequest request);
+    ChatResponse getChatHistory(GetChatRequest request, Long userId);
+
+    ChatResponse getChatHistoryActualPart(GetChatRequest request, Long userId);
 }
