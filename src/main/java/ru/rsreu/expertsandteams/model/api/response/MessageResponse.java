@@ -1,15 +1,13 @@
 package ru.rsreu.expertsandteams.model.api.response;
 
-import java.util.Date;
-
 public class MessageResponse {
     private Long userId;
     private String userName;
     private String expertName;
     private String message;
-    private Date date;
+    private String date;
 
-    public MessageResponse(Long userId, String userName, String expertName, String message, Date date) {
+    public MessageResponse(Long userId, String userName, String expertName, String message, String date) {
         this.userId = userId;
         this.userName = userName;
         this.expertName = expertName;
@@ -49,11 +47,11 @@ public class MessageResponse {
         this.message = message;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }

@@ -8,10 +8,12 @@ public enum Route {
 
     MODERATOR_DASHBOARD("Dashboard", "/moderator-dashboard"),
 
+    TEAMS_JOIN_REQUEST_DECISION("Join Request Decision", "/teams/join-request-decision"),
     TEAMS_JOIN_REQUEST("Available Teams", "/teams/join-request"),
     TEAMS_AVAILABLE("Available Teams", "/teams/available"),
     TEAM_LEAVE("Create Team", "/teams/leave"),
     TEAM_CREATE("Create Team", "/teams/create"),
+    TEAMS_CHAT_LAST_MESSAGES("Team Chat Last Message", "/team/chat-last-messages"),
     TEAM_CHAT("Team Chat", "/teams/chat"),
     TEAMS("Teams", "/teams"),
 

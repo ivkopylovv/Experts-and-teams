@@ -6,12 +6,14 @@ export const Route = {
 
     MODERATOR_DASHBOARD: 'moderator-dashboard',
 
+    TEAMS_JOIN_REQUEST_DECISION: 'teams/join-request-decision',
     TEAMS_JOIN_REQUEST: 'teams/join-request',
     TEAMS_AVAILABLE: 'teams/available',
     TEAM_LEAVE: 'teams/leave',
     TEAM_CREATE: 'teams/create',
-    TEAMS: 'teams',
+    TEAMS_CHAT_LAST_MESSAGES: 'team/chat-last-messages',
     TEAM_CHAT: 'teams/chat',
+    TEAMS: 'teams',
 
     LOGOUT: 'logout',
     SIGNIN: 'signin',

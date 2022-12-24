@@ -25,33 +25,7 @@
                                 <th scope="col"></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr class="table-row bg-white border-b hover:bg-gray-50">
-                                <td class="hidden expert-id py-4 px-6 font-semibold">123</td>
-                                <td class="team-name py-4 px-6">
-                                    <p class="font-semibold">Expert 1</p>
-                                    <p class="text-sm text-gray-600">Sport, Porno</p>
-                                </td>
-                                <td>
-                                    <button type="button"
-                                            class="send-btn text-lg text-blue-600">
-                                        <span class="material-symbols-outlined font-bold">send</span>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="table-row bg-white border-b hover:bg-gray-50">
-                                <td class="hidden expert-id py-4 px-6 font-semibold">123</td>
-                                <td class="team-name py-4 px-6">
-                                    <p class="font-semibold">Expert 1</p>
-                                    <p class="text-sm text-gray-600">Sport, Porno</p>
-                                </td>
-                                <td>
-                                    <button type="button"
-                                            class="send-btn text-lg text-blue-600">
-                                        <span class="material-symbols-outlined font-bold">send</span>
-                                    </button>
-                                </td>
-                            </tr>
+                        <tbody class="write-expert-container">
                             <tr class="table-row bg-white border-b hover:bg-gray-50">
                                 <td class="hidden expert-id py-4 px-6 font-semibold">123</td>
                                 <td class="team-name py-4 px-6">

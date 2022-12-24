@@ -48,7 +48,7 @@
                          id="join-requests"
                          role="tabpanel"
                          aria-labelledby="join-requests-tab">
-                        <div id="join-requests-container" class="mb-3 overflow-y-auto max-h-[66%] border border-gray-200 rounded-lg shadow-sm">
+                        <div class="mb-3 overflow-y-auto max-h-[66%] border border-gray-200 rounded-lg shadow-sm">
                             <%@include file="/jsp/pages/team-chat/join-requests-table.jsp" %>
                         </div>
                     </div>

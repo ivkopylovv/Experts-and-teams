@@ -1,42 +1,29 @@
 package ru.rsreu.expertsandteams.api.command;
 
-import ru.rsreu.expertsandteams.model.api.request.JoinTeamRequest;
-import ru.rsreu.expertsandteams.model.api.response.JoinTeamResponse;
-import ru.rsreu.expertsandteams.model.entity.User;
+import ru.rsreu.expertsandteams.model.api.request.JoinTeamDecisionRequest;
 import ru.rsreu.expertsandteams.service.ServiceFactory;
 import ru.rsreu.expertsandteams.service.TeamJoinRequestService;
-import ru.rsreu.expertsandteams.support.helper.UserHelper;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
-public class JoinRequestCommand extends FrontCommand {
+public class MakeRequestDecisionCommand extends FrontCommand {
     private TeamJoinRequestService teamJoinRequestService;
-    private User user;
 
     @Override
     public void init(ServletContext servletContext, HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         super.init(servletContext, servletRequest, servletResponse);
 
-        user = UserHelper.tryGetFromRequest(request);
         teamJoinRequestService = ServiceFactory.getTeamJoinRequestService();
     }
 
     @Override
-    public void process() throws ServletException, IOException {
-        List<JoinTeamResponse> joinTeamResponses = teamJoinRequestService.findAllCaptainRequests(user.getId());
-
-        json(joinTeamResponses);
-    }
-
-    @Override
     public void send() throws ServletException, IOException {
-        JoinTeamRequest joinTeamRequest = getBody(JoinTeamRequest.class);
+        JoinTeamDecisionRequest joinTeamDecisionRequest = getBody(JoinTeamDecisionRequest.class);
 
-        teamJoinRequestService.createRequest(joinTeamRequest, user.getId());
+        teamJoinRequestService.makeDecisionOnRequest(joinTeamDecisionRequest);
     }
 }

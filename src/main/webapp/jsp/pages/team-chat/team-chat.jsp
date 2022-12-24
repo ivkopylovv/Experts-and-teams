@@ -20,25 +20,28 @@
                         data-modal-toggle="write-expert-message-modal">
                     Write to expert
                 </button>
-                <button type="button"
-                        class="join-btn text-lg text-blue-600"
-                        data-modal-toggle="team-settings-modal">
-                    <span class="material-symbols-outlined font-bold">settings</span>
-                </button>
+                <c:if test="${captain.getId() == user.getId()}">
+                    <button id="settings-btn"
+                            type="button"
+                            class="text-lg text-blue-600"
+                            data-modal-toggle="team-settings-modal">
+                        <span class="material-symbols-outlined font-bold">settings</span>
+                    </button>
+                </c:if>
             </div>
         </div>
 
         <div class="h-4/6 flex flex-col flex-grow w-full bg-white rounded-lg overflow-hidden border border-gray-200 shadow-sm">
-            <div class="flex flex-col flex-grow h-0 p-4 overflow-auto">
+            <div id="message-container" class="flex flex-col flex-grow h-0 p-4 overflow-auto">
                 <c:forEach items="${chatResponse.getMessages()}" var="message">
                     <div class="flex w-full mt-2 space-x-3 max-w-xs ${message.getUserId() == user.getId() ? "ml-auto justify-end" : ""}">
                         <div>
-                            <div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
-                                <p class="font-semibold">${message.getUserName()}</p>
+                            <div class="${message.getUserId() == user.getId() ? "bg-blue-500" : "bg-gray-300"} ${message.getUserId() == user.getId() ? "text-white" : "text-gray-700"} p-3 rounded-lg rounded-bl-lg">
+                                <p class="font-medium">${message.getUserName()}</p>
                                 <p class="text-sm">${message.getMessage()}</p>
                             </div>
                             <span class="text-xs text-gray-500 leading-none block mt-1">
-                                    ${DateHelper.timeAsString(message.getDate())}
+                                    ${message.getDate()}
                             </span>
                         </div>
                     </div>
@@ -65,6 +68,9 @@
 
 <%@include file="/jsp/pages/team-chat/write-expert-message-modal.jsp" %>
 <%@include file="/jsp/pages/team-chat/team-settings-modal.jsp" %>
+<%@include file="/jsp/templates/join-request-template.jsp" %>
+<%@include file="/jsp/templates/write-expert-template.jsp" %>
+<%@include file="/jsp/templates/message-template.jsp" %>
 
 <%@include file="/jsp/shared/scripts.jsp" %>
 </body>

@@ -1,6 +1,7 @@
 import {whenDomReady, makeRequest, redirect} from '../util.mjs';
 import {Control, Validators} from '../entity/control.mjs';
 import {createFormConfig, FormGroup} from '../entity/formGroup.mjs';
+import {Route} from "../const/route.mjs";
 
 const SigninControl = {
     USERNAME: 'username',
@@ -16,7 +17,7 @@ function handleSigninSubmit() {
         password
     };
 
-    makeRequest('signin', {body:dto, method: 'post'}, false).then(res => {
+    makeRequest(Route.SIGNIN, {body:dto, method: 'post'}, false).then(res => {
         redirect(res.data.url);
     });
 }

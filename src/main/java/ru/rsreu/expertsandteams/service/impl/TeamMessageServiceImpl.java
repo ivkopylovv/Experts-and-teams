@@ -37,22 +37,24 @@ public class TeamMessageServiceImpl implements TeamMessageService {
             teamDAO.addExpert(request.getTeamId(), request.getExpertId());
             userDAO.incrementExpertTeamsCount(request.getExpertId());
         }
+
+        lastMessageRequestDAO.upsert(request.getTeamId(), userId);
     }
 
     @Override
     public ChatResponse getChatHistory(Long teamId, Long userId) {
-        lastMessageRequestDAO.upsert(teamId, userId);
-
         List<TeamMessage> teamMessages = teamMessageDAO.findByTeamId(teamId);
+
+        lastMessageRequestDAO.upsert(teamId, userId);
 
         return getChatResponse(teamMessages, teamId);
     }
 
     @Override
     public ChatResponse getChatHistoryActualPart(Long teamId, Long userId) {
-        lastMessageRequestDAO.upsert(teamId, userId);
-
         List<TeamMessage> teamMessages = teamMessageDAO.findActualMessagesByTeamIdAndUserId(teamId, userId);
+
+        lastMessageRequestDAO.upsert(teamId, userId);
 
         return getChatResponse(teamMessages, teamId);
     }

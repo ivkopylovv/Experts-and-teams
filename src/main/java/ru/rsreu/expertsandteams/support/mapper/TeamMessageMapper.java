@@ -6,6 +6,7 @@ import ru.rsreu.expertsandteams.model.api.response.MessageResponse;
 import ru.rsreu.expertsandteams.model.entity.Team;
 import ru.rsreu.expertsandteams.model.entity.TeamMessage;
 import ru.rsreu.expertsandteams.model.entity.User;
+import ru.rsreu.expertsandteams.support.helper.DateHelper;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,7 +46,7 @@ public class TeamMessageMapper {
                 teamMessage.getUser().getName(),
                 teamMessage.getExpert().getName(),
                 teamMessage.getMessage(),
-                teamMessage.getMessageDate()
+                DateHelper.timeAsString(teamMessage.getMessageDate())
         );
     }
 }

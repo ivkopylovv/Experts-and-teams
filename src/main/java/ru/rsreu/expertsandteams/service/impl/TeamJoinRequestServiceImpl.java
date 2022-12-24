@@ -55,13 +55,14 @@ public class TeamJoinRequestServiceImpl implements TeamJoinRequestService {
         TeamJoinRequest teamJoinRequest = findById(request.getId());
 
         if (request.isAccepted()) {
-            teamJoinRequestDAO.deleteById(request.getId());
             teamDAO.addTeamMember(
                     teamJoinRequest.getTeam().getId(),
                     teamJoinRequest.getUser().getId()
             );
             teamDAO.incrementTeamMembers(teamJoinRequest.getTeam().getId());
         }
+
+        teamJoinRequestDAO.deleteById(request.getId());
     }
 
     public static TeamJoinRequestServiceImpl getInstance() {

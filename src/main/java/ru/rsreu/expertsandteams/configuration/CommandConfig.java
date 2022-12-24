@@ -17,11 +17,13 @@ public class CommandConfig {
 
             Map.entry(Route.MODERATOR_DASHBOARD, new ModeratorDashboardCommand()),
 
+            Map.entry(Route.TEAMS_JOIN_REQUEST_DECISION, new MakeRequestDecisionCommand()),
             Map.entry(Route.TEAMS_JOIN_REQUEST, new JoinRequestCommand()),
             Map.entry(Route.TEAMS_AVAILABLE, new AvailableTeamsCommand()),
             Map.entry(Route.TEAM_LEAVE, new LeaveTeamCommand()),
             Map.entry(Route.TEAM_CREATE, new CreateTeamCommand()),
-            Map.entry(Route.TEAM_CHAT, new TeamChatCommand()),
+            Map.entry(Route.TEAMS_CHAT_LAST_MESSAGES, new TeamActualChatHistoryPartCommand()),
+            Map.entry(Route.TEAM_CHAT, new TeamChatHistoryCommand()),
             Map.entry(Route.TEAMS, new TeamsCommand()),
 
             Map.entry(Route.SIGNIN, new SigninCommand()),
@@ -38,10 +40,12 @@ public class CommandConfig {
 
             Route.MODERATOR_DASHBOARD,
 
+            Route.TEAMS_JOIN_REQUEST_DECISION,
             Route.TEAMS_JOIN_REQUEST,
             Route.TEAMS_AVAILABLE,
             Route.TEAM_LEAVE,
             Route.TEAM_CREATE,
+            Route.TEAMS_CHAT_LAST_MESSAGES,
             Route.TEAM_CHAT,
             Route.TEAMS,
 
