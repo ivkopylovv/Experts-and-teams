@@ -74,6 +74,7 @@ public class UserMapper {
         return new AvailableExpertResponse(
                 user.getId(),
                 user.getName(),
+                user.getBlocked(),
                 expertSkills
                         .stream()
                         .map(ExpertSkill::getSkill)

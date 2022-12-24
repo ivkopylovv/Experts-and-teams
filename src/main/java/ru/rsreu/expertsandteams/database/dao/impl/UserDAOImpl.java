@@ -2,7 +2,6 @@ package ru.rsreu.expertsandteams.database.dao.impl;
 
 import ru.rsreu.expertsandteams.database.dao.AbstractDAO;
 import ru.rsreu.expertsandteams.model.entity.User;
-import ru.rsreu.expertsandteams.database.ConnectionPool;
 import ru.rsreu.expertsandteams.database.dao.UserDAO;
 import ru.rsreu.expertsandteams.support.mapper.DAOMapper;
 
@@ -52,27 +51,6 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
         }
 
         return Optional.empty();
-    }
-
-    public List<User> findAll(Long id) {
-        List<User> users = new ArrayList<>();
-        String query = resourcer.getString("user.query.find.all.without.current.user");
-
-        try (PreparedStatement st = connection.prepareStatement(query)) {
-            st.setLong(1, id);
-
-            ResultSet rs = st.executeQuery();
-
-            while (rs.next()) {
-                User user = DAOMapper.mapToUser(rs);
-
-                users.add(user);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return users;
     }
 
     @Override
@@ -147,7 +125,7 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
 
             try (ResultSet generatedKeys = st.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    long id = generatedKeys.getLong(1);
+                    Long id = generatedKeys.getLong(1);
 
                     user.setId(id);
 
