@@ -8,6 +8,9 @@ import ru.rsreu.expertsandteams.model.enums.Route;
 import java.util.List;
 
 public class PermissionHelper {
+    private PermissionHelper() {
+    }
+
     public static boolean hasPermission(String path, User user) {
         List<Route> routes = AuthConfig.getRoleRoutes(
                 Role.valueOf(user.getRole().toUpperCase())

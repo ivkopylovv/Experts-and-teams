@@ -11,7 +11,8 @@ public class UserHelper {
     private static final String USER_ID = "user_id";
     private static final int COOKIE_MAX_AGE = 60 * 60;
 
-    private UserHelper() {}
+    private UserHelper() {
+    }
 
     public static Optional<User> getFromRequest(HttpServletRequest request) {
         User user = (User)request.getUserPrincipal();

@@ -51,7 +51,11 @@ public class User implements Principal {
      */
     private List<String> skills;
 
-    public User() {}
+    /**
+     * Default constructor for class {@link User}
+     */
+    public User() {
+    }
 
     /**
      * Constructor for class {@link User}
