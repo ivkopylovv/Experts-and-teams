@@ -4,6 +4,10 @@ public class ExpertSkill {
     private User user;
     private String skill;
 
+    public ExpertSkill(String skill) {
+        this.skill = skill;
+    }
+
     public ExpertSkill(User user, String skill) {
         this.user = user;
         this.skill = skill;

@@ -2,7 +2,9 @@ package ru.rsreu.expertsandteams.service;
 
 
 import ru.rsreu.expertsandteams.model.api.request.*;
+import ru.rsreu.expertsandteams.model.api.response.AvailableExpertResponse;
 import ru.rsreu.expertsandteams.model.api.response.RoleResponse;
+import ru.rsreu.expertsandteams.model.api.response.TeamExpertsResponse;
 import ru.rsreu.expertsandteams.model.api.response.UserResponse;
 import ru.rsreu.expertsandteams.model.entity.User;
 
@@ -30,4 +32,10 @@ public interface UserService {
     List<UserResponse> getModerDashboardUsers(Long userId);
 
     List<UserResponse> getAdminDashboardUsers(Long userId);
+
+    List<AvailableExpertResponse> getAvailableExperts(Long teamId);
+
+    List<TeamExpertsResponse> getTeamExperts(Long teamId);
+
+    void changeExpertBlockStatus(BlockExpertRequest request);
 }

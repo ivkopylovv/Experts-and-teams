@@ -1,5 +1,6 @@
 package ru.rsreu.expertsandteams.service.impl;
 
+import ru.rsreu.expertsandteams.database.dao.UserDAO;
 import ru.rsreu.expertsandteams.model.api.response.TeamResponse;
 import ru.rsreu.expertsandteams.model.entity.Team;
 import ru.rsreu.expertsandteams.database.dao.DAOFactory;
@@ -14,13 +15,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static ru.rsreu.expertsandteams.model.enums.Role.*;
+
 public class TeamServiceImpl implements TeamService {
     private static volatile TeamServiceImpl instance;
 
     private final TeamDAO teamDAO;
+    private final UserDAO userDAO;
 
-    public TeamServiceImpl(TeamDAO teamDAO) {
+    public TeamServiceImpl(TeamDAO teamDAO, UserDAO userDAO) {
         this.teamDAO = teamDAO;
+        this.userDAO = userDAO;
     }
 
     @Override
@@ -30,26 +35,39 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public List<TeamResponse> findUserTeams(Long userId) {
-        return teamDAO.findByUserId(userId)
+    public List<TeamResponse> findUserTeams(User user) {
+        List<Team> teams;
+
+        if (USER.getName().equals(user.getRole())) {
+            teams = teamDAO.findByUserId(user.getId());
+        } else {
+            teams = teamDAO.findByExpertId(user.getId());
+        }
+
+        return teams
                 .stream()
                 .map(TeamMapper::mapToTeamResponse)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void leaveTeam(Long teamId, Long userId) {
+    public void leaveTeam(Long teamId, User user) {
         Team team = findById(teamId);
 
-        if (Objects.equals(team.getCaptain().getId(), userId)) {
-            if (team.getMembersCount() > 1) {
-                throw new LeaveTeamNoPermissionException();
-            }
-
-            teamDAO.deleteById(teamId);
+        if (EXPERT.getName().equals(user.getRole())) {
+            teamDAO.deleteExpert(teamId, user.getId());
+            userDAO.decrementExpertTeamsCount(user.getId());
         } else {
-            teamDAO.deleteTeamMember(teamId, userId);
-            teamDAO.decrementTeamMembers(teamId);
+            if (Objects.equals(team.getCaptain().getId(), user.getId())) {
+                if (team.getMembersCount() > 1) {
+                    throw new LeaveTeamNoPermissionException();
+                }
+
+                teamDAO.deleteById(teamId);
+            } else {
+                teamDAO.deleteTeamMember(teamId, user.getId());
+                teamDAO.decrementTeamMembers(teamId);
+            }
         }
     }
 
@@ -72,7 +90,8 @@ public class TeamServiceImpl implements TeamService {
         synchronized (TeamServiceImpl.class) {
             if (instance == null) {
                 instance = new TeamServiceImpl(
-                        DAOFactory.getTeamDAO()
+                        DAOFactory.getTeamDAO(),
+                        DAOFactory.getUserDAO()
                 );
             }
         }

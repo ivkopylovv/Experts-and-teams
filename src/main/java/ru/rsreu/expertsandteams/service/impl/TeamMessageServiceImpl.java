@@ -3,6 +3,7 @@ package ru.rsreu.expertsandteams.service.impl;
 import ru.rsreu.expertsandteams.database.dao.DAOFactory;
 import ru.rsreu.expertsandteams.database.dao.TeamDAO;
 import ru.rsreu.expertsandteams.database.dao.TeamMessageDAO;
+import ru.rsreu.expertsandteams.database.dao.*;
 import ru.rsreu.expertsandteams.model.api.request.SendMessageRequest;
 import ru.rsreu.expertsandteams.model.api.response.ChatResponse;
 import ru.rsreu.expertsandteams.model.entity.Team;
@@ -18,10 +19,14 @@ public class TeamMessageServiceImpl implements TeamMessageService {
 
     private final TeamMessageDAO teamMessageDAO;
     private final TeamDAO teamDAO;
+    private final UserDAO userDAO;
+    private final LastMessageRequestDAO lastMessageRequestDAO;
 
-    public TeamMessageServiceImpl(TeamMessageDAO teamMessageDAO, TeamDAO teamDAO) {
+    public TeamMessageServiceImpl(TeamMessageDAO teamMessageDAO, TeamDAO teamDAO, UserDAO userDAO, LastMessageRequestDAO lastMessageRequestDAO) {
         this.teamMessageDAO = teamMessageDAO;
         this.teamDAO = teamDAO;
+        this.userDAO = userDAO;
+        this.lastMessageRequestDAO = lastMessageRequestDAO;
     }
 
     @Override
@@ -30,13 +35,29 @@ public class TeamMessageServiceImpl implements TeamMessageService {
 
         if (request.getExpertId() != null) {
             teamDAO.addExpert(request.getTeamId(), request.getExpertId());
+            userDAO.incrementExpertTeamsCount(request.getExpertId());
         }
     }
 
     @Override
-    public ChatResponse getChatHistory(Long teamId) {
+    public ChatResponse getChatHistory(Long teamId, Long userId) {
+        lastMessageRequestDAO.upsert(teamId, userId);
+
         List<TeamMessage> teamMessages = teamMessageDAO.findByTeamId(teamId);
 
+        return getChatResponse(teamMessages, teamId);
+    }
+
+    @Override
+    public ChatResponse getChatHistoryActualPart(Long teamId, Long userId) {
+        lastMessageRequestDAO.upsert(teamId, userId);
+
+        List<TeamMessage> teamMessages = teamMessageDAO.findActualMessagesByTeamIdAndUserId(teamId, userId);
+
+        return getChatResponse(teamMessages, teamId);
+    }
+
+    private ChatResponse getChatResponse(List<TeamMessage> teamMessages, Long teamId) {
         if (teamMessages.isEmpty()) {
             Team team = teamDAO.findById(teamId)
                     .orElseThrow(TeamNotFoundException::new);
@@ -52,7 +73,9 @@ public class TeamMessageServiceImpl implements TeamMessageService {
             if (instance == null) {
                 instance = new TeamMessageServiceImpl(
                         DAOFactory.getTeamMessageDAO(),
-                        DAOFactory.getTeamDAO()
+                        DAOFactory.getTeamDAO(),
+                        DAOFactory.getUserDAO(),
+                        DAOFactory.getLastMessageRequestDAO()
                 );
             }
         }

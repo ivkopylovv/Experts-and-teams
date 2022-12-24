@@ -13,11 +13,11 @@ public interface UserDAO {
 
     List<User> findAll(Long id);
 
-    List<User> findAllByTeamId(long teamId);
-
     List<User> findAllWithoutAdmins(Long id);
 
     void changeBlockStatus(User user);
+
+    void saveExpertDetails(Long expertId);
 
     void delete(User user);
 
@@ -26,4 +26,12 @@ public interface UserDAO {
     Optional<User> save(User user);
 
     void update(User user);
+
+    void incrementExpertTeamsCount(Long expertId);
+
+    void decrementExpertTeamsCount(Long expertId);
+
+    List<User> findAvailableExperts(Long teamId);
+
+    List<User> findTeamExperts(Long teamId);
 }

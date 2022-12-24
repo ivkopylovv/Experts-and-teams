@@ -58,6 +58,27 @@ public class TeamDAOImpl extends AbstractDAO implements TeamDAO {
     }
 
     @Override
+    public List<Team> findByExpertId(Long expertId) {
+        String query = resourcer.getString("team.query.find.by.expert.id");
+        List<Team> teams = new ArrayList<>();
+
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setLong(1, expertId);
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                teams.add(DAOMapper.mapToTeam(rs));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return teams;
+    }
+
+    @Override
     public Optional<Team> save(Team team) {
         String query = resourcer.getString("team.query.save");
         String[] returnId = {"id"};
@@ -105,6 +126,20 @@ public class TeamDAOImpl extends AbstractDAO implements TeamDAO {
     @Override
     public void addExpert(Long teamId, Long expertId) {
         String query = resourcer.getString("team.query.add.expert");
+
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setLong(1, teamId);
+            st.setLong(2, expertId);
+
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteExpert(Long teamId, Long expertId) {
+        String query = resourcer.getString("team.query.delete.expert");
 
         try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setLong(1, teamId);
@@ -184,6 +219,21 @@ public class TeamDAOImpl extends AbstractDAO implements TeamDAO {
 
         try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setLong(1, id);
+
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateExpertBlockStatus(Long teamId, Long expertId, Boolean previousStatus) {
+        String query = resourcer.getString("team.query.update.expert.block.status");
+
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setBoolean(1, !previousStatus);
+            st.setLong(2, expertId);
+            st.setLong(3, teamId);
 
             st.executeUpdate();
         } catch (SQLException e) {

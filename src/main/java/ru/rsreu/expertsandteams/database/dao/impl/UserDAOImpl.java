@@ -115,6 +115,20 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
         }
     }
 
+    @Override
+    public void saveExpertDetails(Long expertId) {
+        String query = resourcer.getString("expert.detail.query.save");
+
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setLong(1, expertId);
+
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public Optional<User> save(User user) {
         String query = resourcer.getString("user.query.save.user");
         String[] returnId = {"id"};
@@ -147,6 +161,7 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
         return Optional.empty();
     }
 
+    @Override
     public void update(User user) {
         String query = resourcer.getString("user.query.update");
 
@@ -162,17 +177,66 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO {
         }
     }
 
-    public List<User> findAllByTeamId(long teamId) {
+    @Override
+    public void incrementExpertTeamsCount(Long expertId) {
+        String query = resourcer.getString("expert.detail.query.increment.teams.count");
+
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setLong(1, expertId);
+
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void decrementExpertTeamsCount(Long expertId) {
+        String query = resourcer.getString("expert.detail.query.decrement.teams.count");
+
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setLong(1, expertId);
+
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<User> findAvailableExperts(Long teamId) {
+        String query = resourcer.getString("user.query.find.available.experts");
         List<User> users = new ArrayList<>();
-        String query = this.resourcer.getString("user.query.find.all.by.teamid");
 
-        try (PreparedStatement statement = ConnectionPool.getConnection().prepareStatement(query)) {
-            statement.setLong(1, teamId);
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setLong(1, teamId);
 
-            ResultSet resultSet = statement.executeQuery();
+            ResultSet rs = st.executeQuery();
 
-            while (resultSet.next()) {
-                User user = DAOMapper.mapToUser(resultSet);
+            while (rs.next()) {
+                User user = DAOMapper.mapToUser(rs);
+
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return users;
+    }
+
+    @Override
+    public List<User> findTeamExperts(Long teamId) {
+        String query = resourcer.getString("user.query.find.team.experts");
+        List<User> users = new ArrayList<>();
+
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setLong(1, teamId);
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                User user = DAOMapper.mapToUser(rs);
 
                 users.add(user);
             }

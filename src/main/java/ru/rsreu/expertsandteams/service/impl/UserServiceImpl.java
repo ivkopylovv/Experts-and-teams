@@ -1,18 +1,20 @@
 package ru.rsreu.expertsandteams.service.impl;
 
 import ru.rsreu.expertsandteams.model.api.request.*;
+import ru.rsreu.expertsandteams.model.api.response.AvailableExpertResponse;
 import ru.rsreu.expertsandteams.model.api.response.RoleResponse;
+import ru.rsreu.expertsandteams.model.api.response.TeamExpertsResponse;
 import ru.rsreu.expertsandteams.model.api.response.UserResponse;
 import ru.rsreu.expertsandteams.model.entity.ExpertSkill;
 import ru.rsreu.expertsandteams.model.entity.Session;
+import ru.rsreu.expertsandteams.model.entity.Team;
 import ru.rsreu.expertsandteams.model.entity.User;
 import ru.rsreu.expertsandteams.database.dao.*;
-import ru.rsreu.expertsandteams.model.enums.Role;
 import ru.rsreu.expertsandteams.model.error.CredentialsException;
+import ru.rsreu.expertsandteams.model.error.TeamNotFoundException;
 import ru.rsreu.expertsandteams.model.error.UserAlreadyExistsException;
 import ru.rsreu.expertsandteams.model.error.UserNotFoundException;
 import ru.rsreu.expertsandteams.service.UserService;
-import ru.rsreu.expertsandteams.support.mapper.DAOMapper;
 import ru.rsreu.expertsandteams.support.mapper.RoleMapper;
 import ru.rsreu.expertsandteams.support.mapper.SessionMapper;
 import ru.rsreu.expertsandteams.support.mapper.UserMapper;
@@ -22,6 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static ru.rsreu.expertsandteams.constant.SessionOptions.SESSION_TIME_LIVE;
+import static ru.rsreu.expertsandteams.model.enums.Role.EXPERT;
 
 public class UserServiceImpl implements UserService {
     private static volatile UserServiceImpl instance;
@@ -29,11 +32,13 @@ public class UserServiceImpl implements UserService {
     private final UserDAO userDAO;
     private final SessionDAO sessionDAO;
     private final ExpertSkillDAO expertSkillDAO;
+    private final TeamDAO teamDAO;
 
-    private UserServiceImpl(UserDAO userDAO, SessionDAO sessionDAO, ExpertSkillDAO expertSkillDAO) {
+    private UserServiceImpl(UserDAO userDAO, SessionDAO sessionDAO, ExpertSkillDAO expertSkillDAO, TeamDAO teamDAO) {
         this.userDAO = userDAO;
         this.sessionDAO = sessionDAO;
         this.expertSkillDAO = expertSkillDAO;
+        this.teamDAO = teamDAO;
     }
 
     @Override
@@ -56,7 +61,6 @@ public class UserServiceImpl implements UserService {
         saveUser(user, signUpRequest.getSkills());
     }
 
-    // TODO: check user block status
     @Override
     public RoleResponse signIn(SignInRequest signInRequest) {
         User user = userDAO.findByUsername(signInRequest.getUsername())
@@ -129,15 +133,46 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<AvailableExpertResponse> getAvailableExperts(Long teamId) {
+        return userDAO.findAvailableExperts(teamId)
+                .stream()
+                .map(expert -> UserMapper.mapToAvailableExpertResponse(
+                        expert,
+                        expertSkillDAO.findByExpertId(expert.getId()))
+                )
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TeamExpertsResponse> getTeamExperts(Long teamId) {
+        return userDAO.findTeamExperts(teamId)
+                .stream()
+                .map(expert -> UserMapper.mapToTeamExpertsResponse(
+                        expert,
+                        expertSkillDAO.findByExpertId(expert.getId()))
+                )
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void changeExpertBlockStatus(BlockExpertRequest request) {
+        Team team = teamDAO.findById(request.getTeamId())
+                .orElseThrow(TeamNotFoundException::new);
+        User expert = userDAO.findById(request.getExpertId())
+                .orElseThrow(UserNotFoundException::new);
+        teamDAO.updateExpertBlockStatus(team.getId(), expert.getId(), request.getPreviousBlockStatus());
+    }
+
     private void saveUser(User user, String[] skills) {
         userDAO.save(user);
 
-        // to do add to expert details
-        if (user.getRole().equals(Role.EXPERT.getName())) {
+        if (EXPERT.getName().equals(user.getRole())) {
             for (String skill : skills) {
                 ExpertSkill expertSkill = new ExpertSkill(user, skill);
                 expertSkillDAO.save(expertSkill);
             }
+            userDAO.saveExpertDetails(user.getId());
         }
     }
 
@@ -147,7 +182,8 @@ public class UserServiceImpl implements UserService {
                 instance = new UserServiceImpl(
                         DAOFactory.getUserDAO(),
                         DAOFactory.getSessionDAO(),
-                        DAOFactory.getExpertSkillDAO()
+                        DAOFactory.getExpertSkillDAO(),
+                        DAOFactory.getTeamDAO()
                 );
             }
         }

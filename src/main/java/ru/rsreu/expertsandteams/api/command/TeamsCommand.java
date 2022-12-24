@@ -30,7 +30,7 @@ public class TeamsCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
-        List<TeamResponse> teamResponses = teamService.findUserTeams(user.getId());
+        List<TeamResponse> teamResponses = teamService.findUserTeams(user);
 
         request.setAttribute(TEAMS, teamResponses);
 

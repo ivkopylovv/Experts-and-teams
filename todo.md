@@ -323,25 +323,6 @@ Response:
 void
 ```
 
-### GET /available-experts
-
-- Not blocked and not in this team and current_teams_count != max_teams_count
-
-```aidl
-AvailableExpertsRequest {
-    teamId: long
-}
-```
-
-```aidl
-AvailableExpertsResponse{
-    List<AvailableExpertResponse> : {
-        expertId : long,
-        expertName: name,
-        skills : array<string>
-}
-```
-
 ### GET /team-join-requests
 
 ВЕЗДЕ ПРОСТО ИМЯ И СВЕРХУ ТОЖЕ, А НЕ USERNAME
@@ -371,6 +352,26 @@ Response:
 ```aidl
 void
 ```
+
+### GET /available-experts
+
+- Not blocked and not in this team and current_teams_count != max_teams_count
+
+```aidl
+AvailableExpertsRequest {
+    teamId: long
+}
+```
+
+```aidl
+AvailableExpertsResponse{
+    List<AvailableExpertResponse> : {
+        expertId : long,
+        expertName: name,
+        skills : array<string>
+}
+```
+
 
 ### GET /team-experts
 
