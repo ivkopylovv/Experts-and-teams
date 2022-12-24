@@ -5,11 +5,13 @@ import java.util.List;
 public class AvailableExpertResponse {
     private Long expertId;
     private String expertName;
+    private Boolean isBlocked;
     private List<String> skills;
 
-    public AvailableExpertResponse(Long expertId, String expertName, List<String> skills) {
+    public AvailableExpertResponse(Long expertId, String expertName, Boolean isBlocked, List<String> skills) {
         this.expertId = expertId;
         this.expertName = expertName;
+        this.isBlocked = isBlocked;
         this.skills = skills;
     }
 
@@ -19,6 +21,14 @@ public class AvailableExpertResponse {
 
     public void setExpertId(Long expertId) {
         this.expertId = expertId;
+    }
+
+    public Boolean getBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(Boolean blocked) {
+        isBlocked = blocked;
     }
 
     public String getExpertName() {
