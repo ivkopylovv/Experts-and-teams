@@ -45,13 +45,21 @@
                         <td class="team-name py-4 px-6 font-semibold">${team.getName()}</td>
                         <td class="team-members-count py-4 px-6">${team.getMembersCount()}</td>
                         <td>
-                            <button type="button"
-                                    class="leave-btn text-lg text-blue-600"
-                                    data-team-id="${team.getId()}"
-                                    data-modal-toggle="confirm-leave-modal"
-                            >
-                                <span class="material-symbols-outlined font-bold">logout</span>
-                            </button>
+                            <div class="flex items-center space-x-2">
+                                <button type="button"
+                                        class="open-in-new text-lg text-blue-600"
+                                        data-team-id="${team.getId()}"
+                                >
+                                    <span class="material-symbols-outlined">open_in_new</span>
+                                </button>
+                                <button type="button"
+                                        class="leave-btn text-lg text-blue-600"
+                                        data-team-id="${team.getId()}"
+                                        data-modal-toggle="confirm-leave-modal"
+                                >
+                                    <span class="material-symbols-outlined">logout</span>
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 </c:forEach>

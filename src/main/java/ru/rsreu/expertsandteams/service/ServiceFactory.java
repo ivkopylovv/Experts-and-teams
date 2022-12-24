@@ -1,9 +1,6 @@
 package ru.rsreu.expertsandteams.service;
 
-import ru.rsreu.expertsandteams.service.impl.SessionServiceImpl;
-import ru.rsreu.expertsandteams.service.impl.TeamJoinRequestServiceImpl;
-import ru.rsreu.expertsandteams.service.impl.TeamServiceImpl;
-import ru.rsreu.expertsandteams.service.impl.UserServiceImpl;
+import ru.rsreu.expertsandteams.service.impl.*;
 
 public class ServiceFactory {
     private ServiceFactory() {
@@ -23,5 +20,9 @@ public class ServiceFactory {
 
     public static TeamJoinRequestService getTeamJoinRequestService() {
         return TeamJoinRequestServiceImpl.getInstance();
+    }
+
+    public static TeamMessageService getTeamMessageService() {
+        return TeamMessageServiceImpl.getInstance();
     }
 }

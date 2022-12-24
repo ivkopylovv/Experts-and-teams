@@ -12,8 +12,8 @@ public enum Route {
     TEAMS_AVAILABLE("Available Teams", "/teams/available"),
     TEAM_LEAVE("Create Team", "/teams/leave"),
     TEAM_CREATE("Create Team", "/teams/create"),
-    TEAMS("Teams", "/teams"),
     TEAM_CHAT("Team Chat", "/teams/chat"),
+    TEAMS("Teams", "/teams"),
 
     LOGOUT("Logout", "/logout"),
     SIGNIN("Sign In", "/signin"),

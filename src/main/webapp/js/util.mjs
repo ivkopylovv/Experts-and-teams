@@ -1,35 +1,25 @@
-export function mapFormDataToObject(formData) {
-    const result = {};
-
-    for (const [key, value] of formData.entries()) {
-        if (value !== '') {
-            result[key] = value;
-        }
-    }
-
-    return result;
+export function redirect(path) {
+    window.location.href = createUrl(path);
 }
 
-export function redirect(path) {
-    const url = [
+function createUrl(path) {
+     return [
         window.location.origin,
         'experts-and-teams',
         path
     ].join('/');
-
-    window.location.href = url;
 }
 
 export function reload() {
     window.location.reload();
 }
 
-export async function makeRequest(url, options, plainText = true) {
+export async function makeRequest(path, options, plainText = true) {
     const body = options.body ? JSON.stringify(options.body) : undefined;
     const query = options.query ? `?${new URLSearchParams(options.query).toString()}` : '';
     const method = options.method ?? 'get';
 
-    const response = await fetch(url + query, {
+    const response = await fetch(createUrl(path) + query, {
         method,
         body,
         credentials: 'same-origin',

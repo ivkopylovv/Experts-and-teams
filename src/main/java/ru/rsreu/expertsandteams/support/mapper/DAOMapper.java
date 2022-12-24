@@ -72,6 +72,7 @@ public class DAOMapper {
                         resultSet.getString("team_name")
                 ),
                 new User(
+                        resultSet.getLong("user_id"),
                         resultSet.getString("user_name")
                 ),
                 resultSet.getString("message"),

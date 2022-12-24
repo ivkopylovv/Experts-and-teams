@@ -8,12 +8,13 @@ export function handleExpertSkills() {
 
     const createSkill = () => {
         const skillElement = SelectorEngine.importElement('#skill-template');
-        const removeBtnElement = SelectorEngine.findOne('.delete', skillElement);
-
         skillsContainerElement.appendChild(skillElement);
 
-        removeBtnElement.addEventListener('click', () => {
-            skillsContainerElement.removeChild(skillElement);
+        const index = skillsContainerElement.children.length - 1;
+        const appendedElement = skillsContainerElement.children[index];
+
+        appendedElement.querySelector('.delete').addEventListener('click', () => {
+            appendedElement.remove();
         });
     };
 
@@ -21,8 +22,8 @@ export function handleExpertSkills() {
         let disabledBtn = null;
 
         const observer = new MutationObserver(() => {
-            if (skillsContainerElement.childNodes.length === 1) {
-                const removeBtn = SelectorEngine.findOne('.delete', skillsContainerElement.childNodes[0]);
+            if (skillsContainerElement.children.length === 1) {
+                const removeBtn = SelectorEngine.findOne('.delete', skillsContainerElement.children[0]);
 
                 disabledBtn = removeBtn;
                 removeBtn.disabled = true;
@@ -30,7 +31,7 @@ export function handleExpertSkills() {
                 return;
             }
 
-            if (skillsContainerElement.childNodes.length === 8) {
+            if (skillsContainerElement.children.length === 8) {
                 addSkillBtnElement.style.display = 'none';
             } else {
                 addSkillBtnElement.style.display = 'block';

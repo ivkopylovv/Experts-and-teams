@@ -1,6 +1,6 @@
 import {createFormConfig, FormGroup} from "../entity/formGroup.mjs";
 import {Control, Validators} from "../entity/control.mjs";
-import {makeRequest, reload, sendNotification} from "../util.mjs";
+import {makeRequest, redirect, reload, sendNotification} from "../util.mjs";
 import {Route} from "../const/route.mjs";
 import {SelectorEngine} from "../dom/selector-engine.mjs";
 
@@ -52,6 +52,19 @@ function main() {
     });
 
     joinToTeam();
+    openTeamChat();
+}
+
+function openTeamChat() {
+    const openChatBtnElements = document.querySelectorAll('.open-in-new');
+
+    [...openChatBtnElements].forEach(openChatBtnElement => {
+        openChatBtnElement.addEventListener('click', () => {
+            const teamId = openChatBtnElement.getAttribute('data-team-id').trim();
+
+            redirect(Route.TEAM_CHAT + `?team_id=${teamId}`);
+        });
+    });
 }
 
 function joinToTeam() {

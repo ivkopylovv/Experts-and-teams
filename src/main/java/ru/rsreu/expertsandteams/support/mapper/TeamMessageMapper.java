@@ -41,6 +41,7 @@ public class TeamMessageMapper {
 
     public static MessageResponse mapToMessageResponse(TeamMessage teamMessage) {
         return new MessageResponse(
+                teamMessage.getUser().getId(),
                 teamMessage.getUser().getName(),
                 teamMessage.getExpert().getName(),
                 teamMessage.getMessage(),

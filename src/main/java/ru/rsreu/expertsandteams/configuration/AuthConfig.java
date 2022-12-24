@@ -13,14 +13,14 @@ public class AuthConfig {
                     Route.TEAMS_AVAILABLE,
                     Route.TEAM_LEAVE,
                     Route.TEAM_CREATE,
-                    Route.TEAMS,
-                    Route.TEAM_CHAT
+                    Route.TEAM_CHAT,
+                    Route.TEAMS
             )),
             Map.entry(Role.EXPERT, List.of(
                     Route.LOGOUT,
                     Route.TEAM_LEAVE,
-                    Route.TEAMS,
-                    Route.TEAM_CHAT
+                    Route.TEAM_CHAT,
+                    Route.TEAMS
             )),
             Map.entry(Role.MODERATOR, List.of(
                     Route.LOGOUT,

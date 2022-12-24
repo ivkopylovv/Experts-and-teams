@@ -21,8 +21,8 @@ public class CommandConfig {
             Map.entry(Route.TEAMS_AVAILABLE, new AvailableTeamsCommand()),
             Map.entry(Route.TEAM_LEAVE, new LeaveTeamCommand()),
             Map.entry(Route.TEAM_CREATE, new CreateTeamCommand()),
-            Map.entry(Route.TEAMS, new TeamsCommand()),
             Map.entry(Route.TEAM_CHAT, new TeamChatCommand()),
+            Map.entry(Route.TEAMS, new TeamsCommand()),
 
             Map.entry(Route.SIGNIN, new SigninCommand()),
             Map.entry(Route.LOGOUT, new LogoutCommand()),
@@ -42,8 +42,8 @@ public class CommandConfig {
             Route.TEAMS_AVAILABLE,
             Route.TEAM_LEAVE,
             Route.TEAM_CREATE,
-            Route.TEAMS,
             Route.TEAM_CHAT,
+            Route.TEAMS,
 
             Route.SIGNIN,
             Route.LOGOUT,

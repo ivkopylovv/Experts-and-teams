@@ -3,7 +3,6 @@ package ru.rsreu.expertsandteams.service.impl;
 import ru.rsreu.expertsandteams.database.dao.DAOFactory;
 import ru.rsreu.expertsandteams.database.dao.TeamDAO;
 import ru.rsreu.expertsandteams.database.dao.TeamMessageDAO;
-import ru.rsreu.expertsandteams.model.api.request.GetChatRequest;
 import ru.rsreu.expertsandteams.model.api.request.SendMessageRequest;
 import ru.rsreu.expertsandteams.model.api.response.ChatResponse;
 import ru.rsreu.expertsandteams.model.entity.Team;
@@ -35,11 +34,11 @@ public class TeamMessageServiceImpl implements TeamMessageService {
     }
 
     @Override
-    public ChatResponse getChatHistory(GetChatRequest request) {
-        List<TeamMessage> teamMessages = teamMessageDAO.findByTeamId(request.getTeamId());
+    public ChatResponse getChatHistory(Long teamId) {
+        List<TeamMessage> teamMessages = teamMessageDAO.findByTeamId(teamId);
 
         if (teamMessages.isEmpty()) {
-            Team team = teamDAO.findById(request.getTeamId())
+            Team team = teamDAO.findById(teamId)
                     .orElseThrow(TeamNotFoundException::new);
 
             return TeamMessageMapper.mapToChatResponse(teamMessages, team.getName());

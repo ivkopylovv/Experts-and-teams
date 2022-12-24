@@ -49,7 +49,7 @@
                          role="tabpanel"
                          aria-labelledby="join-requests-tab">
                         <div id="join-requests-container" class="mb-3 overflow-y-auto max-h-[66%] border border-gray-200 rounded-lg shadow-sm">
-                            <%@include file="/jsp/pages/user-team-chat/join-requests-table.jsp" %>
+                            <%@include file="/jsp/pages/team-chat/join-requests-table.jsp" %>
                         </div>
                     </div>
                     <div class="hidden rounded-lg"
@@ -57,7 +57,7 @@
                          role="team-experts"
                          aria-labelledby="team-experts-tab">
                         <div id="team-experts-container" class="overflow-y-auto max-h-[66%] border border-gray-200 rounded-lg shadow-sm">
-                            <%@include file="/jsp/pages/user-team-chat/team-experts-table.jsp" %>
+                            <%@include file="/jsp/pages/team-chat/team-experts-table.jsp" %>
                         </div>
                     </div>
                 </div>

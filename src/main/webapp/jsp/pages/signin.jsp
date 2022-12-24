@@ -7,8 +7,8 @@
 </head>
 <body id="signin">
 <div class="body flex flex-col items-center justify-center">
-    <form id="signin-form" class="w-full max-w-sm mt-8">
-        <h1 class="text-xl mb-5 bg-gradient-to-br from-green-400 to-blue-600 rounded-t-lg p-2 text-white">Sign In</h1>
+    <form id="signin-form" class="w-full max-w-sm mt-8 p-6 bg-white border border-gray-200 rounded-lg shadow-md">
+        <h1 class="text-2xl mb-2 text-center">Sign In</h1>
 
         <div class="mb-4">
             <label for="username" class="block mb-2 text-sm font-medium text-gray-900">Username</label>
@@ -28,7 +28,7 @@
         </div>
 
         <button type="submit"
-                class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200  font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">
             <%@include file="/jsp/icons/button-loader.jsp" %>
             Sign In
         </button>

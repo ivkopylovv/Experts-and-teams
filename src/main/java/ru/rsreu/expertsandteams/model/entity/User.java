@@ -20,6 +20,11 @@ public class User implements Principal {
         this.name = name;
     }
 
+    public User(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public User(Long id, String name, String username, String password) {
         this.id = id;
         this.name = name;
