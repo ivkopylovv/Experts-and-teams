@@ -13,6 +13,8 @@ public class AuthConfig {
                     Route.TEAMS_JOIN_REQUEST,
                     Route.TEAMS_AVAILABLE,
                     Route.TEAM_LEAVE,
+                    Route.TEAM_AVAILABLE_EXPERTS,
+                    Route.TEAM_EXPERTS,
                     Route.TEAM_CREATE,
                     Route.TEAMS_CHAT_LAST_MESSAGES,
                     Route.TEAM_CHAT,

@@ -39,12 +39,13 @@ public class TeamMessageDAOImpl extends AbstractDAO implements TeamMessageDAO {
     public Optional<TeamMessage> save(TeamMessage message) {
         String query = resourcer.getString("team.message.query.save");
         String[] returnId = {"id"};
+        message.setMessageDate(new Date(System.currentTimeMillis()));
 
         try (PreparedStatement st = connection.prepareStatement(query, returnId)) {
             st.setLong(1, message.getTeam().getId());
             st.setLong(2, message.getUser().getId());
             st.setString(3, message.getMessage());
-            st.setDate(4, new Date(System.currentTimeMillis()));
+            st.setDate(4, new Date(message.getMessageDate().getTime()));
 
             if (message.getExpert().getId() != null) {
                 st.setLong(5, message.getExpert().getId());

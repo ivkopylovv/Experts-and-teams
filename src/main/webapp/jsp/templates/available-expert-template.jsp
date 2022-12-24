@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<template id="write-expert-template">
-    <tr class="table-row bg-white border-b hover:bg-gray-50">
-        <td class="hidden expert-id py-4 px-6 font-semibold">123</td>
+<template id="available-expert-template">
+    <tr data-expert-id="" class="table-row bg-white border-b hover:bg-gray-50">
         <td class="py-4 px-6">
             <p class="expert-name font-semibold">Expert 1</p>
             <p class="expert-skills text-sm text-gray-600">Sport, Porno</p>

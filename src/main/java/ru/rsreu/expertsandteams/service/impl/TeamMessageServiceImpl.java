@@ -35,8 +35,15 @@ public class TeamMessageServiceImpl implements TeamMessageService {
 
     @Override
     public MessageResponse sendMessage(SendMessageRequest request, Long userId) {
-        User expert = userDAO.findById(request.getExpertId())
-                .orElseThrow(UserNotFoundException::new);
+        User expert;
+
+        if (request.getExpertId() == null) {
+            expert = new User();
+        } else {
+            expert = userDAO.findById(request.getExpertId())
+                    .orElseThrow(UserNotFoundException::new);
+        }
+
         User user = userDAO.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
         teamDAO.findById(request.getTeamId())

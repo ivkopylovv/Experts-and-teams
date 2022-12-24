@@ -25,27 +25,13 @@
                                 <th scope="col"></th>
                             </tr>
                         </thead>
-                        <tbody class="write-expert-container">
-                            <tr class="table-row bg-white border-b hover:bg-gray-50">
-                                <td class="hidden expert-id py-4 px-6 font-semibold">123</td>
-                                <td class="team-name py-4 px-6">
-                                    <p class="font-semibold">Expert 1</p>
-                                    <p class="text-sm text-gray-600">Sport, Porno</p>
-                                </td>
-                                <td>
-                                    <button type="button"
-                                            class="send-btn text-lg text-blue-600">
-                                        <span class="material-symbols-outlined font-bold">send</span>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
+                        <tbody id="write-expert-container"></tbody>
                     </table>
                 </div>
             </div>
             <div class="p-6 space-x-2 rounded-b">
                 <textarea
-                        id="join-message"
+                        id="expert-message-input"
                         rows="4"
                         class="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                         placeholder="Write message..."

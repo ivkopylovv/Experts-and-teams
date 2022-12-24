@@ -14,7 +14,7 @@
         <div class="flex items-center justify-between flex-nowrap w-full p-4 space-x-2 mb-3 bg-white border border-gray-200 rounded-lg shadow-sm">
             <div class="text-xl">${chatResponse.getTeamName()}</div>
             <div class="flex items-center space-x-2">
-                <button
+                <button id="write-to-expert-btn"
                         type="button"
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-1.5 focus:outline-none"
                         data-modal-toggle="write-expert-message-modal">
@@ -36,8 +36,16 @@
                 <c:forEach items="${chatResponse.getMessages()}" var="message">
                     <div class="flex w-full mt-2 space-x-3 max-w-xs ${message.getUserId() == user.getId() ? "ml-auto justify-end" : ""}">
                         <div>
-                            <div class="${message.getUserId() == user.getId() ? "bg-blue-500" : "bg-gray-300"} ${message.getUserId() == user.getId() ? "text-white" : "text-gray-700"} p-3 rounded-lg rounded-bl-lg">
-                                <p class="font-medium">${message.getUserName()}</p>
+                            <div class="${message.getUserId() == user.getId() ? "bg-blue-500 text-white" : "bg-gray-300"} ${message.getExpertName() != null ? "bg-rose-400 text-white" : ""} ${message.getUserId() != user.getId() && message.getExpertName() == null ? "text-gray-700" : ""} p-3 rounded-lg rounded-bl-lg">
+                                <p class="font-medium">
+                                        ${message.getUserName()} ${message.getExpertName() != null ? " to " : ""}
+                                        ${message.getExpertName() != null
+                                            ? (message.getExpertName().equals(user.getName())
+                                                ? "You"
+                                                : message.getExpertName())
+                                            : ""
+                                        }
+                                </p>
                                 <p class="text-sm">${message.getMessage()}</p>
                             </div>
                             <span class="text-xs text-gray-500 leading-none block mt-1">
@@ -69,8 +77,12 @@
 <%@include file="/jsp/pages/team-chat/write-expert-message-modal.jsp" %>
 <%@include file="/jsp/pages/team-chat/team-settings-modal.jsp" %>
 <%@include file="/jsp/templates/join-request-template.jsp" %>
-<%@include file="/jsp/templates/write-expert-template.jsp" %>
-<%@include file="/jsp/templates/message-template.jsp" %>
+<%@include file="/jsp/templates/available-expert-template.jsp" %>
+<%@include file="/jsp/templates/my-message-template.jsp" %>
+<%@include file="/jsp/templates/other-messge-template.jsp" %>
+<%@include file="/jsp/templates/my-message-to-expert-template.jsp" %>
+<%@include file="/jsp/templates/other-message-to-expert-template.jsp" %>
+<%@include file="/jsp/templates/team-expert-template.jsp" %>
 
 <%@include file="/jsp/shared/scripts.jsp" %>
 </body>

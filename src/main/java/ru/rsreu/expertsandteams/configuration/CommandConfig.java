@@ -1,7 +1,7 @@
 package ru.rsreu.expertsandteams.configuration;
 
 import ru.rsreu.expertsandteams.api.command.*;
-import ru.rsreu.expertsandteams.model.api.request.AvailableTeamsCommand;
+import ru.rsreu.expertsandteams.api.command.AvailableTeamsCommand;
 import ru.rsreu.expertsandteams.model.enums.Route;
 
 import java.util.Arrays;
@@ -20,6 +20,8 @@ public class CommandConfig {
             Map.entry(Route.TEAMS_JOIN_REQUEST_DECISION, new MakeRequestDecisionCommand()),
             Map.entry(Route.TEAMS_JOIN_REQUEST, new JoinRequestCommand()),
             Map.entry(Route.TEAMS_AVAILABLE, new AvailableTeamsCommand()),
+            Map.entry(Route.TEAM_AVAILABLE_EXPERTS, new TeamAvailableExpertsCommand()),
+            Map.entry(Route.TEAM_EXPERTS, new TeamExpertsCommand()),
             Map.entry(Route.TEAM_LEAVE, new LeaveTeamCommand()),
             Map.entry(Route.TEAM_CREATE, new CreateTeamCommand()),
             Map.entry(Route.TEAMS_CHAT_LAST_MESSAGES, new TeamActualChatHistoryPartCommand()),
@@ -44,6 +46,8 @@ public class CommandConfig {
             Route.TEAMS_JOIN_REQUEST,
             Route.TEAMS_AVAILABLE,
             Route.TEAM_LEAVE,
+            Route.TEAM_AVAILABLE_EXPERTS,
+            Route.TEAM_EXPERTS,
             Route.TEAM_CREATE,
             Route.TEAMS_CHAT_LAST_MESSAGES,
             Route.TEAM_CHAT,

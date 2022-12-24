@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<template id="message-template">
+<template id="other-message-template">
     <div class="flex w-full mt-2 space-x-3 max-w-xs">
         <div>
             <div class="bg-gray-300 text-gray-700 p-3 rounded-lg rounded-bl-lg">

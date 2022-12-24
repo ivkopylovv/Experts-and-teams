@@ -2,6 +2,7 @@ package ru.rsreu.expertsandteams.api.command;
 
 import ru.rsreu.expertsandteams.model.api.request.SendMessageRequest;
 import ru.rsreu.expertsandteams.model.api.response.ChatResponse;
+import ru.rsreu.expertsandteams.model.api.response.MessageResponse;
 import ru.rsreu.expertsandteams.model.entity.Team;
 import ru.rsreu.expertsandteams.model.entity.User;
 import ru.rsreu.expertsandteams.model.enums.Jsp;
@@ -37,10 +38,7 @@ public class TeamChatHistoryCommand extends FrontCommand {
     public void process() throws ServletException, IOException {
         Long teamId = Long.parseLong(request.getParameter(TEAM_ID));
         ChatResponse chatResponse = teamMessageService.getChatHistory(teamId, user.getId());
-<<<<<<< Updated upstream:src/main/java/ru/rsreu/expertsandteams/api/command/TeamChatHistoryCommand.java
         User captain = teamService.findById(teamId).getCaptain();
-=======
->>>>>>> Stashed changes:src/main/java/ru/rsreu/expertsandteams/api/command/TeamChatCommand.java
 
         request.setAttribute(CAPTAIN, captain);
         request.setAttribute(USER, user);
@@ -52,7 +50,8 @@ public class TeamChatHistoryCommand extends FrontCommand {
     @Override
     public void send() throws ServletException, IOException {
         SendMessageRequest sendMessageRequest = getBody(SendMessageRequest.class);
+        MessageResponse messageResponse = teamMessageService.sendMessage(sendMessageRequest, user.getId());
 
-        teamMessageService.sendMessage(sendMessageRequest, user.getId());
+        json(messageResponse);
     }
 }

@@ -12,6 +12,8 @@ public class User implements Principal {
     private String role;
     private String[] skills;
 
+    public User() {}
+
     public User(Long id) {
         this.id = id;
     }

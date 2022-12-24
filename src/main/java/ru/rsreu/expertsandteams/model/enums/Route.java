@@ -12,6 +12,8 @@ public enum Route {
     TEAMS_JOIN_REQUEST("Available Teams", "/teams/join-request"),
     TEAMS_AVAILABLE("Available Teams", "/teams/available"),
     TEAM_LEAVE("Create Team", "/teams/leave"),
+    TEAM_AVAILABLE_EXPERTS("Team Experts", "/teams/available-experts"),
+    TEAM_EXPERTS("Team Experts", "/teams/experts"),
     TEAM_CREATE("Create Team", "/teams/create"),
     TEAMS_CHAT_LAST_MESSAGES("Team Chat Last Message", "/team/chat-last-messages"),
     TEAM_CHAT("Team Chat", "/teams/chat"),

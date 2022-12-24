@@ -1,6 +1,5 @@
-package ru.rsreu.expertsandteams.model.api.request;
+package ru.rsreu.expertsandteams.api.command;
 
-import ru.rsreu.expertsandteams.api.command.FrontCommand;
 import ru.rsreu.expertsandteams.model.api.response.TeamResponse;
 import ru.rsreu.expertsandteams.model.entity.User;
 import ru.rsreu.expertsandteams.service.ServiceFactory;
