@@ -6,10 +6,13 @@ import ru.rsreu.expertsandteams.database.dao.TeamMessageDAO;
 import ru.rsreu.expertsandteams.database.dao.*;
 import ru.rsreu.expertsandteams.model.api.request.SendMessageRequest;
 import ru.rsreu.expertsandteams.model.api.response.ChatResponse;
+import ru.rsreu.expertsandteams.model.api.response.MessageResponse;
 import ru.rsreu.expertsandteams.model.entity.Team;
 import ru.rsreu.expertsandteams.model.entity.TeamMessage;
+import ru.rsreu.expertsandteams.model.entity.User;
 import ru.rsreu.expertsandteams.model.error.TeamMessageNotFoundException;
 import ru.rsreu.expertsandteams.model.error.TeamNotFoundException;
+import ru.rsreu.expertsandteams.model.error.UserNotFoundException;
 import ru.rsreu.expertsandteams.service.TeamMessageService;
 import ru.rsreu.expertsandteams.support.mapper.TeamMessageMapper;
 
@@ -31,8 +34,15 @@ public class TeamMessageServiceImpl implements TeamMessageService {
     }
 
     @Override
-    public TeamMessage sendMessage(SendMessageRequest request, Long userId) {
-        TeamMessage teamMessage = teamMessageDAO.save(TeamMessageMapper.mapToTeamMessage(request, userId))
+    public MessageResponse sendMessage(SendMessageRequest request, Long userId) {
+        User expert = userDAO.findById(request.getExpertId())
+                .orElseThrow(UserNotFoundException::new);
+        User user = userDAO.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
+        teamDAO.findById(request.getTeamId())
+                .orElseThrow(TeamNotFoundException::new);
+
+        TeamMessage teamMessage = teamMessageDAO.save(TeamMessageMapper.mapToTeamMessage(request, user, expert))
                 .orElseThrow(TeamMessageNotFoundException::new);
 
         if (request.getExpertId() != null) {
@@ -42,7 +52,7 @@ public class TeamMessageServiceImpl implements TeamMessageService {
 
         lastMessageRequestDAO.upsert(request.getTeamId(), userId);
 
-        return teamMessage;
+        return TeamMessageMapper.mapToMessageResponse(teamMessage);
     }
 
     @Override

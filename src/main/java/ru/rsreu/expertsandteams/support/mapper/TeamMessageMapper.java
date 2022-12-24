@@ -15,17 +15,19 @@ public class TeamMessageMapper {
     private TeamMessageMapper() {
     }
 
-    public static TeamMessage mapToTeamMessage(SendMessageRequest request, Long userId) {
+    public static TeamMessage mapToTeamMessage(SendMessageRequest request, User user, User expert) {
         return new TeamMessage(
                 new Team(
                         request.getTeamId()
                 ),
                 new User(
-                        userId
+                        user.getId(),
+                        user.getName()
                 ),
                 request.getMessage(),
                 new User(
-                        request.getExpertId()
+                        expert.getId(),
+                        expert.getName()
                 )
         );
     }
@@ -46,7 +48,7 @@ public class TeamMessageMapper {
                 teamMessage.getUser().getName(),
                 teamMessage.getExpert().getName(),
                 teamMessage.getMessage(),
-                DateHelper.timeAsString(teamMessage.getMessageDate())
+                DateHelper.getDateAsString(teamMessage.getMessageDate())
         );
     }
 }
