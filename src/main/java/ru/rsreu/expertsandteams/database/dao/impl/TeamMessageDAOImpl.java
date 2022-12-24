@@ -8,6 +8,7 @@ import ru.rsreu.expertsandteams.support.mapper.DAOMapper;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.sql.Types.*;
 
@@ -35,10 +36,11 @@ public class TeamMessageDAOImpl extends AbstractDAO implements TeamMessageDAO {
     }
 
     @Override
-    public void save(TeamMessage message) {
+    public Optional<TeamMessage> save(TeamMessage message) {
         String query = resourcer.getString("team.message.query.save");
+        String[] returnId = {"id"};
 
-        try (PreparedStatement st = connection.prepareStatement(query)) {
+        try (PreparedStatement st = connection.prepareStatement(query, returnId)) {
             st.setLong(1, message.getTeam().getId());
             st.setLong(2, message.getUser().getId());
             st.setString(3, message.getMessage());
@@ -50,10 +52,27 @@ public class TeamMessageDAOImpl extends AbstractDAO implements TeamMessageDAO {
                 st.setNull(5, NULL);
             }
 
-            st.executeUpdate();
+            int affectedRows = st.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Creating user failed");
+            }
+
+            try (ResultSet generatedKeys = st.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    Long id = generatedKeys.getLong(1);
+
+                    message.setId(id);
+
+                    return Optional.ofNullable(message);
+                }
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return Optional.empty();
     }
 
     @Override

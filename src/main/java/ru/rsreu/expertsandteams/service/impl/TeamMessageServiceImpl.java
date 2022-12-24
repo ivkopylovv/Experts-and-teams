@@ -8,6 +8,7 @@ import ru.rsreu.expertsandteams.model.api.request.SendMessageRequest;
 import ru.rsreu.expertsandteams.model.api.response.ChatResponse;
 import ru.rsreu.expertsandteams.model.entity.Team;
 import ru.rsreu.expertsandteams.model.entity.TeamMessage;
+import ru.rsreu.expertsandteams.model.error.TeamMessageNotFoundException;
 import ru.rsreu.expertsandteams.model.error.TeamNotFoundException;
 import ru.rsreu.expertsandteams.service.TeamMessageService;
 import ru.rsreu.expertsandteams.support.mapper.TeamMessageMapper;
@@ -30,8 +31,9 @@ public class TeamMessageServiceImpl implements TeamMessageService {
     }
 
     @Override
-    public void sendMessage(SendMessageRequest request, Long userId) {
-        teamMessageDAO.save(TeamMessageMapper.mapToTeamMessage(request, userId));
+    public TeamMessage sendMessage(SendMessageRequest request, Long userId) {
+        TeamMessage teamMessage = teamMessageDAO.save(TeamMessageMapper.mapToTeamMessage(request, userId))
+                .orElseThrow(TeamMessageNotFoundException::new);
 
         if (request.getExpertId() != null) {
             teamDAO.addExpert(request.getTeamId(), request.getExpertId());
@@ -39,6 +41,8 @@ public class TeamMessageServiceImpl implements TeamMessageService {
         }
 
         lastMessageRequestDAO.upsert(request.getTeamId(), userId);
+
+        return teamMessage;
     }
 
     @Override

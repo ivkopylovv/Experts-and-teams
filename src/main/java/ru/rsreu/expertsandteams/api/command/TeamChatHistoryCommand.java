@@ -37,7 +37,10 @@ public class TeamChatHistoryCommand extends FrontCommand {
     public void process() throws ServletException, IOException {
         Long teamId = Long.parseLong(request.getParameter(TEAM_ID));
         ChatResponse chatResponse = teamMessageService.getChatHistory(teamId, user.getId());
+<<<<<<< Updated upstream:src/main/java/ru/rsreu/expertsandteams/api/command/TeamChatHistoryCommand.java
         User captain = teamService.findById(teamId).getCaptain();
+=======
+>>>>>>> Stashed changes:src/main/java/ru/rsreu/expertsandteams/api/command/TeamChatCommand.java
 
         request.setAttribute(CAPTAIN, captain);
         request.setAttribute(USER, user);
