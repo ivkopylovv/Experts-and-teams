@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" import="ru.rsreu.expertsandteams.model.enums.Role" %>
 <html>
 <head>
     <title>Title</title>
@@ -10,22 +10,24 @@
 
 <div class="container mx-auto pt-14">
     <div class="w-3/5 overflow-hidden mx-auto mt-8 relative">
-        <div class="flex items-center flex-nowrap w-full p-4 space-x-2 mb-3 bg-white border border-gray-200 rounded-lg shadow-sm">
-            <button
-                    type="button"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-1.5 focus:outline-none"
-                    data-modal-toggle="create-team-modal"
-            >
-                Create team
-            </button>
-            <button
-                    id="join-team-btn"
-                    type="button"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-1.5 focus:outline-none"
-                    data-modal-toggle="join-team-modal">
-                Join to team
-            </button>
-        </div>
+        <c:if test="${!user.getRole().equalsIgnoreCase(Role.EXPERT.getName())}">
+            <div class="flex items-center flex-nowrap w-full p-4 space-x-2 mb-3 bg-white border border-gray-200 rounded-lg shadow-sm">
+                <button
+                        type="button"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-1.5 focus:outline-none"
+                        data-modal-toggle="create-team-modal"
+                >
+                    Create team
+                </button>
+                <button
+                        id="join-team-btn"
+                        type="button"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-1.5 focus:outline-none"
+                        data-modal-toggle="join-team-modal">
+                    Join to team
+                </button>
+            </div>
+        </c:if>
         <div class="overflow-y-auto max-h-[66%] border border-gray-200 rounded-lg shadow-sm">
             <table class="w-full text-sm text-left text-gray-500">
                 <thead class="sticky top-0 text-xs text-gray-700 uppercase bg-gray-50">

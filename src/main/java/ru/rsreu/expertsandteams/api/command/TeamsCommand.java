@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static ru.rsreu.expertsandteams.constant.RequestAttribute.TEAMS;
+import static ru.rsreu.expertsandteams.constant.RequestAttribute.USER;
 
 public class TeamsCommand extends FrontCommand {
     private TeamService teamService;
@@ -33,6 +34,7 @@ public class TeamsCommand extends FrontCommand {
         List<TeamResponse> teamResponses = teamService.findUserTeams(user);
 
         request.setAttribute(TEAMS, teamResponses);
+        request.setAttribute(USER, user);
 
         forward(Jsp.TEAMS);
     }
