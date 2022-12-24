@@ -29,6 +29,6 @@ public class LeaveTeamCommand extends FrontCommand {
     public void send() throws ServletException, IOException {
         Long teamId = Long.parseLong(request.getParameter(TEAM_ID));
 
-        teamService.leaveTeam(teamId, user.getId());
+        teamService.leaveTeam(teamId, user);
     }
 }

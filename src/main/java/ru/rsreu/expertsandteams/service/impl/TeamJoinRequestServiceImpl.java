@@ -60,6 +60,7 @@ public class TeamJoinRequestServiceImpl implements TeamJoinRequestService {
                     teamJoinRequest.getTeam().getId(),
                     teamJoinRequest.getUser().getId()
             );
+            teamDAO.incrementTeamMembers(teamJoinRequest.getTeam().getId());
         }
     }
 

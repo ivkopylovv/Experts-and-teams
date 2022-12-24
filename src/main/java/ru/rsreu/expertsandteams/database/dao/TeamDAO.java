@@ -10,11 +10,15 @@ public interface TeamDAO {
 
     List<Team> findByUserId(Long userId);
 
+    List<Team> findByExpertId(Long expertId);
+
     Optional<Team> save(Team team);
 
     void addTeamMember(Long teamId, Long userId);
 
     void addExpert(Long teamId, Long expertId);
+
+    void deleteExpert(Long teamId, Long expertId);
 
     void deleteById(Long id);
 
@@ -25,4 +29,6 @@ public interface TeamDAO {
     void incrementTeamMembers(Long id);
 
     void decrementTeamMembers(Long id);
+
+    void updateExpertBlockStatus(Long teamId, Long expertId, Boolean previousStatus);
 }

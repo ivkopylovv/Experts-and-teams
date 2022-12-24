@@ -3,6 +3,7 @@ package ru.rsreu.expertsandteams.service.impl;
 import ru.rsreu.expertsandteams.database.dao.DAOFactory;
 import ru.rsreu.expertsandteams.database.dao.TeamDAO;
 import ru.rsreu.expertsandteams.database.dao.TeamMessageDAO;
+import ru.rsreu.expertsandteams.database.dao.UserDAO;
 import ru.rsreu.expertsandteams.model.api.request.GetChatRequest;
 import ru.rsreu.expertsandteams.model.api.request.SendMessageRequest;
 import ru.rsreu.expertsandteams.model.api.response.ChatResponse;
@@ -19,10 +20,12 @@ public class TeamMessageServiceImpl implements TeamMessageService {
 
     private final TeamMessageDAO teamMessageDAO;
     private final TeamDAO teamDAO;
+    private final UserDAO userDAO;
 
-    public TeamMessageServiceImpl(TeamMessageDAO teamMessageDAO, TeamDAO teamDAO) {
+    public TeamMessageServiceImpl(TeamMessageDAO teamMessageDAO, TeamDAO teamDAO, UserDAO userDAO) {
         this.teamMessageDAO = teamMessageDAO;
         this.teamDAO = teamDAO;
+        this.userDAO = userDAO;
     }
 
     @Override
@@ -31,6 +34,7 @@ public class TeamMessageServiceImpl implements TeamMessageService {
 
         if (request.getExpertId() != null) {
             teamDAO.addExpert(request.getTeamId(), request.getExpertId());
+            userDAO.incrementExpertTeamsCount(request.getExpertId());
         }
     }
 
@@ -53,7 +57,8 @@ public class TeamMessageServiceImpl implements TeamMessageService {
             if (instance == null) {
                 instance = new TeamMessageServiceImpl(
                         DAOFactory.getTeamMessageDAO(),
-                        DAOFactory.getTeamDAO()
+                        DAOFactory.getTeamDAO(),
+                        DAOFactory.getUserDAO()
                 );
             }
         }

@@ -81,4 +81,10 @@ public class DAOMapper {
                 )
         );
     }
+
+    public static ExpertSkill mapToExpertSkill(ResultSet resultSet) throws SQLException {
+        return new ExpertSkill(
+                resultSet.getString("skill")
+        );
+    }
 }
