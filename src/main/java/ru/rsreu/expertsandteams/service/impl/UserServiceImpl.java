@@ -5,10 +5,7 @@ import ru.rsreu.expertsandteams.model.api.response.AvailableExpertResponse;
 import ru.rsreu.expertsandteams.model.api.response.RoleResponse;
 import ru.rsreu.expertsandteams.model.api.response.TeamExpertsResponse;
 import ru.rsreu.expertsandteams.model.api.response.UserResponse;
-import ru.rsreu.expertsandteams.model.entity.ExpertSkill;
-import ru.rsreu.expertsandteams.model.entity.Session;
-import ru.rsreu.expertsandteams.model.entity.Team;
-import ru.rsreu.expertsandteams.model.entity.User;
+import ru.rsreu.expertsandteams.model.entity.*;
 import ru.rsreu.expertsandteams.database.dao.*;
 import ru.rsreu.expertsandteams.model.error.CredentialsException;
 import ru.rsreu.expertsandteams.model.error.TeamNotFoundException;
@@ -66,7 +63,7 @@ public class UserServiceImpl implements UserService {
         User user = userDAO.findByUsername(signInRequest.getUsername())
                 .orElseThrow(CredentialsException::new);
 
-        if (user.getBlocked() || !user.getPassword().equals(signInRequest.getPassword())) {
+        if (user.isBlocked() || !user.getPassword().equals(signInRequest.getPassword())) {
             throw new CredentialsException();
         }
 
@@ -172,7 +169,7 @@ public class UserServiceImpl implements UserService {
                 ExpertSkill expertSkill = new ExpertSkill(user, skill);
                 expertSkillDAO.save(expertSkill);
             }
-            userDAO.saveExpertDetails(user.getId());
+            userDAO.saveExpertDetails(new ExpertDetail(user));
         }
     }
 

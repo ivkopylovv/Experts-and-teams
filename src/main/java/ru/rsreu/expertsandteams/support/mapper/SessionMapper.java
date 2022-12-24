@@ -19,7 +19,7 @@ public class SessionMapper {
                 user.getRole(),
                 null,
                 user.isOnline(session.getExpiredAt()),
-                user.getBlocked()
+                user.isBlocked()
         );
     }
 }

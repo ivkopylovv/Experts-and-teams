@@ -208,14 +208,15 @@ CREATE TABLE experts_skills
 -- Первичный ключ промежуточной таблицы Навыки экспертов
 ALTER TABLE experts_skills
     ADD (
-    CONSTRAINT experts_skills_pk PRIMARY KEY (user_id)
+    CONSTRAINT experts_skills_pk PRIMARY KEY (user_id, skill)
   );
 
 -- Создание внешнего ключа на таблицу Пользователи
 ALTER TABLE experts_skills
     ADD CONSTRAINT experts_skills_expert_fk
         FOREIGN KEY (user_id)
-            REFERENCES users (id);
+            REFERENCES users (id)
+            ON DELETE CASCADE;
 
 ------------------------------------------------
 -- Создание таблицы Запросы вступления в команду
