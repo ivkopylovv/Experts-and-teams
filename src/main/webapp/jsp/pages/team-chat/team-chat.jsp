@@ -1,6 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java"
-         import="ru.rsreu.expertsandteams.support.helper.DateHelper" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" import="ru.rsreu.expertsandteams.model.enums.Role" %>
 <html>
 <head>
     <title>Title</title>
@@ -13,22 +12,24 @@
     <div class="w-3/5 overflow-hidden mx-auto mt-8 relative">
         <div class="flex items-center justify-between flex-nowrap w-full p-4 space-x-2 mb-3 bg-white border border-gray-200 rounded-lg shadow-sm">
             <div class="text-xl">${chatResponse.getTeamName()}</div>
-            <div class="flex items-center space-x-2">
-                <button id="write-to-expert-btn"
-                        type="button"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-1.5 focus:outline-none"
-                        data-modal-toggle="write-expert-message-modal">
-                    Write to expert
-                </button>
-                <c:if test="${captain.getId() == user.getId()}">
-                    <button id="settings-btn"
+            <c:if test="${!user.getRole().equalsIgnoreCase(Role.EXPERT.getName())}">
+                <div class="flex items-center space-x-2">
+                    <button id="write-to-expert-btn"
                             type="button"
-                            class="text-lg text-blue-600"
-                            data-modal-toggle="team-settings-modal">
-                        <span class="material-symbols-outlined font-bold">settings</span>
+                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-1.5 focus:outline-none"
+                            data-modal-toggle="write-expert-message-modal">
+                        Write to expert
                     </button>
-                </c:if>
-            </div>
+                    <c:if test="${captain.getId() == user.getId()}">
+                        <button id="settings-btn"
+                                type="button"
+                                class="text-lg text-blue-600"
+                                data-modal-toggle="team-settings-modal">
+                            <span class="material-symbols-outlined font-bold">settings</span>
+                        </button>
+                    </c:if>
+                </div>
+            </c:if>
         </div>
 
         <div class="h-4/6 flex flex-col flex-grow w-full bg-white rounded-lg overflow-hidden border border-gray-200 shadow-sm">
@@ -40,11 +41,11 @@
                                 <p class="font-medium">
                                         ${message.getUserName()} ${message.getExpertName() != null ? " to " : ""}
                                         ${message.getExpertName() != null
-                                            ? (message.getExpertName().equals(user.getName())
+                                                ? (message.getExpertName().equals(user.getName())
                                                 ? "You"
                                                 : message.getExpertName())
-                                            : ""
-                                        }
+                                                : ""
+                                                }
                                 </p>
                                 <p class="text-sm">${message.getMessage()}</p>
                             </div>

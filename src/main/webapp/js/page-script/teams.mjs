@@ -107,7 +107,7 @@ function joinToTeam() {
         availableTeamContainerElement.appendChild(availableTeamElement);
     };
 
-    joinToTeamBtnElement.addEventListener('click', async () => {
+    joinToTeamBtnElement?.addEventListener('click', async () => {
         const res = await makeRequest(Route.TEAMS_AVAILABLE, {}, false);
 
         availableTeamContainerElement.innerHTML = '';
