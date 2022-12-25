@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" import="ru.rsreu.expertsandteams.model.enums.Role" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Teams</title>
     <%@include file="/jsp/shared/meta.jsp" %>
 </head>
 <body id="teams-dashboard">

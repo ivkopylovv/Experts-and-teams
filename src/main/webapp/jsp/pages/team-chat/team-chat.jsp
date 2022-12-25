@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" import="ru.rsreu.expertsandteams.model.enums.Role" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Team Chat</title>
     <%@include file="/jsp/shared/meta.jsp" %>
 </head>
 <body id="team-chat">
@@ -11,7 +11,12 @@
 <div class="container mx-auto pt-14">
     <div class="w-3/5 overflow-hidden mx-auto mt-8 relative">
         <div class="flex items-center justify-between flex-nowrap w-full p-4 space-x-2 mb-3 bg-white border border-gray-200 rounded-lg shadow-sm">
-            <div class="text-xl">${chatResponse.getTeamName()}</div>
+            <div class="flex items-center space-x-3">
+                <span class="text-xl">${chatResponse.getTeamName()}</span>
+                <span class="text-sm text-gray-500">
+                    ${chatResponse.getMembersCount()} members
+                </span>
+            </div>
             <c:if test="${!user.getRole().equalsIgnoreCase(Role.EXPERT.getName())}">
                 <div class="flex items-center space-x-2">
                     <button id="write-to-expert-btn"
