@@ -33,5 +33,9 @@ public class DAOFactory {
     public static LastMessageRequestDAO getLastMessageRequestDAO() {
         return LastMessageRequestDAOImpl.getInstance();
     }
+
+    public static NotificationDAO getNotificationDAO() {
+        return NotificationDAOImpl.getInstance();
+    }
 }
 

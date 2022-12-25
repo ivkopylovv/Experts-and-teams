@@ -251,3 +251,29 @@ ALTER TABLE team_join_requests
             REFERENCES teams (id)
             ON DELETE CASCADE;
 
+------------------------------------------------------
+-- Создание таблицы Уведомления
+CREATE TABLE notifications
+(
+    id NUMBER,
+    user_id NUMBER NOT NULL,
+    message VARCHAR2(500 CHAR) NOT NULL,
+    notification_date TIMESTAMP NOT NULL
+);
+
+-- Первичный ключ таблицы Запросы вступления в команду
+ALTER TABLE notifications
+    ADD (
+    CONSTRAINT notifications_pk PRIMARY KEY (id)
+  );
+
+-- Создание последовательности для автогенерации первичного ключа
+CREATE SEQUENCE notifications_seq START WITH 1;
+
+-- Создание внешнего ключа на таблицу Пользователи
+ALTER TABLE notifications
+    ADD CONSTRAINT notifications_user_fk
+        FOREIGN KEY (user_id)
+            REFERENCES users (id)
+            ON DELETE CASCADE;
+

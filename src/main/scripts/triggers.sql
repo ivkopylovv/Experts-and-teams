@@ -48,3 +48,13 @@ SELECT team_join_requests_seq.nextval
 INTO :new.id
 FROM dual;
 END;
+
+-- Создание триггера для генерации Id при INSERT INTO для таблицы Уведомления
+CREATE OR REPLACE TRIGGER notifications_on_insert
+  BEFORE INSERT ON notifications
+  FOR EACH ROW
+BEGIN
+SELECT notifications_seq.nextval
+INTO :new.id
+FROM dual;
+END;
