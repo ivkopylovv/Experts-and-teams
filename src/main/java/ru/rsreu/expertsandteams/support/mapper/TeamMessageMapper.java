@@ -15,6 +15,15 @@ public class TeamMessageMapper {
     private TeamMessageMapper() {
     }
 
+    public static TeamMessage mapToEmptyTeamMessage(Long teamId, String message, String userName) {
+        return new TeamMessage(
+                new Team(teamId),
+                new User(),
+                String.format(message, userName),
+                new User()
+        );
+    }
+
     public static TeamMessage mapToTeamMessage(SendMessageRequest request, User user, User expert) {
         return new TeamMessage(
                 new Team(

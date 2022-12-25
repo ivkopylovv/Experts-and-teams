@@ -1,8 +1,6 @@
 package ru.rsreu.expertsandteams.service.impl;
 
-import ru.rsreu.expertsandteams.database.dao.DAOFactory;
-import ru.rsreu.expertsandteams.database.dao.TeamDAO;
-import ru.rsreu.expertsandteams.database.dao.TeamJoinRequestDAO;
+import ru.rsreu.expertsandteams.database.dao.*;
 import ru.rsreu.expertsandteams.model.api.request.JoinTeamDecisionRequest;
 import ru.rsreu.expertsandteams.model.api.request.JoinTeamRequest;
 import ru.rsreu.expertsandteams.model.api.response.JoinTeamResponse;
@@ -10,21 +8,31 @@ import ru.rsreu.expertsandteams.model.entity.Team;
 import ru.rsreu.expertsandteams.model.entity.TeamJoinRequest;
 import ru.rsreu.expertsandteams.model.entity.User;
 import ru.rsreu.expertsandteams.model.error.TeamJoinRequestNotFoundException;
+import ru.rsreu.expertsandteams.model.error.UserNotFoundException;
 import ru.rsreu.expertsandteams.service.TeamJoinRequestService;
 import ru.rsreu.expertsandteams.support.mapper.TeamJoinRequestMapper;
+import ru.rsreu.expertsandteams.support.mapper.TeamMessageMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static ru.rsreu.expertsandteams.constant.ChatMessage.JOIN_TEAM_MESSAGE;
 
 public class TeamJoinRequestServiceImpl implements TeamJoinRequestService {
     private static volatile TeamJoinRequestServiceImpl instance;
 
     private final TeamJoinRequestDAO teamJoinRequestDAO;
     private final TeamDAO teamDAO;
+    private final UserDAO userDAO;
+    private final TeamMessageDAO teamMessageDAO;
 
-    public TeamJoinRequestServiceImpl(TeamJoinRequestDAO teamJoinRequestDAO, TeamDAO teamDAO) {
+    public TeamJoinRequestServiceImpl(
+            TeamJoinRequestDAO teamJoinRequestDAO, TeamDAO teamDAO,
+            UserDAO userDAO, TeamMessageDAO teamMessageDAO) {
         this.teamJoinRequestDAO = teamJoinRequestDAO;
         this.teamDAO = teamDAO;
+        this.userDAO = userDAO;
+        this.teamMessageDAO = teamMessageDAO;
     }
 
     @Override
@@ -53,13 +61,20 @@ public class TeamJoinRequestServiceImpl implements TeamJoinRequestService {
     @Override
     public void makeDecisionOnRequest(JoinTeamDecisionRequest request) {
         TeamJoinRequest teamJoinRequest = findById(request.getId());
+        User user = userDAO.findById(teamJoinRequest.getUser().getId())
+                .orElseThrow(UserNotFoundException::new);
 
         if (request.isAccepted()) {
             teamDAO.addTeamMember(
                     teamJoinRequest.getTeam().getId(),
-                    teamJoinRequest.getUser().getId()
+                    user.getId()
             );
             teamDAO.incrementTeamMembers(teamJoinRequest.getTeam().getId());
+            teamMessageDAO.save(TeamMessageMapper.mapToEmptyTeamMessage(
+                    teamJoinRequest.getTeam().getId(),
+                    JOIN_TEAM_MESSAGE,
+                    user.getName())
+            );
         }
 
         teamJoinRequestDAO.deleteById(request.getId());
@@ -70,7 +85,9 @@ public class TeamJoinRequestServiceImpl implements TeamJoinRequestService {
             if (instance == null) {
                 instance = new TeamJoinRequestServiceImpl(
                         DAOFactory.getTeamJoinRequestDAO(),
-                        DAOFactory.getTeamDAO()
+                        DAOFactory.getTeamDAO(),
+                        DAOFactory.getUserDAO(),
+                        DAOFactory.getTeamMessageDAO()
                 );
             }
         }

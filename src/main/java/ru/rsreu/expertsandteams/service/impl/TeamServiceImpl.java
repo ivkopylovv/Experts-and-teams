@@ -1,5 +1,6 @@
 package ru.rsreu.expertsandteams.service.impl;
 
+import ru.rsreu.expertsandteams.database.dao.TeamMessageDAO;
 import ru.rsreu.expertsandteams.database.dao.UserDAO;
 import ru.rsreu.expertsandteams.model.api.response.TeamResponse;
 import ru.rsreu.expertsandteams.model.entity.Team;
@@ -10,11 +11,14 @@ import ru.rsreu.expertsandteams.model.error.LeaveTeamNoPermissionException;
 import ru.rsreu.expertsandteams.model.error.TeamNotFoundException;
 import ru.rsreu.expertsandteams.service.TeamService;
 import ru.rsreu.expertsandteams.support.mapper.TeamMapper;
+import ru.rsreu.expertsandteams.support.mapper.TeamMessageMapper;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static ru.rsreu.expertsandteams.constant.ChatMessage.JOIN_TEAM_MESSAGE;
+import static ru.rsreu.expertsandteams.constant.ChatMessage.LEAVE_TEAM_MESSAGE;
 import static ru.rsreu.expertsandteams.model.enums.Role.*;
 
 public class TeamServiceImpl implements TeamService {
@@ -22,10 +26,12 @@ public class TeamServiceImpl implements TeamService {
 
     private final TeamDAO teamDAO;
     private final UserDAO userDAO;
+    private final TeamMessageDAO teamMessageDAO;
 
-    public TeamServiceImpl(TeamDAO teamDAO, UserDAO userDAO) {
+    public TeamServiceImpl(TeamDAO teamDAO, UserDAO userDAO, TeamMessageDAO teamMessageDAO) {
         this.teamDAO = teamDAO;
         this.userDAO = userDAO;
+        this.teamMessageDAO = teamMessageDAO;
     }
 
     @Override
@@ -67,6 +73,11 @@ public class TeamServiceImpl implements TeamService {
             } else {
                 teamDAO.deleteTeamMember(teamId, user.getId());
                 teamDAO.decrementTeamMembers(teamId);
+                teamMessageDAO.save(TeamMessageMapper.mapToEmptyTeamMessage(
+                        teamId,
+                        LEAVE_TEAM_MESSAGE,
+                        user.getName())
+                );
             }
         }
     }
@@ -91,7 +102,8 @@ public class TeamServiceImpl implements TeamService {
             if (instance == null) {
                 instance = new TeamServiceImpl(
                         DAOFactory.getTeamDAO(),
-                        DAOFactory.getUserDAO()
+                        DAOFactory.getUserDAO(),
+                        DAOFactory.getTeamMessageDAO()
                 );
             }
         }
