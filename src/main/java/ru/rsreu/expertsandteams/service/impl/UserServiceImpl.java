@@ -50,8 +50,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void signUp(SignUpRequest signUpRequest) {
-        if (userDAO.findByUsername(signUpRequest.getUsername()).isPresent())
+        if (userDAO.findByUsername(signUpRequest.getUsername()).isPresent()) {
             throw new UserAlreadyExistsException();
+        }
 
         User user = UserMapper.mapToUser(signUpRequest);
 

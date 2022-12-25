@@ -50,7 +50,7 @@ public class AuthFilter implements Filter {
         if (!session.isPresent() || !SessionHelper.checkValid(session.get())) {
             userId.ifPresent(id -> userService.logout(new User(id)));
 
-            if (path.equals(Route.SIGNIN.getRelative())) {
+            if (path.equals(Route.SIGNIN.getRelative()) || path.equals(Route.SIGNUP.getRelative())) {
                 next.doFilter(request, response);
                 return;
             }

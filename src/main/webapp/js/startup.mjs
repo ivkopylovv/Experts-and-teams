@@ -2,7 +2,6 @@ import {whenDomReady} from './util.mjs';
 
 whenDomReady(() => {
     selectActiveLink();
-    window.addEventListener('popstate', selectActiveLink);
 });
 
 function selectActiveLink() {

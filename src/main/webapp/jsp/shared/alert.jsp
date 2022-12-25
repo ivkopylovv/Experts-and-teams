@@ -35,7 +35,7 @@
                     </svg>
                 </button>
             </div>
-            <div id="error-alert-message" class="pt-1 pr-5">Boba</div>
+            <div id="error-alert-message" class="pt-1 pr-5"></div>
         </div>
     </div>
 </div>

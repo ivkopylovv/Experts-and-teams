@@ -8,7 +8,7 @@
 <body id="signin">
 <%@include file="/jsp/shared/header-unauth.jsp" %>
 <div class="body flex flex-col items-center justify-center">
-    <form id="signin-form" class="w-full max-w-sm mt-8 p-6 bg-white border border-gray-200 rounded-lg shadow-md">
+    <form id="signin-form" class="w-full max-w-md mt-8 p-6 bg-white border border-gray-200 rounded-lg shadow-md">
         <h1 class="text-2xl mb-2 text-center">Sign In</h1>
 
         <div class="mb-4">

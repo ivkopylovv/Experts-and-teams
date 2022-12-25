@@ -34,8 +34,10 @@ public class ExceptionAdvice extends Router {
         }
 
         if (exception instanceof UserAlreadyExistsException) {
-            request.setAttribute(PUSH_ERROR, USER_ALREADY_EXIST_ERROR);
-            forward(Jsp.SIGNUP);
+            json(
+                    new ErrorResponse(USER_ALREADY_EXIST_ERROR),
+                    HttpServletResponse.SC_BAD_REQUEST
+            );
 
             return;
         }
