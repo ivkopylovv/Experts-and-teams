@@ -148,19 +148,26 @@ function sendingMessage() {
 }
 
 function createMessage({userName, expertName, message, date}, container, my = true) {
-    const messageSelector = my
-        ? (expertName ? '#my-message-to-expert-template' : '#my-message-template')
-        : (expertName ? '#other-message-to-expert-template' : '#other-message-template');
+    const messageSelector = userName
+        ? (my
+            ? (expertName ? '#my-message-to-expert-template' : '#my-message-template')
+            : (expertName ? '#other-message-to-expert-template' : '#other-message-template'))
+        : '#common-message-template';
     const messageElement = SelectorEngine.importElement(messageSelector);
 
     if (expertName) {
         messageElement.querySelector('.message-user-name').innerHTML = `${userName} to ${expertName}`;
     } else {
-        messageElement.querySelector('.message-user-name').innerHTML = userName;
+        if (userName) {
+            messageElement.querySelector('.message-user-name').innerHTML = userName;
+        }
     }
 
     messageElement.querySelector('.message-body').innerHTML = message;
-    messageElement.querySelector('.message-date').innerHTML = date;
+
+    if (userName) {
+        messageElement.querySelector('.message-date').innerHTML = date;
+    }
 
     container.appendChild(messageElement);
     container.scrollTop = container.scrollHeight;

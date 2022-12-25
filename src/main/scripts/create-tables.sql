@@ -101,7 +101,7 @@ CREATE TABLE team_messages
 (
     id NUMBER,
     team_id NUMBER NOT NULL,
-    user_id NUMBER NOT NULL,
+    user_id NUMBER,
     message VARCHAR2(500 CHAR) NOT NULL,
     message_date TIMESTAMP NOT NULL,
     expert_id NUMBER

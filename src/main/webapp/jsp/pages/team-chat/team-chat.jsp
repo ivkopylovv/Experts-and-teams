@@ -35,24 +35,21 @@
         <div class="h-4/6 flex flex-col flex-grow w-full bg-white rounded-lg overflow-hidden border border-gray-200 shadow-sm">
             <div id="message-container" class="flex flex-col flex-grow h-0 p-4 overflow-auto">
                 <c:forEach items="${chatResponse.getMessages()}" var="message">
-                    <div class="flex w-full mt-2 space-x-3 max-w-xs ${message.getUserId() == user.getId() ? "ml-auto justify-end" : ""}">
-                        <div>
-                            <div class="${message.getUserId() == user.getId() ? "bg-blue-500 text-white" : "bg-gray-300"} ${message.getExpertName() != null ? "bg-rose-400 text-white" : ""} ${message.getUserId() != user.getId() && message.getExpertName() == null ? "text-gray-700" : ""} p-3 rounded-lg rounded-bl-lg">
+                    <div class="flex w-full mt-2 ${message.getUserId() != 0 ? "max-w-xs" : ""} ${message.getUserId() == user.getId() ? "ml-auto flex-col justify-end items-end" : "flex-col items-start"} ${message.getUserId() == 0 ? "items-center justify-center" : ""}">
+                        <div class="${message.getUserId() == user.getId() ? "bg-blue-500 text-white" : (message.getUserId() != 0 ? "bg-gray-300" : "")} ${message.getExpertName() != null ? "bg-rose-400 text-white" : ""} ${message.getUserId() != user.getId() && message.getExpertName() == null || message.getUserId() == 0  ? "text-gray-700" : ""} p-3 rounded-lg rounded-bl-lg">
+                            <c:if test="${message.getUserId() != 0}">
                                 <p class="font-medium">
-                                        ${message.getUserName()} ${message.getExpertName() != null ? " to " : ""}
-                                        ${message.getExpertName() != null
-                                                ? (message.getExpertName().equals(user.getName())
-                                                ? "You"
-                                                : message.getExpertName())
-                                                : ""
-                                                }
+                                        ${message.getUserName()} ${message.getExpertName() != null
+                                            ? " to ".concat(message.getExpertName().equals(user.getName()) ? "You" : message.getExpertName())
+                                            : ""
+                                        }
                                 </p>
-                                <p class="text-sm">${message.getMessage()}</p>
-                            </div>
-                            <span class="text-xs text-gray-500 leading-none block mt-1">
-                                    ${message.getDate()}
-                            </span>
+                            </c:if>
+                            <p class="text-sm">${message.getMessage()}</p>
                         </div>
+                        <c:if test="${message.getUserId() != 0}">
+                            <span class="text-xs text-gray-500 leading-none block mt-1">${message.getDate()}</span>
+                        </c:if>
                     </div>
                 </c:forEach>
             </div>
@@ -83,6 +80,7 @@
 <%@include file="/jsp/templates/other-messge-template.jsp" %>
 <%@include file="/jsp/templates/my-message-to-expert-template.jsp" %>
 <%@include file="/jsp/templates/other-message-to-expert-template.jsp" %>
+<%@include file="/jsp/templates/common-message-template.jsp" %>
 <%@include file="/jsp/templates/team-expert-template.jsp" %>
 
 <%@include file="/jsp/shared/scripts.jsp" %>
