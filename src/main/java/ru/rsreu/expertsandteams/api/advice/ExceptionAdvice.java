@@ -64,6 +64,6 @@ public class ExceptionAdvice extends Router {
             return;
         }
 
-        throw new RuntimeException(exception);
+        response.sendRedirect(Route.NOT_FOUND.getAbsolute());
     }
 }

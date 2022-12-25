@@ -6,7 +6,7 @@
     <%@include file="/jsp/shared/meta.jsp" %>
 </head>
 <body id="teams-dashboard">
-<%@include file="/jsp/shared/header.jsp" %>
+<%@include file="/jsp/shared/header-with-notifications.jsp" %>
 
 <div class="container mx-auto pt-14">
     <div class="w-3/5 overflow-hidden mx-auto mt-8 relative">

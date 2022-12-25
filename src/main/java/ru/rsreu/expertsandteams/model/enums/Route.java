@@ -19,6 +19,8 @@ public enum Route {
     TEAM_CHAT("Team Chat", "/teams/chat"),
     TEAMS("Teams", "/teams"),
 
+    NOTIFICATIONS("Notifications", "/notifications"),
+
     LOGOUT("Logout", "/logout"),
     SIGNIN("Sign In", "/signin"),
     SIGNUP("Sign Up", "/signup"),

@@ -17,6 +17,8 @@ public class CommandConfig {
 
             Map.entry(Route.MODERATOR_DASHBOARD, new ModeratorDashboardCommand()),
 
+            Map.entry(Route.NOTIFICATIONS, new NotificationCommand()),
+
             Map.entry(Route.TEAMS_JOIN_REQUEST_DECISION, new MakeRequestDecisionCommand()),
             Map.entry(Route.TEAMS_JOIN_REQUEST, new JoinRequestCommand()),
             Map.entry(Route.TEAMS_AVAILABLE, new AvailableTeamsCommand()),
@@ -42,6 +44,8 @@ public class CommandConfig {
             Route.ADMIN_DASHBOARD,
 
             Route.MODERATOR_DASHBOARD,
+
+            Route.NOTIFICATIONS,
 
             Route.TEAMS_JOIN_REQUEST_DECISION,
             Route.TEAMS_JOIN_REQUEST,

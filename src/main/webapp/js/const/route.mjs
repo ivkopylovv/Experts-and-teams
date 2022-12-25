@@ -17,6 +17,8 @@ export const Route = {
     TEAM_CHAT: 'teams/chat',
     TEAMS: 'teams',
 
+    NOTIFICATIONS: 'notifications',
+
     LOGOUT: 'logout',
     SIGNIN: 'signin',
     SIGNUP: 'signup'

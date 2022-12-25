@@ -2,6 +2,7 @@ import {Control, Validators} from "../entity/control.mjs";
 import {makeRequest} from "../util.mjs";
 import {Route} from "../const/route.mjs";
 import {SelectorEngine} from "../dom/selector-engine.mjs";
+import {handleNotifications} from "../shared/notification.mjs";
 
 const isTeamChat = document.querySelector('#team-chat');
 const params = new Proxy(new URLSearchParams(window.location.search), {
@@ -18,6 +19,7 @@ function main() {
     lastMessages();
     teamExperts();
     availableExperts();
+    handleNotifications();
 }
 
 function availableExperts() {

@@ -3,6 +3,7 @@ import {Control, Validators} from "../entity/control.mjs";
 import {makeRequest, redirect, reload, sendNotification} from "../util.mjs";
 import {Route} from "../const/route.mjs";
 import {SelectorEngine} from "../dom/selector-engine.mjs";
+import {handleNotifications} from "../shared/notification.mjs";
 
 const TEAM_NAME = 'name';
 
@@ -53,6 +54,7 @@ function main() {
 
     joinToTeam();
     openTeamChat();
+    handleNotifications();
 }
 
 function openTeamChat() {

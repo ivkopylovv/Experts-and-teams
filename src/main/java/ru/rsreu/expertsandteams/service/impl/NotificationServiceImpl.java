@@ -2,7 +2,6 @@ package ru.rsreu.expertsandteams.service.impl;
 
 import ru.rsreu.expertsandteams.database.dao.DAOFactory;
 import ru.rsreu.expertsandteams.database.dao.NotificationDAO;
-import ru.rsreu.expertsandteams.model.api.request.RemoveNotificationRequest;
 import ru.rsreu.expertsandteams.model.api.response.NotificationResponse;
 import ru.rsreu.expertsandteams.model.entity.User;
 import ru.rsreu.expertsandteams.service.NotificationService;
@@ -21,8 +20,8 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void deleteNotification(RemoveNotificationRequest request) {
-        notificationDAO.deleteById(request.getNotificationId());
+    public void deleteNotification(Long id) {
+        notificationDAO.deleteById(id);
     }
 
     @Override
