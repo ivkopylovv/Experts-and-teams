@@ -50,7 +50,6 @@ public abstract class Router {
         String bodyAsString = request.getReader()
                 .lines()
                 .collect(Collectors.joining());
-        System.out.println(bodyAsString);
 
         return (T)new Gson().fromJson(bodyAsString, bodyClass);
     }

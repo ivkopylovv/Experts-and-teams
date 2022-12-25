@@ -36,7 +36,7 @@ public class PermissionFilter implements Filter {
         Optional<User> user = UserHelper.getFromRequest(request);
 
         if (!user.isPresent()) {
-            if (path.equals(Route.SIGNIN.getRelative())) {
+            if (path.equals(Route.SIGNIN.getRelative()) || path.equals(Route.SIGNUP.getRelative())) {
                 filterChain.doFilter(request, response);
                 return;
             }

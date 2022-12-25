@@ -1,10 +1,10 @@
 import {ROLE} from '../const/global.mjs';
-import {whenDomReady, makeRequest} from '../util.mjs';
+import {whenDomReady, makeRequest, sendNotification, redirect} from '../util.mjs';
 import {SelectorEngine} from '../dom/selector-engine.mjs';
 import {createFormConfig, FormGroup} from '../entity/formGroup.mjs';
 import {Control, Validators} from '../entity/control.mjs';
 import {handleExpertSkills} from '../shared/skills.mjs';
-import {handleAlerts} from '../shared/alert.mjs';
+import {Route} from "../const/route.mjs";
 
 const SignupControl = {
     NAME: 'name',
@@ -14,24 +14,39 @@ const SignupControl = {
 };
 
 const Role = {
-    EXPERT: 'expert',
-    USER: 'user'
+    EXPERT: 'Expert',
+    USER: 'User'
 };
 
 function handleSignupSubmit() {
-    const formData = new FormData(this.getFormElement());
-    const thereIsSkill = checkThereIsSkill(formData);
+    const formElement = this.getFormElement();
+    const skills = [...formElement.querySelectorAll('input[name="skill"]')]
+        .map(input => input.value?.trim() ?? '')
+        .filter(value => !!value);
 
-    formData.set(ROLE, thereIsSkill ? Role.EXPERT : Role.USER);
+    const dto = {
+        name: this.getControl(SignupControl.NAME).getValue(),
+        username: this.getControl(SignupControl.USERNAME).getValue(),
+        password: this.getControl(SignupControl.PASSWORD).getValue(),
+        role: !!skills.length ? Role.EXPERT : Role.USER,
+        skills
+    };
 
-    makeRequest(this.getAction(), {body: formData}).then(() => {
-        // TODO:
+    makeRequest(Route.SIGNUP, {body: dto, method: 'post'}, false).then(res => {
+        if (res?.status === 400) {
+            sendNotification('Error', res.data.message);
+            this.clear();
+
+            return;
+        }
+
+        redirect(Route.SIGNIN);
     });
 }
 
 function passwordValidator() {
-    const passwordControl = this.getControl(SignupControl.Password);
-    const confirmPasswordControl = this.getControl(SignupControl.ConfirmPassword);
+    const passwordControl = this.getControl(SignupControl.PASSWORD);
+    const confirmPasswordControl = this.getControl(SignupControl.CONFIRM_PASSWORD);
 
     return passwordControl.getValue() === confirmPasswordControl.getValue();
 }
@@ -45,7 +60,7 @@ function handleSignup() {
     };
 
     const formGroup = new FormGroup(
-        createFormConfig('#signup'),
+        createFormConfig('#signup-form'),
         controls,
         handleSignupSubmit,
         [passwordValidator]
@@ -63,27 +78,8 @@ function handleSignup() {
     });
 }
 
-function checkThereIsSkill(formData) {
-    for (const pair of formData.entries()) {
-        const key = pair[0];
-        const value = pair[1];
+const isSignup = !!document.querySelector('#signup');
 
-        if (key === 'skill' && typeof value === 'string' && value !== '') {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-const SIGNUP = '#signup';
-
-whenDomReady(() => {
-    const isSignup = !!document.querySelector(SIGNUP);
-
-    if (!isSignup) {
-        return;
-    }
-
+if (isSignup) {
     handleSignup();
-});
+}

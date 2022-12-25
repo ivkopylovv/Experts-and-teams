@@ -41,6 +41,15 @@ export class FormGroup {
         return this._formElement.action;
     }
 
+    clear() {
+        Object.getOwnPropertyNames(this._controls)
+            .map(name => {
+                const control = this._controls[name];
+
+                control.clear();
+            });
+    }
+
     _bindValidators() {
         this._validators = this._validators.map(validator => validator.bind(this));
     }

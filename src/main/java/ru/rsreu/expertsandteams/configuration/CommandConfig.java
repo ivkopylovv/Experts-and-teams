@@ -29,6 +29,7 @@ public class CommandConfig {
             Map.entry(Route.TEAMS, new TeamsCommand()),
 
             Map.entry(Route.SIGNIN, new SigninCommand()),
+            Map.entry(Route.SIGNUP, new SignupCommand()),
             Map.entry(Route.LOGOUT, new LogoutCommand()),
 
             Map.entry(Route.NOT_FOUND, new NotFoundCommand())
@@ -54,6 +55,7 @@ public class CommandConfig {
             Route.TEAMS,
 
             Route.SIGNIN,
+            Route.SIGNUP,
             Route.LOGOUT,
 
             Route.NOT_FOUND
