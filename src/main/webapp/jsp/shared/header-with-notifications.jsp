@@ -16,7 +16,7 @@
             </button>
 
             <div id="notification-dropdown"
-                 class="hidden z-20 w-full max-w-sm bg-white rounded divide-y divide-gray-100 shadow"
+                 class="hidden rounded-lg overflow-hidden z-20 w-full max-w-sm bg-white divide-y divide-gray-100 shadow"
                  aria-labelledby="notification-btn">
                 <div class="block py-2 px-4 font-medium text-center text-gray-700 bg-gray-50">
                     Notifications

@@ -23,6 +23,7 @@ public class NotificationDAOImpl extends AbstractDAO implements NotificationDAO 
             st.setLong(1, notification.getUser().getId());
             st.setString(2, notification.getMessage());
             st.setDate(3, new Date(System.currentTimeMillis()));
+            st.setBoolean(4, notification.getAccepted());
 
             st.executeUpdate();
         } catch (SQLException e) {

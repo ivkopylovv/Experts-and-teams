@@ -4,11 +4,13 @@ public class NotificationResponse {
     private Long id;
     private String message;
     private String date;
+    private Boolean isAccepted;
 
-    public NotificationResponse(Long id, String message, String date) {
+    public NotificationResponse(Long id, String message, String date, Boolean isAccepted) {
         this.id = id;
         this.message = message;
         this.date = date;
+        this.isAccepted = isAccepted;
     }
 
     public Long getId() {
@@ -33,5 +35,13 @@ public class NotificationResponse {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public Boolean getAccepted() {
+        return isAccepted;
+    }
+
+    public void setAccepted(Boolean accepted) {
+        isAccepted = accepted;
     }
 }

@@ -6,13 +6,21 @@ export function handleNotifications() {
     const notificationBtnEl = document.querySelector('#notification-btn');
     const notificationContainerEl = document.querySelector('#notification-container');
 
-    const createNotificationEl = ({id, message, date}) => {
-        const notificationEl = SelectorEngine.importElement('#notification-template');
+    const createNotificationEl = ({id, message, date, isAccepted}) => {
+        const notificationTemplateEl = SelectorEngine.importElement('#notification-template');
 
-        notificationEl.querySelector('.message').innerHTML = message;
-        notificationEl.querySelector('.date').innerHTML = date;
+        const notificationEl = notificationTemplateEl.querySelector('.notification');
 
-        const removeBtnEl = notificationEl.querySelector('.remove-btn');
+        if (isAccepted) {
+            notificationEl.classList.add('bg-green-100', 'hover:bg-green-200');
+        } else {
+            notificationEl.classList.add('bg-red-100', 'hover:bg-red-200');
+        }
+
+        notificationTemplateEl.querySelector('.message').innerHTML = message;
+        notificationTemplateEl.querySelector('.date').innerHTML = date;
+
+        const removeBtnEl = notificationTemplateEl.querySelector('.remove-btn');
 
         removeBtnEl.setAttribute('data-notification-id', id);
         removeBtnEl.addEventListener('click', async () => {
@@ -23,7 +31,7 @@ export function handleNotifications() {
             notificationContainerEl.querySelector(`[data-notification-id="${id}"]`).parentElement.remove();
         });
 
-        notificationContainerEl.appendChild(notificationEl);
+        notificationContainerEl.appendChild(notificationTemplateEl);
     };
 
     notificationBtnEl.addEventListener('click', async () => {

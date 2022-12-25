@@ -24,7 +24,8 @@ public class NotificationMapper {
         return new NotificationResponse(
                 notification.getId(),
                 notification.getMessage(),
-                DateHelper.getDateAsString(notification.getNotificationDate())
+                DateHelper.getDateAsString(notification.getNotificationDate()),
+                notification.getAccepted()
         );
     }
 }
