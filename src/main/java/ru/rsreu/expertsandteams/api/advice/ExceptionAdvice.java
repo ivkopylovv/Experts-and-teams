@@ -16,14 +16,19 @@ import static ru.rsreu.expertsandteams.constant.RequestAttribute.PUSH_ERROR;
 public class ExceptionAdvice extends Router {
     public void handleException(Exception exception) throws ServletException, IOException {
         if (exception instanceof RoleNotFoundException) {
-            request.setAttribute(PUSH_ERROR, INTERNAL_ERROR);
-            forward(Jsp.SIGNUP);
+            json(
+                    new ErrorResponse(INTERNAL_ERROR),
+                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR
+            );
 
             return;
         }
 
         if (exception instanceof CredentialsException) {
-            json(new ErrorResponse(CREDENTIALS_ERROR));
+            json(
+                new ErrorResponse(CREDENTIALS_ERROR),
+                HttpServletResponse.SC_BAD_REQUEST
+            );
 
             return;
         }

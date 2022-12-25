@@ -1,4 +1,4 @@
-import {whenDomReady, makeRequest, redirect} from '../util.mjs';
+import {makeRequest, redirect, whenDomReady} from '../util.mjs';
 import {Control, Validators} from '../entity/control.mjs';
 import {createFormConfig, FormGroup} from '../entity/formGroup.mjs';
 import {Route} from "../const/route.mjs";
@@ -9,15 +9,22 @@ const SigninControl = {
 };
 
 function handleSigninSubmit() {
-    const username = this.getControl(SigninControl.USERNAME).getValue();
-    const password = this.getControl(SigninControl.PASSWORD).getValue();
+    const usernameControl = this.getControl(SigninControl.USERNAME);
+    const passwordControl = this.getControl(SigninControl.PASSWORD);
 
     const dto = {
-        username,
-        password
+        username: usernameControl.getValue(),
+        password: passwordControl.getValue()
     };
 
-    makeRequest(Route.SIGNIN, {body:dto, method: 'post'}, false).then(res => {
+    makeRequest(Route.SIGNIN, {body: dto, method: 'post'}, false).then(res => {
+        if (res.status === 400) {
+            usernameControl.showError();
+            passwordControl.showError();
+
+            return;
+        }
+
         redirect(res.data.url);
     });
 }
@@ -35,14 +42,8 @@ function main() {
     );
 }
 
-const SIGNIN = '#signin';
+const isSignin = document.querySelector('#signin');
 
-whenDomReady(() => {
-    const isSignin = document.querySelector(SIGNIN);
-
-    if (!isSignin) {
-        return;
-    }
-
+if (isSignin) {
     main();
-});
+}

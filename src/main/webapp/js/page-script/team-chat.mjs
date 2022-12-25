@@ -176,7 +176,7 @@ function lastMessages() {
         const res = await makeRequest(Route.TEAMS_CHAT_LAST_MESSAGES, {query}, false);
 
         res.data.forEach(message => createMessage(message, messageContainerEl, false));
-    }, 2500);
+    }, 1500);
 }
 
 function joinRequests() {

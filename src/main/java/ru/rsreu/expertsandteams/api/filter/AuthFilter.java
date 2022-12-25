@@ -2,6 +2,7 @@ package ru.rsreu.expertsandteams.api.filter;
 
 import ru.rsreu.expertsandteams.model.entity.Session;
 import ru.rsreu.expertsandteams.api.wrapper.UserRoleRequestWrapper;
+import ru.rsreu.expertsandteams.model.entity.User;
 import ru.rsreu.expertsandteams.model.enums.Route;
 import ru.rsreu.expertsandteams.service.ServiceFactory;
 import ru.rsreu.expertsandteams.service.SessionService;
@@ -47,7 +48,7 @@ public class AuthFilter implements Filter {
                 : Optional.empty();
 
         if (!session.isPresent() || !SessionHelper.checkValid(session.get())) {
-            session.ifPresent(value -> userService.logout(value.getUser()));
+            userId.ifPresent(id -> userService.logout(new User(id)));
 
             if (path.equals(Route.SIGNIN.getRelative())) {
                 next.doFilter(request, response);

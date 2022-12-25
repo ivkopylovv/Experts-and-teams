@@ -6,6 +6,7 @@
     <%@include file="/jsp/shared/meta.jsp" %>
 </head>
 <body id="signin">
+<%@include file="/jsp/shared/header-unauth.jsp" %>
 <div class="body flex flex-col items-center justify-center">
     <form id="signin-form" class="w-full max-w-sm mt-8 p-6 bg-white border border-gray-200 rounded-lg shadow-md">
         <h1 class="text-2xl mb-2 text-center">Sign In</h1>
@@ -27,7 +28,7 @@
             <p class="error_password mt-2 text-sm text-red-600 hidden">Invalid username or password</p>
         </div>
 
-        <button type="submit"
+        <button
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">
             <%@include file="/jsp/icons/button-loader.jsp" %>
             Sign In
