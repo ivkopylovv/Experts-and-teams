@@ -50,10 +50,6 @@ public class PermissionFilter implements Filter {
             return;
         }
 
-        Route startPage = AuthConfig.getStartPage(
-                Role.valueOf(user.get().getRole().toUpperCase())
-        );
-
-        response.sendRedirect(startPage.getAbsolute());
+        response.sendRedirect(Route.NOT_FOUND.getAbsolute());
     }
 }

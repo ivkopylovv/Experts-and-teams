@@ -8,7 +8,7 @@
 <body id="admin-dashboard">
 <%@include file="/jsp/shared/header.jsp" %>
 
-<div class="body flex flex-col items-center justify-center">
+<div class="body">
     <%@include file="/jsp/pages/admin-dashboard/admin-dashboard-table.jsp" %>
 </div>
 

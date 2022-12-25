@@ -147,9 +147,7 @@ function handleSearch() {
             const username = SelectorEngine.findOne('.username', row).innerText.trim();
 
             if (name.includes(value) || username.includes(value)) {
-                if (row.classList.contains(HIDDEN_CLASS)) {
-                    row.classList.remove(HIDDEN_CLASS);
-                }
+                row.classList.remove(HIDDEN_CLASS);
             } else {
                 if (!row.classList.contains(HIDDEN_CLASS)) {
                     row.classList.add(HIDDEN_CLASS);

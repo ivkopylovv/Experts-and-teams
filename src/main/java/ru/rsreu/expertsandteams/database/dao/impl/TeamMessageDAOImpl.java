@@ -7,6 +7,7 @@ import ru.rsreu.expertsandteams.support.mapper.DAOMapper;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +46,7 @@ public class TeamMessageDAOImpl extends AbstractDAO implements TeamMessageDAO {
             st.setLong(1, message.getTeam().getId());
             st.setLong(2, message.getUser().getId());
             st.setString(3, message.getMessage());
-            st.setDate(4, new Date(message.getMessageDate().getTime()));
+            st.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
 
             if (message.getExpert().getId() != null) {
                 st.setLong(5, message.getExpert().getId());

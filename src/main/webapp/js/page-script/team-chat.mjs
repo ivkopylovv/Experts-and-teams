@@ -45,6 +45,7 @@ function availableExperts() {
         createMessage(message, messageContainerEl);
 
         messageControl.clear();
+        availableExpertContainerEl.querySelector(`tr[data-expert-id="${expertId}"]`).remove();
     };
 
     const createAvailableExpertEl = ({expertId, expertName, skills}) => {

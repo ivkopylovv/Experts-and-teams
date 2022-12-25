@@ -7,7 +7,7 @@
 <body>
 
 <div class="flex flex-col w-full h-full items-center justify-center text-center">
-    <h1 class="text-4xl font-extrabold text-purple-600">404</h1>
+    <h1 class="text-4xl font-extrabold text-blue-600">404</h1>
     <p class="text-gray-500">Whoops! That page doesn’t exist.</p>
 </div>
 

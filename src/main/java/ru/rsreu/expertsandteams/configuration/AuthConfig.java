@@ -22,6 +22,7 @@ public class AuthConfig {
             )),
             Map.entry(Role.EXPERT, List.of(
                     Route.LOGOUT,
+                    Route.TEAMS_CHAT_LAST_MESSAGES,
                     Route.TEAM_LEAVE,
                     Route.TEAM_CHAT,
                     Route.TEAMS

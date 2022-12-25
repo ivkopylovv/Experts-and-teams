@@ -5,10 +5,7 @@ import ru.rsreu.expertsandteams.database.dao.LastMessageRequestDAO;
 import ru.rsreu.expertsandteams.model.entity.LastMessageRequest;
 import ru.rsreu.expertsandteams.support.mapper.DAOMapper;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Optional;
 
 public class LastMessageRequestDAOImpl extends AbstractDAO implements LastMessageRequestDAO {
@@ -17,17 +14,18 @@ public class LastMessageRequestDAOImpl extends AbstractDAO implements LastMessag
     @Override
     public void upsert(Long teamId, Long userId) {
         String query = resourcer.getString("last.message.request.query.upsert");
-        Date currentDate = new Date(System.currentTimeMillis());
+        Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+
 
         try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setLong(1, teamId);
             st.setLong(2, userId);
-            st.setDate(3, currentDate);
+            st.setTimestamp(3, currentDate);
             st.setLong(4, teamId);
             st.setLong(5, userId);
             st.setLong(6, teamId);
             st.setLong(7, userId);
-            st.setDate(8, currentDate);
+            st.setTimestamp(8, currentDate);
 
             st.executeUpdate();
         } catch (SQLException e) {

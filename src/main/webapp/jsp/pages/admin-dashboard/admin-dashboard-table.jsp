@@ -1,7 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java"
-         import="ru.rsreu.expertsandteams.support.helper.UserHelper" %>
-<div class="w-3/5 mt-8 overflow-x-auto relative drop-shadow-lg sm:rounded-lg">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<div class="w-3/5 mt-8 mx-auto overflow-hidden relative drop-shadow-lg sm:rounded-lg">
     <div class="p-4 bg-white">
         <label for="table-search-users" class="sr-only">Search</label>
         <div class="relative">
@@ -18,85 +17,87 @@
                    placeholder="Search for users">
         </div>
     </div>
-    <table class="w-full text-sm text-left text-gray-500">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-        <tr class="">
-            <th scope="col" class="py-3 px-6">
-                Name
-            </th>
-            <th scope="col" class="py-3 px-6">
-                Username
-            </th>
-            <th scope="col" class="py-3 px-6">
-                Password
-            </th>
-            <th scope="col" class="py-3 px-6">
-                Status
-            </th>
-            <th scope="col" class="py-3 px-6">
-                Role
-            </th>
-            <th scope="col" class="py-3 px-6">
-                Action
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${users}" var="user">
-            <tr class="table-row bg-white border-b hover:bg-gray-50">
-                <td class="id hidden">
-                        ${user.getId()}
-                </td>
-                <td class="name py-4 px-6">
-                        ${user.getName()}
-                </td>
-                <td class="username py-4 px-6">
-                        ${user.getUsername()}
-                </td>
-                <td class="password py-4 px-6">
-                        ${user.getPassword()}
-                </td>
-                <td class="py-4 px-6">
-                    <div class="flex items-center">
-                        <div class="h-2.5 w-2.5 rounded-full ${user.getOnline() ? "bg-green-400" : "bg-red-500"} mr-2"></div>
-                            ${user.getOnline() ? "Online" : "Offline"}
-                    </div>
-                </td>
-                <td class="role py-4 px-6">
-                        ${user.getRole()}
-                </td>
-                <td class="isBlocked hidden">
-                        ${user.getBlocked()}
-                </td>
-                <td class="py-4 px-6">
-                    <div class="flex items-center space-x-2">
-                        <button
-                                type="button"
-                                data-modal-toggle="edit-user-modal"
-                                class="edit-btn font-medium text-blue-600 hover:underline"
-                        >
-                            Edit user
-                        </button>
-                        <button
-                                type="button"
-                                class="delete-btn font-medium text-red-600 hover:underline"
-                                data-modal-toggle="confirm-delete-modal"
-                                data-user-id="${user.getId()}"
-                        >
-                            Delete user
-                        </button>
-                    </div>
-                </td>
+    <div class="overflow-y-auto max-h-[66%] relative">
+        <table class="w-full text-sm text-left text-gray-500 ">
+            <thead class="sticky top-0 text-xs text-gray-700 uppercase bg-gray-50">
+            <tr>
+                <th scope="col" class="py-3 px-6">
+                    Name
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Username
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Password
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Status
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Role
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Action
+                </th>
             </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            <c:forEach items="${users}" var="user">
+                <tr class="table-row bg-white border-b hover:bg-gray-50">
+                    <td class="id hidden">
+                            ${user.getId()}
+                    </td>
+                    <td class="name py-4 px-6">
+                            ${user.getName()}
+                    </td>
+                    <td class="username py-4 px-6">
+                            ${user.getUsername()}
+                    </td>
+                    <td class="password py-4 px-6">
+                            ${user.getPassword()}
+                    </td>
+                    <td class="py-4 px-6">
+                        <div class="flex items-center">
+                            <div class="h-2.5 w-2.5 rounded-full ${user.getOnline() ? "bg-green-400" : "bg-red-500"} mr-2"></div>
+                                ${user.getOnline() ? "Online" : "Offline"}
+                        </div>
+                    </td>
+                    <td class="role py-4 px-6">
+                            ${user.getRole()}
+                    </td>
+                    <td class="isBlocked hidden">
+                            ${user.getBlocked()}
+                    </td>
+                    <td class="py-4 px-6">
+                        <div class="flex items-center space-x-2">
+                            <button
+                                    type="button"
+                                    data-modal-toggle="edit-user-modal"
+                                    class="edit-btn font-medium text-blue-600"
+                            >
+                                <span class="material-symbols-outlined font-medium">border_color</span>
+                            </button>
+                            <button
+                                    type="button"
+                                    class="delete-btn font-medium text-red-600"
+                                    data-modal-toggle="confirm-delete-modal"
+                                    data-user-id="${user.getId()}"
+                            >
+                                <span class="material-symbols-outlined font-medium">delete_forever</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
     <div class="mt-2">
         <button id="add-user" type="button"
-                class="flex items-center ml-auto text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-2.5 py-1.5"
+                class="flex items-center ml-auto text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-base px-3 py-2"
                 data-modal-toggle="add-user-modal"
         >
-            <span class="material-symbols-outlined text-base font-bold mr-1">add</span>
+            <span class="material-symbols-outlined text-xl font-medium mr-1">person_add</span>
             Add user
         </button>
     </div>
