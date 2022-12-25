@@ -98,4 +98,13 @@ public class DAOMapper {
                 resultSet.getDate("request_date")
         );
     }
+
+    public static Notification mapToNotification(ResultSet resultSet) throws SQLException {
+        return new Notification(
+                resultSet.getLong("id"),
+                new User(resultSet.getLong("user_id")),
+                resultSet.getString("message"),
+                resultSet.getDate("notification_date")
+        );
+    }
 }

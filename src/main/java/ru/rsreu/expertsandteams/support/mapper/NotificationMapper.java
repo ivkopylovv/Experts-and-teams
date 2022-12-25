@@ -1,0 +1,29 @@
+package ru.rsreu.expertsandteams.support.mapper;
+
+import ru.rsreu.expertsandteams.model.api.response.NotificationResponse;
+import ru.rsreu.expertsandteams.model.entity.Notification;
+import ru.rsreu.expertsandteams.model.entity.User;
+import ru.rsreu.expertsandteams.support.helper.DateHelper;
+
+import static ru.rsreu.expertsandteams.constant.ActionMessage.*;
+
+public class NotificationMapper {
+    private NotificationMapper() {
+    }
+
+    public static Notification mapToNotification(User user, User captain, Boolean isAccepted) {
+        return new Notification(
+                user,
+                isAccepted ? String.format(captain.getName(), ACCEPT_JOIN_TEAM)
+                        : String.format(captain.getName(), DENIED_JOIN_TEAM)
+        );
+    }
+
+    public static NotificationResponse mapToNotificationResponse(Notification notification) {
+        return new NotificationResponse(
+                notification.getId(),
+                notification.getMessage(),
+                DateHelper.getDateAsString(notification.getNotificationDate())
+        );
+    }
+}

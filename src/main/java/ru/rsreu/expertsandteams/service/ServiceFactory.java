@@ -25,4 +25,8 @@ public class ServiceFactory {
     public static TeamMessageService getTeamMessageService() {
         return TeamMessageServiceImpl.getInstance();
     }
+
+    public static NotificationService getNotificationService() {
+        return NotificationServiceImpl.getInstance();
+    }
 }

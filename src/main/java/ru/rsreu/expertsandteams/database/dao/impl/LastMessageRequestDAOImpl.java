@@ -16,7 +16,6 @@ public class LastMessageRequestDAOImpl extends AbstractDAO implements LastMessag
         String query = resourcer.getString("last.message.request.query.upsert");
         Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 
-
         try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setLong(1, teamId);
             st.setLong(2, userId);

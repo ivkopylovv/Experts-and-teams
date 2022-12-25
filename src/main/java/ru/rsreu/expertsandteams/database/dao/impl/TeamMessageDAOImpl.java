@@ -40,7 +40,9 @@ public class TeamMessageDAOImpl extends AbstractDAO implements TeamMessageDAO {
     public Optional<TeamMessage> save(TeamMessage message) {
         String query = resourcer.getString("team.message.query.save");
         String[] returnId = {"id"};
-        message.setMessageDate(new Date(System.currentTimeMillis()));
+
+        long currentTime = System.currentTimeMillis();
+        message.setMessageDate(new Date(currentTime));
 
         try (PreparedStatement st = connection.prepareStatement(query, returnId)) {
             st.setLong(1, message.getTeam().getId());
@@ -52,7 +54,7 @@ public class TeamMessageDAOImpl extends AbstractDAO implements TeamMessageDAO {
             }
 
             st.setString(3, message.getMessage());
-            st.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+            st.setTimestamp(4, new Timestamp(currentTime));
 
             if (message.getExpert().getId() != null) {
                 st.setLong(5, message.getExpert().getId());

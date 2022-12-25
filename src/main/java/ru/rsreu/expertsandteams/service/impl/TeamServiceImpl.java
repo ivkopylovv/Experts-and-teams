@@ -17,8 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static ru.rsreu.expertsandteams.constant.ChatMessage.JOIN_TEAM_MESSAGE;
-import static ru.rsreu.expertsandteams.constant.ChatMessage.LEAVE_TEAM_MESSAGE;
+import static ru.rsreu.expertsandteams.constant.ActionMessage.LEAVE_TEAM_MESSAGE;
 import static ru.rsreu.expertsandteams.model.enums.Role.*;
 
 public class TeamServiceImpl implements TeamService {
