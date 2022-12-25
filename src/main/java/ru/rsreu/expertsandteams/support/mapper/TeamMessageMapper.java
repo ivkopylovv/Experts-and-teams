@@ -41,9 +41,10 @@ public class TeamMessageMapper {
         );
     }
 
-    public static ChatResponse mapToChatResponse(List<TeamMessage> teamMessages, String teamName) {
+    public static ChatResponse mapToChatResponse(List<TeamMessage> teamMessages, Team team) {
         return new ChatResponse(
-                teamName,
+                team.getName(),
+                team.getMembersCount(),
                 teamMessages
                         .stream()
                         .map(TeamMessageMapper::mapToMessageResponse)

@@ -1,13 +1,15 @@
 package ru.rsreu.expertsandteams.model.api.request;
 
+import java.util.List;
+
 public class SignUpRequest {
     private String name;
     private String username;
     private String password;
     private String role;
-    private String[] skills;
+    private List<String> skills;
 
-    public SignUpRequest(String name, String username, String password, String role, String[] skills) {
+    public SignUpRequest(String name, String username, String password, String role, List<String> skills) {
         this.name = name;
         this.username = username;
         this.password = password;
@@ -47,11 +49,11 @@ public class SignUpRequest {
         this.role = role;
     }
 
-    public String[] getSkills() {
+    public List<String> getSkills() {
         return skills;
     }
 
-    public void setSkills(String[] skills) {
+    public void setSkills(List<String> skills) {
         this.skills = skills;
     }
 }
