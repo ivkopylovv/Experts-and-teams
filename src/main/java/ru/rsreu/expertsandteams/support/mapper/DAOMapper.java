@@ -104,7 +104,8 @@ public class DAOMapper {
                 resultSet.getLong("id"),
                 new User(resultSet.getLong("user_id")),
                 resultSet.getString("message"),
-                resultSet.getDate("notification_date")
+                resultSet.getDate("notification_date"),
+                resultSet.getBoolean("is_accepted")
         );
     }
 }

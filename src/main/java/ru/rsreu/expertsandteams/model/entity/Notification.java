@@ -33,18 +33,25 @@ public class Notification {
     private Date notificationDate;
 
     /**
+     * Flag indicating rejection or acceptance notification
+     */
+    private Boolean isAccepted;
+
+    /**
      * Constructor for class {@link Notification}
      *
      * @param id {@link Notification#id}
      * @param user {@link Notification#user}
      * @param message {@link Notification#message}
      * @param notificationDate {@link Notification#notificationDate}
+     * @param isAccepted {@link Notification#isAccepted}
      */
-    public Notification(Long id, User user, String message, Date notificationDate) {
+    public Notification(Long id, User user, String message, Date notificationDate, Boolean isAccepted) {
         this.id = id;
         this.user = user;
         this.message = message;
         this.notificationDate = notificationDate;
+        this.isAccepted = isAccepted;
     }
 
     /**
@@ -52,10 +59,12 @@ public class Notification {
      *
      * @param user {@link Notification#user}
      * @param message {@link Notification#message}
+     * @param isAccepted {@link Notification#isAccepted}
      */
-    public Notification(User user, String message) {
+    public Notification(User user, String message, Boolean isAccepted) {
         this.user = user;
         this.message = message;
+        this.isAccepted = isAccepted;
     }
 
     /**
@@ -112,5 +121,19 @@ public class Notification {
      */
     public void setNotificationDate(Date notificationDate) {
         this.notificationDate = notificationDate;
+    }
+
+    /**
+     * {@link Notification#isAccepted}
+     */
+    public Boolean getAccepted() {
+        return isAccepted;
+    }
+
+    /**
+     * {@link Notification#isAccepted}
+     */
+    public void setAccepted(Boolean accepted) {
+        isAccepted = accepted;
     }
 }

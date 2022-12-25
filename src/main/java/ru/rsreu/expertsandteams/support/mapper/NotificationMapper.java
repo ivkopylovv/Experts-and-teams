@@ -15,7 +15,8 @@ public class NotificationMapper {
         return new Notification(
                 user,
                 isAccepted ? String.format(ACCEPT_JOIN_TEAM, captain.getName())
-                        : String.format(DENIED_JOIN_TEAM, captain.getName())
+                        : String.format(DENIED_JOIN_TEAM, captain.getName()),
+                isAccepted
         );
     }
 

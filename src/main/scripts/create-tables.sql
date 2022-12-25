@@ -258,7 +258,8 @@ CREATE TABLE notifications
     id NUMBER,
     user_id NUMBER NOT NULL,
     message VARCHAR2(500 CHAR) NOT NULL,
-    notification_date TIMESTAMP NOT NULL
+    notification_date TIMESTAMP NOT NULL,
+    is_accepted NUMBER(1, 0) NOT NULL
 );
 
 -- Первичный ключ таблицы Запросы вступления в команду
@@ -276,4 +277,3 @@ ALTER TABLE notifications
         FOREIGN KEY (user_id)
             REFERENCES users (id)
             ON DELETE CASCADE;
-
