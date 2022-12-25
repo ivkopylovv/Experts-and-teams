@@ -4,10 +4,12 @@ import java.util.List;
 
 public class ChatResponse {
     private String teamName;
+    private Long membersCount;
     private List<MessageResponse> messages;
 
-    public ChatResponse(String teamName, List<MessageResponse> messages) {
+    public ChatResponse(String teamName, Long membersCount, List<MessageResponse> messages) {
         this.teamName = teamName;
+        this.membersCount = membersCount;
         this.messages = messages;
     }
 
@@ -17,6 +19,14 @@ public class ChatResponse {
 
     public void setTeamName(String teamName) {
         this.teamName = teamName;
+    }
+
+    public Long getMembersCount() {
+        return membersCount;
+    }
+
+    public void setMembersCount(Long membersCount) {
+        this.membersCount = membersCount;
     }
 
     public List<MessageResponse> getMessages() {

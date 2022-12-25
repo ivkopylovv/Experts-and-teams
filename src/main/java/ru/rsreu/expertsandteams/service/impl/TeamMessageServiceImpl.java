@@ -81,14 +81,17 @@ public class TeamMessageServiceImpl implements TeamMessageService {
     }
 
     private ChatResponse getChatResponse(List<TeamMessage> teamMessages, Long teamId) {
+        Team team;
+
         if (teamMessages.isEmpty()) {
-            Team team = teamDAO.findById(teamId)
+            team = teamDAO.findById(teamId)
                     .orElseThrow(TeamNotFoundException::new);
 
-            return TeamMessageMapper.mapToChatResponse(teamMessages, team.getName());
+        } else {
+            team = teamMessages.get(0).getTeam();
         }
 
-        return TeamMessageMapper.mapToChatResponse(teamMessages, teamMessages.get(0).getTeam().getName());
+        return TeamMessageMapper.mapToChatResponse(teamMessages, team);
     }
 
     public static TeamMessageServiceImpl getInstance() {

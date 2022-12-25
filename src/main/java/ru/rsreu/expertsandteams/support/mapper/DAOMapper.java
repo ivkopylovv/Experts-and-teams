@@ -69,7 +69,8 @@ public class DAOMapper {
                 resultSet.getLong("id"),
                 new Team(
                         resultSet.getLong("team_id"),
-                        resultSet.getString("team_name")
+                        resultSet.getString("team_name"),
+                        resultSet.getLong("members_count")
                 ),
                 new User(
                         resultSet.getLong("user_id"),

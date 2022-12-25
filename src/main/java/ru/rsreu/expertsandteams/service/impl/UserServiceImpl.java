@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserService {
         teamDAO.updateExpertBlockStatus(team.getId(), expert.getId(), request.getPreviousBlockStatus());
     }
 
-    private void saveUser(User user, String[] skills) {
+    private void saveUser(User user, List<String> skills) {
         userDAO.save(user);
 
         if (EXPERT.getName().equals(user.getRole())) {
